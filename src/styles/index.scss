@@ -1,0 +1,44 @@
+@import '@fontsource/abeezee';
+@import './libraries';
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'ABeeZee', sans-serif;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    &:focus {
+        outline: none;
+    }
+}
+svg {
+    font-size: 20px;
+}
+body {
+    min-width: 320px;
+    overflow-x: auto;
+    transition: filter 0.1s;
+    &[data-is-app-loading='true'] {
+        filter: blur(5px);
+        overflow: hidden;
+        user-select: none;
+        pointer-events: none;
+    }
+    .resources p {
+        margin-bottom: 16px;
+    }
+}
+
+// LIB CLASSES MANIPULATION
+.MuiModal-root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+.MuiMenuItem-root {
+    font-size: 13px;
+}
+.SnackbarContent-root * {
+    font-size: 13px;
+}
