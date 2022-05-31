@@ -7,6 +7,8 @@ import nProgress from 'nprogress';
 import { CacheProvider } from '@emotion/react';
 import Router from 'next/router';
 import Head from 'next/head';
+// COMPONENTS
+import { ServerSideSetter } from 'src/components/setters';
 // STYLES
 import 'src/styles/index.scss';
 
@@ -35,8 +37,9 @@ export default function MyApp(props: AppProps) {
                 />
                 <link rel="shortcut icon" href="/images/logo.png" type="image/png" />
             </Head>
-
-            <Component {...pageProps} />
+            <ServerSideSetter>
+                <Component {...pageProps} />
+            </ServerSideSetter>
         </CacheProvider>
     );
 }
