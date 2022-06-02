@@ -1,53 +1,54 @@
-// LIB FUNCTIONS
-import _ from 'lodash';
+// TYPES
+import type { Lesson, Bookmark, BookmarkItem } from 'src/interfaces';
 // FUNCTIONS
 import { db } from 'src/firebase/admin';
 import { getQuarter } from './quarter';
 
 export async function getLesson(id: string) {
-    const snap = await db.collection('lessons').doc(id).get();
-    return snap.exists ? { id, ...snap.data() } : null;
+    const querySnap = await db.collection('lessons').doc(id).get();
+    return querySnap.exists ? ({ id, ...querySnap.data() } as Lesson) : null;
 }
-export async function getLessons(qid: string) {
-    const lessons: any[] = [];
-    const snap = await db
+export async function getLessons(quarterId: string) {
+    const lessons: Lesson[] = [];
+    const querySnap = await db
         .collection('lessons')
         .orderBy('number')
-        .where('qid', '==', qid)
+        .where('quarterId', '==', quarterId)
         .get();
-    if (snap.empty) return lessons;
-    snap.forEach((doc) => lessons.push({ id: doc.id, ...doc.data() }));
+    if (querySnap.empty) return lessons;
+    querySnap.forEach((doc) => lessons.push({ id: doc.id, ...doc.data() } as Lesson));
     return lessons;
 }
 export async function getTotalLessons() {
-    const snap = await db.collection('lessons').get();
-    if (snap.empty) return 0;
-    return snap.docs.length;
+    const querySnap = await db.collection('lessons').get();
+    return querySnap.empty ? 0 : querySnap.docs.length;
 }
 export async function getBookmarkedLessons(uid: string) {
-    const bookmarks: any[] = [];
-    const bookmarksLoaded: any[] = [];
-    const bookmarks_snap = await db.collection(`users/${uid}/bookmarks`).get();
-    if (bookmarks_snap.empty) return bookmarksLoaded;
-    bookmarks_snap.forEach((doc) => bookmarks.push({ lid: doc.id, ...doc.data() }));
-    const bookmarks_sorted = _.sortBy(bookmarks, (bookmark) =>
-        new Date(bookmark.bookmarkedAt).getTime()
+    const bookmarks: Bookmark[] = [];
+    const bookmarkItem: BookmarkItem[] = [];
+    const bookmarks_querySnap = await db
+        .collection(`users/${uid}/bookmarks`)
+        .orderBy('bookmarkedAt')
+        .get();
+    if (bookmarks_querySnap.empty) return bookmarkItem;
+    bookmarks_querySnap.forEach((doc) =>
+        bookmarks.push({ lessonId: doc.id, ...doc.data() } as Bookmark)
     );
     await Promise.all(
-        bookmarks_sorted.map(async (bookmark) => {
-            const lesson = (await getLesson(bookmark.lid)) as any;
+        bookmarks.map(async (bookmark) => {
+            const lesson = await getLesson(bookmark.lessonId);
             if (lesson) {
-                const quarter = await getQuarter(lesson.qid);
-                bookmarksLoaded.push({ ...bookmark, lesson, quarter });
-            } else await unbookmark(bookmark.lid, uid);
+                const quarter = await getQuarter(lesson.quarterId);
+                bookmarkItem.push({ ...bookmark, lesson, quarter } as BookmarkItem);
+            } else await unbookmark(bookmark.lessonId, uid);
         })
     );
-    return bookmarksLoaded;
+    return bookmarkItem;
 }
-export async function unbookmark(lid: string, uid: string) {
-    await db.collection(`users/${uid}/bookmarks`).doc(lid).delete();
+export async function unbookmark(lessonId: string, uid: string) {
+    await db.collection(`users/${uid}/bookmarks`).doc(lessonId).delete();
 }
 export async function getTotalBookmarks(uid: string) {
-    const querySnap = await db.collection(`users/${uid}/bookmarks`).get();
-    return querySnap.docs.length;
+    const queryquerySnap = await db.collection(`users/${uid}/bookmarks`).get();
+    return queryquerySnap.docs.length;
 }
