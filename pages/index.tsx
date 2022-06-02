@@ -6,6 +6,7 @@ import type { GSSP } from 'src/interfaces';
 import { getUserFromAuthToken, getUser } from 'src/firebase/admin/utils/user';
 // COMPONENTS
 import { ViewSetter } from 'src/components/setters';
+import HomeView from 'src/components/views/HomeView';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
     try {
@@ -42,7 +43,7 @@ export default function Home({ result }: GSSP) {
                 isPageUsingSidebar: false,
             }}
         >
-            <div>Home</div>
+            <HomeView />
         </ViewSetter>
     );
 }
