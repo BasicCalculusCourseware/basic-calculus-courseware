@@ -1,4 +1,4 @@
-import { User, UserRoles, Result } from './types';
+import { User, UserRoles, Result } from 'src/interfaces';
 
 interface InitialStates {
     user: User;
