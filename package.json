@@ -8,7 +8,8 @@
         "start": "next start",
         "lint": "next lint",
         "push": "git push -u origin main",
-        "push-f": "git push -u origin main --force"
+        "push-f": "git push -u origin main --force",
+        "push-p": "git push -u production main --force"
     },
     "dependencies": {
         "@emotion/cache": "^11.7.1",
