@@ -1,18 +1,19 @@
-// GLOBAL TYPES
+// LIB-TYPES
 import type { Theme } from '@mui/material';
 // TYPES
 import type { ChildrenProp } from 'src/interfaces';
-// LIB FUNCTIONS
+// LIB-FUNCTIONS
 import { useMediaQuery } from '@mui/material';
 import { useMemo } from 'react';
 // COMPONENTS
 import Topbar from 'src/components/modules/Topbar';
-// import Drawer from '@/comps/layouts/Drawer';
+import Sidebar from 'src/components/modules/Sidebar';
 // RECOIL
 import { useRecoilValue } from 'recoil';
 import { pageAtoms } from 'src/states/page';
 import { sidebarAtoms } from 'src/states/sidebar';
 
+// MAIN-COMPONENT
 export default function LayoutSetter({ children }: ChildrenProp) {
     // RECOIL
     const isPageUsingSidebar = useRecoilValue(pageAtoms.isPageUsingSidebar);
@@ -27,7 +28,7 @@ export default function LayoutSetter({ children }: ChildrenProp) {
     return (
         <>
             <Topbar />
-            {/* {isPageUsingSidebar && <Drawer />} */}
+            {isPageUsingSidebar && <Sidebar />}
             <Container style={{ paddingLeft }}>{children}</Container>
         </>
     );

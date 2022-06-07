@@ -1,11 +1,12 @@
 // TYPES
 import type { ChildrenProp } from 'src/interfaces';
-// LIB FUNCTIONS
+// LIB-FUNCTIONS
 import { createTheme } from '@mui/material';
 import { useMemo } from 'react';
-// LIB COMPONENTS
+// LIB-COMPONENTS
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
+// MAIN-COMPONENT
 export default function ThemeSetter({ children }: ChildrenProp) {
     const theme = useMemo(() => {
         return createTheme({

@@ -4,7 +4,7 @@ import { Stack } from '@mui/material';
 import SearchField from './SearchField';
 import ProfilePopover from './ProfilePopover';
 
-export default function Widgets() {
+export default function TopbarWidgets() {
     return (
         <Stack spacing={1} direction="row" alignItems="center">
             <SearchField />

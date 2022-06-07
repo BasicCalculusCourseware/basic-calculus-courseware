@@ -1,9 +1,9 @@
 // TYPES
 import type { ChildrenProp } from 'src/interfaces';
-// LIB FUNCTIONS
+// LIB-FUNCTIONS
 import { useSnackbar as useNotiSnackbar } from 'notistack';
 import { useEffect, useRef } from 'react';
-// LIB COMPONENTS
+// LIB-COMPONENTS
 import { SnackbarProvider } from 'notistack';
 import { IconButton, Grow } from '@mui/material';
 // COMPONENTS
@@ -38,7 +38,7 @@ export default function SnackbarSetter({ children }: ChildrenProp) {
     );
 }
 
-// SUB-COMPONENTS
+// SUB-COMPONENT
 function SnackbarSubSetter({ children }: ChildrenProp) {
     // NOTISNACK
     const { enqueueSnackbar } = useNotiSnackbar();

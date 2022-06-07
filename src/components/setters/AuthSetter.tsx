@@ -1,6 +1,6 @@
 // TYPES
 import type { ChildrenProp } from 'src/interfaces';
-// LIB FUNCTIONS
+// LIB-FUNCTIONS
 import { useEffect } from 'react';
 // FIREBASE
 import { onAuthStateChanged } from 'firebase/auth';

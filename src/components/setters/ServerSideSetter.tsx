@@ -10,6 +10,7 @@ import {
     SnackbarSetter,
 } from 'src/components/setters';
 
+// MAIN-COMPONENT
 export default function ServerSideSetter({ children }: ChildrenProp) {
     return (
         <RecoilRoot>

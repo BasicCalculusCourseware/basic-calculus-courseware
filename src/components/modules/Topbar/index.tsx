@@ -9,7 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 // COMPONENTS
 import { MenuIcon } from 'src/components/icons';
-import Widgets from './Widgets';
+import TopbarWidgets from './TopbarWidgets';
 // RECOIL
 import { useRecoilValue } from 'recoil';
 import { pageAtoms } from 'src/states/page';
@@ -53,7 +53,7 @@ export default function TopbarComponent() {
                             </BrandContent>
                         </Link>
                     </Brand>
-                    <Widgets />
+                    <TopbarWidgets />
                 </Toolbar>
             </Topbar>
         </ElevationScroll>

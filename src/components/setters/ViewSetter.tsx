@@ -1,6 +1,6 @@
 // TYPES
 import { ChildrenProp, Result } from 'src/interfaces';
-// LIB FUNCTIONS
+// LIB-FUNCTIONS
 import { useEffect } from 'react';
 // COMPONENTS
 import PageSetter from './PageSetter';
@@ -9,12 +9,12 @@ import { useSetRecoilState } from 'recoil';
 import { gsspAtoms } from 'src/states/gssp';
 import { pageAtoms } from 'src/states/page';
 
+// MAIN-COMPONENT
 interface Props extends ChildrenProp {
     gssp?: Result;
     pageBase: string;
     isPageUsingSidebar: boolean;
 }
-
 export default function ViewSetter(props: Props) {
     // RECOIL
     const setGSSP = useSetRecoilState(gsspAtoms.gssp);

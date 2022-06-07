@@ -1,6 +1,6 @@
 // TYPES
 import type { ChildrenProp } from 'src/interfaces';
-// LIB FUNCTIONS
+// LIB-FUNCTIONS
 import { useMemo } from 'react';
 import Link from 'next/link';
 // COMPONENTS

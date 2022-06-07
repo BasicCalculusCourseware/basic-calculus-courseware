@@ -48,7 +48,7 @@ export default function ProfilePopover() {
             await signOut(auth);
             await resetAuth();
             addSnackbarItem('success', 'Signed out successfully');
-            router.push('/');
+            await router.push('/');
         } catch (error: any) {
             const message = typeof error === 'object' ? error.message : error;
             addSnackbarItem('error', message);
