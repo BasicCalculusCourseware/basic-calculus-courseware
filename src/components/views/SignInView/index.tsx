@@ -43,8 +43,7 @@ export default function SignInView() {
             await signInWithEmailAndPassword(auth, email, password);
             await setAuth(user);
             addSnackbarItem('info', 'Signed in successfully');
-            router.push('/');
-            // router.push('/app/dashboard');
+            router.push('/app/dashboard');
         } catch (error: any) {
             let message = '';
             if (error.code) {
