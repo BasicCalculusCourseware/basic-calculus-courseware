@@ -1,4 +1,4 @@
-// LIB FUNCTIONS
+// LIB-COMPONENTS
 import Link from 'next/link';
 // COMPONENTS
 import { Warning, WarningTextIcon, LinkTextSpan } from 'src/components/styled';

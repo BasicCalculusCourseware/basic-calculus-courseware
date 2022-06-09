@@ -1,4 +1,4 @@
-// LIB TYPES
+// LIB-TYPES
 import type { GetServerSidePropsContext } from 'next';
 // TYPES
 import type { GSSP } from 'src/interfaces';

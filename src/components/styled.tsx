@@ -26,7 +26,7 @@ export const PageBreadcrumbs = styled('div')(({ theme }) => ({
             "&[data-is-link='true']": {
                 cursor: 'pointer',
                 '&:hover': {
-                    textSecoration: 'underline',
+                    textDecoration: 'underline',
                 },
             },
         },

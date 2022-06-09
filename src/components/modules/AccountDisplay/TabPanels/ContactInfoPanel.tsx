@@ -28,7 +28,7 @@ export default function ContactInfoTab() {
     const isChanged = useMemo(() => {
         return Object.keys(form).some((key) => {
             // @ts-ignore
-            return form[key] !== user[user];
+            return form[key] !== user[key];
         });
     }, [form, user]);
     // FB-UTILS
@@ -52,6 +52,8 @@ export default function ContactInfoTab() {
         } catch (error: any) {
             const message = typeof error === 'object' ? error.message : error;
             addSnackbarItem('error', message);
+            setIsLoading(false);
+        } finally {
             setIsLoading(false);
         }
     };

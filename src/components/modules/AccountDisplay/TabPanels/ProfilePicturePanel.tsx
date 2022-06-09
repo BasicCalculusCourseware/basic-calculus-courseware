@@ -192,7 +192,7 @@ const PhotoContainer = styled('div')({
     flexDirection: 'column',
 });
 const Photo = styled('div')({
-    ...styles.border,
+    ...styles.border(1),
     ...styles.box(225),
     backgroundSize: 'cover',
     backgroundColor: styles.hoverColor,
@@ -212,7 +212,7 @@ const PreviewContainer = styled('div')({
     flexDirection: 'column',
 });
 const Preview = styled('div')({
-    ...styles.border,
+    ...styles.border(1),
     ...styles.box(225),
     backgroundColor: styles.hoverColor,
     overflow: 'hidden',

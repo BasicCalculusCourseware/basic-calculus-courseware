@@ -6,18 +6,19 @@ import type { GSSP } from 'src/interfaces';
 import { getUserFromAuthToken, getUser } from 'src/firebase/admin/utils/user';
 // COMPONENTS
 import ViewSetter from 'src/components/setters/ViewSetter';
-import AccountView from 'src/components/views/AccountView';
+import StudentAccountView from 'src/components/views/StudentAccountView';
 
-export async function getServerSideProps({ req }: GetServerSidePropsContext) {
+export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
     try {
-        if (!req.cookies.authToken) throw 'authToken is missing';
-        const { uid } = await getUserFromAuthToken(req.cookies.authToken);
+        const { uid, role } = await getUserFromAuthToken(req.cookies.authToken);
+        if (role !== 'teacher' && role !== 'admin') throw 'Unauthorized access';
         const user = await getUser(uid);
+        const student = await getUser(params?.uid as string);
         return {
             props: {
                 result: {
                     error: null,
-                    body: { user },
+                    body: { user, student },
                 },
             },
         };
@@ -32,10 +33,10 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
     }
 }
 
-export default function Account({ result }: GSSP) {
+export default function StudentAccount({ result }: GSSP) {
     return (
-        <ViewSetter gssp={result} pageBase="account" isPageUsingSidebar={true}>
-            <AccountView />
+        <ViewSetter gssp={result} pageBase="students" isPageUsingSidebar={true}>
+            <StudentAccountView />
         </ViewSetter>
     );
 }

@@ -61,7 +61,7 @@ export default function StudentList() {
                                     <InfoListItemIcon>
                                         <FacebookIcon />
                                     </InfoListItemIcon>
-                                    <Link href={student.fb} passHref>
+                                    <Link href={student.fb}>
                                         <InfoListItemText>
                                             <LinkTextSpan>{student.fb}</LinkTextSpan>
                                         </InfoListItemText>
@@ -99,9 +99,11 @@ export default function StudentList() {
                                     </StatusItem>
                                 </Tooltip>
                                 <Tooltip title="To Student's Account">
-                                    <StatusItem>
-                                        <ForwardIcon />
-                                    </StatusItem>
+                                    <Link href={`/app/students/${student.uid}`}>
+                                        <StatusItem>
+                                            <ForwardIcon />
+                                        </StatusItem>
+                                    </Link>
                                 </Tooltip>
                             </Stack>
                         </ItemFooter>

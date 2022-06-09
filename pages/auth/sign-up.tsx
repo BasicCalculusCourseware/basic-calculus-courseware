@@ -1,4 +1,4 @@
-// LIB TYPES
+// LIB-TYPES
 import type { GetServerSidePropsContext } from 'next';
 // COMPONENTS
 import ViewSetter from 'src/components/setters/ViewSetter';

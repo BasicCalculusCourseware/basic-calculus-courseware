@@ -20,10 +20,7 @@ export default function StudentsView() {
     const setStudents = useSetRecoilState(studentsViewAtoms.students);
     const filterStudents = useFilterStudents();
     useEffect(() => {
-        if (gssp.body && gssp.body.students) {
-            setStudents(gssp.body.students);
-            filterStudents();
-        }
+        if (gssp.body && gssp.body.students) filterStudents(gssp.body.students);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gssp]);
     // RENDER
@@ -32,8 +29,8 @@ export default function StudentsView() {
             <Container maxWidth="lg" fixed={true}>
                 <PageBreadcrumbs>
                     <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
-                        <p>App</p>
-                        <p data-is-current>Students</p>
+                        <Typography>App</Typography>
+                        <Typography data-is-current>Students</Typography>
                     </Breadcrumbs>
                 </PageBreadcrumbs>
                 <PageHeader>

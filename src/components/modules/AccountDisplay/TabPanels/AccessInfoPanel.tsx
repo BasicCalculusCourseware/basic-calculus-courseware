@@ -58,6 +58,7 @@ export default function AccessInfoPanel() {
         } catch (error: any) {
             const message = typeof error === 'object' ? error.message : error;
             addSnackbarItem('error', message);
+        } finally {
             setIsLoading(false);
         }
     };

@@ -58,8 +58,9 @@ export const useFilterStudents = () => {
     const orderDirection = useRecoilValue(studentsViewAtoms.orderDirection);
     const setFiltered = useSetRecoilState(studentsViewAtoms.filtered);
     // RETURN FUNCTION
-    return () => {
-        let filtered = students;
+    return (studentsParam: User[] = []) => {
+        let filtered: User[] = [];
+        filtered = studentsParam ? studentsParam : students;
         if (search) {
             filtered = students.filter(
                 (student) => student.name.toUpperCase().indexOf(search.toUpperCase()) > -1

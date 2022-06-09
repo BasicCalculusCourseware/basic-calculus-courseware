@@ -1,4 +1,4 @@
-// LIB COMPONENTS
+// LIB-COMPONENTS
 import { Container } from '@mui/material';
 // COMPONENTS
 import ViewSetter from 'src/components/setters/ViewSetter';
