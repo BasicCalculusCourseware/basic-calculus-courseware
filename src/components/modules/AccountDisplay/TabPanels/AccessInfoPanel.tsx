@@ -34,7 +34,7 @@ export default function AccessInfoPanel() {
     const isChanged = useMemo(() => {
         return Object.keys(form).some((key) => {
             // @ts-ignore
-            return form[key] !== user[user];
+            return form[key] !== user[key];
         });
     }, [form, user]);
     // FB-UTILS
