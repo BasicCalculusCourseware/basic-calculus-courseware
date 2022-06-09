@@ -10,7 +10,7 @@ import {
     EmailIcon,
     PhoneIcon,
     FacebookIcon,
-    StudentIcon,
+    TeacherIcon,
     BannedIcon,
     EmailVerifiedIcon,
     ForwardIcon,
@@ -19,13 +19,13 @@ import { LinkTextSpan } from 'src/components/styled';
 // RECOIL
 import { useRecoilValue } from 'recoil';
 import { sidebarAtoms } from 'src/states/sidebar';
-import { studentsViewAtoms } from '.';
+import { teachersViewAtoms } from '.';
 
 // MAIN-COMPONENT
-export default function StudentList() {
+export default function TeacherList() {
     // RECOIL
     const isSidebarOpen = useRecoilValue(sidebarAtoms.isSidebarOpen);
-    const filtered = useRecoilValue(studentsViewAtoms.filtered);
+    const filtered = useRecoilValue(teachersViewAtoms.filtered);
     // STATES
     const gridItemProps = useMemo(() => {
         const xs: GridSize = 12;
@@ -37,33 +37,33 @@ export default function StudentList() {
     // RENDER
     return (
         <Grid container spacing={2}>
-            {filtered.map((student) => (
-                <Grid key={student.uid} {...gridItemProps}>
+            {filtered.map((teacher) => (
+                <Grid key={teacher.uid} {...gridItemProps}>
                     <Item>
                         <ItemBanner />
-                        <ItemPhoto sx={{ backgroundImage: `url(${student.photoUrl})` }} />
+                        <ItemPhoto sx={{ backgroundImage: `url(${teacher.photoUrl})` }} />
                         <ItemBody>
-                            <NameText>{student.name}</NameText>
+                            <NameText>{teacher.name}</NameText>
                             <InfoList direction="column" spacing={1}>
                                 <InfoListItem>
                                     <InfoListItemIcon>
                                         <EmailIcon />
                                     </InfoListItemIcon>
-                                    <InfoListItemText>{student.email}</InfoListItemText>
+                                    <InfoListItemText>{teacher.email}</InfoListItemText>
                                 </InfoListItem>
                                 <InfoListItem>
                                     <InfoListItemIcon>
                                         <PhoneIcon />
                                     </InfoListItemIcon>
-                                    <InfoListItemText>{student.phone}</InfoListItemText>
+                                    <InfoListItemText>{teacher.phone}</InfoListItemText>
                                 </InfoListItem>
                                 <InfoListItem>
                                     <InfoListItemIcon>
                                         <FacebookIcon />
                                     </InfoListItemIcon>
-                                    <Link href={student.fb || ''}>
+                                    <Link href={teacher.fb || ''}>
                                         <InfoListItemText>
-                                            <LinkTextSpan>{student.fb}</LinkTextSpan>
+                                            <LinkTextSpan>{teacher.fb}</LinkTextSpan>
                                         </InfoListItemText>
                                     </Link>
                                 </InfoListItem>
@@ -72,34 +72,38 @@ export default function StudentList() {
                         <ItemFooter>
                             <Stack spacing={2} direction="row" justifyContent="flex-end">
                                 <Tooltip
-                                    title={student.isBanned ? 'Banned' : 'Not Banned'}
+                                    title={teacher.isBanned ? 'Banned' : 'Not Banned'}
                                 >
-                                    <StatusItem data-is-active={student.isBanned}>
+                                    <StatusItem data-is-active={teacher.isBanned}>
                                         <BannedIcon />
                                     </StatusItem>
                                 </Tooltip>
                                 <Tooltip
                                     title={
-                                        student.isEmailVerified
+                                        teacher.isEmailVerified
                                             ? 'Email Verified'
                                             : 'Email Not Verified'
                                     }
                                 >
-                                    <StatusItem data-is-active={student.isEmailVerified}>
+                                    <StatusItem data-is-active={teacher.isEmailVerified}>
                                         <EmailVerifiedIcon />
                                     </StatusItem>
                                 </Tooltip>
                                 <Tooltip
                                     title={
-                                        student.isEnrolled ? 'Enrolled' : 'Not Enrolled'
+                                        teacher.isTeacherVerified
+                                            ? 'Teacher Verified'
+                                            : 'Teacher Not Verified'
                                     }
                                 >
-                                    <StatusItem data-is-active={student.isEnrolled}>
-                                        <StudentIcon />
+                                    <StatusItem
+                                        data-is-active={teacher.isTeacherVerified}
+                                    >
+                                        <TeacherIcon />
                                     </StatusItem>
                                 </Tooltip>
-                                <Link href={`/app/students/${student.uid}`}>
-                                    <Tooltip title="To Student's Account">
+                                <Link href={`/app/teachers/${teacher.uid}`}>
+                                    <Tooltip title="To Teacher's Account">
                                         <StatusItem>
                                             <ForwardIcon />
                                         </StatusItem>

@@ -6,23 +6,23 @@ import { Container, Typography, Breadcrumbs, Divider } from '@mui/material';
 import { Page, PageHeader, PageBreadcrumbs, PageBody } from 'src/components/styled';
 import { NavigateNextIcon } from 'src/components/icons';
 import SearchBox from './SearchBox';
-import StudentList from './StudentList';
+import TeacherList from './TeacherList';
 // RECOIL
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { gsspAtoms } from 'src/states/gssp';
-import { studentsViewAtoms, useFilterStudents } from '.';
+import { teachersViewAtoms, useFilterTeachers } from '.';
 
 // MAIN-COMPONENT
-export default function StudentsView() {
+export default function TeachersView() {
     // RECOIL
     const gssp = useRecoilValue(gsspAtoms.gssp);
-    const filtered = useRecoilValue(studentsViewAtoms.filtered);
-    const setStudents = useSetRecoilState(studentsViewAtoms.students);
-    const filterStudents = useFilterStudents();
+    const filtered = useRecoilValue(teachersViewAtoms.filtered);
+    const filterTeachers = useFilterTeachers();
+    const setTeachers = useSetRecoilState(teachersViewAtoms.teachers);
     useEffect(() => {
-        if (gssp.body && gssp.body.students) {
-            setStudents(gssp.body.students);
-            filterStudents(gssp.body.students);
+        if (gssp.body && gssp.body.teachers) {
+            setTeachers(gssp.body.teachers);
+            filterTeachers(gssp.body.teachers);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gssp]);
@@ -33,20 +33,20 @@ export default function StudentsView() {
                 <PageBreadcrumbs>
                     <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
                         <Typography>App</Typography>
-                        <Typography data-is-current>Students</Typography>
+                        <Typography data-is-current>Teachers</Typography>
                     </Breadcrumbs>
                 </PageBreadcrumbs>
                 <PageHeader>
-                    <Typography variant="h5">Students</Typography>
+                    <Typography variant="h5">Teachers</Typography>
                     <Typography>
-                        Matched a total of {filtered.length} student
+                        Matched a total of {filtered.length} teacher
                         {filtered.length !== 1 && 's'}
                     </Typography>
                 </PageHeader>
                 <PageBody>
                     <SearchBox />
                     <Divider sx={{ my: 2 }} />
-                    <StudentList />
+                    <TeacherList />
                 </PageBody>
             </Container>
         </Page>

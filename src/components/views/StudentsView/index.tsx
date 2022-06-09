@@ -60,7 +60,7 @@ export const useFilterStudents = () => {
     // RETURN FUNCTION
     return (studentsParam: User[] = []) => {
         let filtered: User[] = [];
-        filtered = studentsParam ? studentsParam : students;
+        filtered = studentsParam.length ? studentsParam : students;
         if (search) {
             filtered = students.filter(
                 (student) => student.name.toUpperCase().indexOf(search.toUpperCase()) > -1

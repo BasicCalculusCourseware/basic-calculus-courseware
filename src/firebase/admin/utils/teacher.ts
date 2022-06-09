@@ -10,11 +10,11 @@ export async function getTeachers() {
         .orderBy('name')
         .where('role', '==', 'teacher')
         .get();
-    if (querySnap.empty) teachers;
+    if (querySnap.empty) return teachers;
     await Promise.all(
         querySnap.docs.map(async (doc) => {
             const { emailVerified: isEmailVerified } = await auth.getUser(doc.id);
-            teachers.push({ ...doc.data, isEmailVerified } as User);
+            teachers.push({ ...doc.data(), isEmailVerified } as User);
         })
     );
     return teachers;
