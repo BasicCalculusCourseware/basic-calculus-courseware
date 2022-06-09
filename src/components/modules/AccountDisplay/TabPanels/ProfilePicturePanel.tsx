@@ -69,6 +69,7 @@ export default function ProfilePicturePanel() {
             setIsLoading(true);
             await updateDatabase();
             await refreshUser();
+            handleCancel();
             addSnackbarItem('success', 'Data updated successfully');
         } catch (error: any) {
             const message = typeof error === 'object' ? error.message : error;

@@ -19,7 +19,7 @@ import { useRecoilValue } from 'recoil';
 import { gsspAtoms } from 'src/states/gssp';
 
 // MAIN-COMPONENT
-export default function StudentAccountView() {
+export default function TeacherAccountView() {
     // ROUTER
     const router = useRouter();
     const { uid } = router.query as any;
@@ -28,7 +28,7 @@ export default function StudentAccountView() {
     // STATES
     const [user, setUser] = useState<User>(initialState.user);
     useEffect(() => {
-        if (gssp.body && gssp.body.student) setUser(gssp.body.student);
+        if (gssp.body && gssp.body.teacher) setUser(gssp.body.teacher);
     }, [gssp]);
     // UTILS
     const refreshUser = async () => {
@@ -50,16 +50,16 @@ export default function StudentAccountView() {
                         separator={<NavigateNextIcon fontSize="small" />}
                     >
                         <Typography>App</Typography>
-                        <Link href="/app/students" passHref>
-                            <Typography data-is-link>Students</Typography>
+                        <Link href="/app/teachers" passHref>
+                            <Typography data-is-link>Teachers</Typography>
                         </Link>
                         <Typography data-is-current>{user.name}</Typography>
                     </Breadcrumbs>
                 </PageBreadcrumbs>
                 <PageHeader>
-                    <Typography variant="h5">Student&apos;s Account</Typography>
+                    <Typography variant="h5">Teacher&apos;s Account</Typography>
                     <Typography>
-                        Change student&apos;s profile and account settings
+                        Change teacher&apos;s profile and account settings
                     </Typography>
                 </PageHeader>
                 <PageBody>
