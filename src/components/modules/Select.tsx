@@ -1,9 +1,4 @@
-import {
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select as MuiSelect,
-} from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select as MuiSelect } from '@mui/material';
 
 interface Item {
     value: any;
@@ -28,7 +23,11 @@ export default function Select({
     setValue,
 }: Props) {
     return (
-        <FormControl sx={{ textAlign: 'left' }} fullWidth required>
+        <FormControl
+            sx={{ textAlign: 'left' }}
+            required={typeof required === 'undefined' ? false : required}
+            fullWidth
+        >
             <InputLabel>{label}</InputLabel>
             <MuiSelect
                 label={label}

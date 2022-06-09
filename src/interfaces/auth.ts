@@ -6,13 +6,13 @@ export interface User {
     uid: string;
     email: string;
     name: string;
-    birthday: string;
+    birthday: number;
     gender: string;
     role: string;
     phone: string;
     fb: string;
     photoUrl: string;
-    createdAt: string;
+    createdAt: number;
     isEmailVerified: boolean;
     isTeacherVerified: boolean;
     isEnrolled: boolean;

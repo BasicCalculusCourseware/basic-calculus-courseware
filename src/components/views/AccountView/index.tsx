@@ -3,7 +3,7 @@ import { getUserFromAuthAPI } from 'src/firebase/client/utils/user';
 // LIB-COMPONENTS
 import { Container, Typography } from '@mui/material';
 // COMPONENTS
-import { Page, PageHeader } from 'src/components/styled';
+import { Page, PageHeader, PageBody } from 'src/components/styled';
 import AccountDisplay from 'src/components/modules/AccountDisplay';
 // RECOIL
 import { useRecoilValue } from 'recoil';
@@ -26,7 +26,9 @@ export default function AccountView() {
                     <Typography variant="h5">Account</Typography>
                     <Typography>Change your profile and account settings</Typography>
                 </PageHeader>
-                <AccountDisplay {...{ user, refreshUser }} />
+                <PageBody>
+                    <AccountDisplay {...{ user, refreshUser }} />
+                </PageBody>
             </Container>
         </Page>
     );

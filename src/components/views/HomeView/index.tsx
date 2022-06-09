@@ -6,9 +6,9 @@ import LogoSection from './LogoSection';
 import LinkSection from './LinkSection';
 
 // MAIN-COMPONENT
-export default function HomeView() {
+export default function Home() {
     return (
-        <Home>
+        <MainContainer>
             <Container maxWidth="xl">
                 <Grid container>
                     <Grid item xs={12} md={6}>
@@ -24,14 +24,14 @@ export default function HomeView() {
                     </Hidden>
                 </Grid>
             </Container>
-        </Home>
+        </MainContainer>
     );
 }
 
 // STYLES
 import { styled } from '@mui/material';
 import styles from 'src/utils/styles';
-const Home = styled('div')(({ theme }) => ({
+const MainContainer = styled('div')(({ theme }) => ({
     ...styles.flexStartCenter,
     minHeight: 'calc(100vh - 70px)',
     '.MuiGrid-item': {

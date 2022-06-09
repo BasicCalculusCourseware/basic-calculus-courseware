@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 // LIB COMPONENTS
 import { Container, Grid, Typography } from '@mui/material';
 // COMPONENTS
-import { Page, PageHeader } from 'src/components/styled';
+import { Page, PageHeader, PageBody } from 'src/components/styled';
 import DashboardItem from './DashboardItem';
 // RECOIL
 import { useRecoilValue } from 'recoil';
@@ -52,49 +52,51 @@ export default function DashboardView() {
                         Tools to navigate instantly throughout different pages
                     </Typography>
                 </PageHeader>
-                <Grid container spacing={2}>
-                    {userRoles.isEditor && (
+                <PageBody>
+                    <Grid container spacing={2}>
+                        {userRoles.isEditor && (
+                            <Grid {...gridItemProps}>
+                                <DashboardItem
+                                    label="Students"
+                                    value={total.students}
+                                    href="/app/students"
+                                />
+                            </Grid>
+                        )}
+                        {userRoles.isAdmin && (
+                            <Grid {...gridItemProps}>
+                                <DashboardItem
+                                    label="Teachers"
+                                    value={total.teachers}
+                                    href="/app/teachers"
+                                />
+                            </Grid>
+                        )}
                         <Grid {...gridItemProps}>
                             <DashboardItem
-                                label="Students"
-                                value={total.students}
-                                href="/app/students"
+                                label="Quarters"
+                                value={total.quarters}
+                                href="/app/quarters"
                             />
                         </Grid>
-                    )}
-                    {userRoles.isAdmin && (
                         <Grid {...gridItemProps}>
                             <DashboardItem
-                                label="Teachers"
-                                value={total.teachers}
-                                href="/app/teachers"
+                                label="Lessons"
+                                value={total.lessons}
+                                href="/app/quarters"
                             />
                         </Grid>
-                    )}
-                    <Grid {...gridItemProps}>
-                        <DashboardItem
-                            label="Quarters"
-                            value={total.quarters}
-                            href="/app/quarters"
-                        />
+                        {userRoles.isStudent && (
+                            <Grid {...gridItemProps}>
+                                <DashboardItem
+                                    label="Bookmarks"
+                                    value={total.bookmarks}
+                                    href="/app/bookmarks"
+                                />
+                            </Grid>
+                        )}
                     </Grid>
-                    <Grid {...gridItemProps}>
-                        <DashboardItem
-                            label="Lessons"
-                            value={total.lessons}
-                            href="/app/quarters"
-                        />
-                    </Grid>
-                    {userRoles.isStudent && (
-                        <Grid {...gridItemProps}>
-                            <DashboardItem
-                                label="Bookmarks"
-                                value={total.bookmarks}
-                                href="/app/bookmarks"
-                            />
-                        </Grid>
-                    )}
-                </Grid>
+                </PageBody>
             </Container>
         </Page>
     );

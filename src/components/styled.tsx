@@ -4,7 +4,7 @@ import styles from 'src/utils/styles';
 export const Page = styled('div')({
     ...styles.pt(2),
     ...styles.pb(8),
-    minHeight: 'calc(100vh - 65px)',
+    minHeight: 'calc(100vh - 66px)',
     backgroundColor: styles.bgColor,
     backgroundImage: styles.bgPattern,
 });
@@ -39,7 +39,7 @@ export const PageHeader = styled('div')({
     ...styles.mt(1),
     ...styles.mb(2),
 });
-
+export const PageBody = styled('div')({});
 export const Warning = styled('div')(({ theme }) => ({
     ...styles.flexCenter,
     ...styles.px(2),

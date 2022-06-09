@@ -41,6 +41,11 @@ export {
     ImageNotSupportedOutlined as RemoveImageIcon,
     KeyboardArrowUpRounded as UpIcon,
     KeyboardArrowDownRounded as DownIcon,
+    EmailRounded as EmailIcon,
+    PhoneEnabledRounded as PhoneIcon,
+    FacebookRounded as FacebookIcon,
+    BlockRounded as BannedIcon,
+    MarkEmailReadRounded as EmailVerifiedIcon,
 } from '@mui/icons-material';
 export {
     FaUserGraduate as StudentIcon,

@@ -21,7 +21,7 @@ import { useAddSnackbarItem } from 'src/states/snackbar';
 // UTILS
 const formInitState = {
     name: '',
-    birthday: '',
+    birthday: 0,
     gender: '',
     role: '',
     phone: '',
@@ -42,7 +42,8 @@ export default function SignUpView() {
     const [form, setForm] = useState(formInitState);
     const [isLoading, setIsLoading] = useState(false);
     const validator = useMemo(() => {
-        if (Object.values(form).map((value: string) => !value))
+        console.log(form);
+        if (Object.values(form).some((value: any) => !value))
             return { error: 'The form is incomplete' };
         if (form.password !== form.repassword)
             return { error: 'Password did not matched!' };
@@ -69,9 +70,9 @@ export default function SignUpView() {
                 role: form.role,
                 phone: form.phone,
                 fb: form.fb,
-                birthday: new Date(form.birthday).getTime(),
+                birthday: form.birthday,
                 uid: user.uid,
-                createdAt: user.metadata.creationTime,
+                createdAt: Date.now(),
                 photoUrl: '/images/no-profile.png',
                 isTeacherVerified: false,
                 isEnrolled: false,
@@ -119,7 +120,10 @@ export default function SignUpView() {
                                 placeholder="First MI. Last"
                                 value={form.name}
                                 onChange={(e) =>
-                                    setForm((v) => ({ ...v, name: e.target.value }))
+                                    setForm((form) => ({
+                                        ...form,
+                                        name: e.target.value,
+                                    }))
                                 }
                                 fullWidth
                                 required
@@ -129,8 +133,11 @@ export default function SignUpView() {
                             <Select
                                 label="Gender"
                                 value={form.gender}
-                                setValue={(val) =>
-                                    setForm((v) => ({ ...v, gender: val }))
+                                setValue={(value) =>
+                                    setForm((form) => ({
+                                        ...form,
+                                        gender: value,
+                                    }))
                                 }
                                 items={[
                                     { label: 'Male', value: 'male' },
@@ -143,7 +150,9 @@ export default function SignUpView() {
                             <Select
                                 label="Role"
                                 value={form.role}
-                                setValue={(val) => setForm((v) => ({ ...v, role: val }))}
+                                setValue={(value) =>
+                                    setForm((form) => ({ ...form, role: value }))
+                                }
                                 items={[
                                     { label: 'Student', value: 'student' },
                                     { label: 'Teacher', value: 'teacher' },
@@ -155,8 +164,11 @@ export default function SignUpView() {
                             <DatePicker
                                 label="Birthday"
                                 value={form.birthday}
-                                setValue={(val) =>
-                                    setForm((v) => ({ ...v, birthday: val }))
+                                setValue={(value) =>
+                                    setForm((form) => ({
+                                        ...form,
+                                        birthday: value as number,
+                                    }))
                                 }
                                 required
                             />

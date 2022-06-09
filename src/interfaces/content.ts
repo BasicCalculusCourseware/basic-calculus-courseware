@@ -3,7 +3,7 @@ export interface Quarter {
     number: string;
     title: string;
     color: string;
-    createdAt: string;
+    createdAt: number;
 }
 export interface Lesson {
     id: string;
@@ -12,11 +12,11 @@ export interface Lesson {
     title: string;
     intro: string;
     color: string;
-    createdAt: string;
+    createdAt: number;
 }
 export interface Bookmark {
     lessonId: string;
-    bookmarkedAt: string;
+    bookmarkedAt: number;
 }
 export interface BookmarkItem extends Bookmark {
     lesson: Lesson;
@@ -28,14 +28,14 @@ export interface Video {
     lessonId: string;
     src: string;
     number: string;
-    createdAt: string;
+    createdAt: number;
 }
 export interface Module {
     id: string;
     quarterId: string;
     lessonId: string;
     fileName: string;
-    createdAt: string;
+    createdAt: number;
     downloadUrl: string;
 }
 export interface Worksheet {
@@ -44,7 +44,7 @@ export interface Worksheet {
     lessonId: string;
     fileName: string;
     points: number;
-    createdAt: string;
+    createdAt: number;
     downloadUrl: string;
 }
 export interface SubmittedWorksheet {
@@ -54,7 +54,7 @@ export interface SubmittedWorksheet {
     fileName: string;
     score: number;
     downloadUrl: string;
-    createdAt: string;
+    createdAt: number;
 }
 export interface Assessment {
     id: string;
@@ -62,7 +62,7 @@ export interface Assessment {
     lessonId: string;
     title: string;
     description: string;
-    createdAt: string;
+    createdAt: number;
 }
 export interface AssessmentItemChoice {
     id: string;

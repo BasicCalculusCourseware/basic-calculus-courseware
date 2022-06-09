@@ -100,10 +100,10 @@ export default function BasicInfoPanel() {
                         <DatePicker
                             label="Birthday"
                             value={form.birthday}
-                            setValue={(val: string) =>
+                            setValue={(val: any) =>
                                 setForm((form) => ({
                                     ...form,
-                                    birthday: new Date(val).getTime().toString(),
+                                    birthday: val,
                                 }))
                             }
                         />
@@ -112,7 +112,7 @@ export default function BasicInfoPanel() {
                         <TextField
                             variant="outlined"
                             label="Created At"
-                            value={new Date(parseInt(user.createdAt)).toDateString()}
+                            value={new Date(user.createdAt).toDateString()}
                             fullWidth
                             disabled
                         />
