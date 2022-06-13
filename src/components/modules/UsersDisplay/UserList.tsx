@@ -89,7 +89,7 @@ export default function UserList() {
                                         <EmailVerifiedIcon />
                                     </StatusItem>
                                 </Tooltip>
-                                {variant === 'student' && (
+                                {variant === 'students' && (
                                     <Tooltip
                                         title={
                                             user.isEnrolled ? 'Enrolled' : 'Not Enrolled'
@@ -100,7 +100,7 @@ export default function UserList() {
                                         </StatusItem>
                                     </Tooltip>
                                 )}
-                                {variant === 'teacher' && (
+                                {variant === 'teachers' && (
                                     <Tooltip
                                         title={
                                             user.isEnrolled ? 'Enrolled' : 'Not Enrolled'
@@ -111,7 +111,7 @@ export default function UserList() {
                                         </StatusItem>
                                     </Tooltip>
                                 )}
-                                {variant === 'student' && (
+                                {variant === 'students' && (
                                     <Link href={`/app/students/${user.uid}`}>
                                         <Tooltip title="To Student's Account">
                                             <StatusItem>
@@ -120,7 +120,7 @@ export default function UserList() {
                                         </Tooltip>
                                     </Link>
                                 )}
-                                {variant === 'teacher' && (
+                                {variant === 'teachers' && (
                                     <Link href={`/app/teachers/${user.uid}`}>
                                         <Tooltip title="To Teacher's Account">
                                             <StatusItem>
