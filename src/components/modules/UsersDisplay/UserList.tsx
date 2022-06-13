@@ -11,6 +11,7 @@ import {
     PhoneIcon,
     FacebookIcon,
     StudentIcon,
+    TeacherIcon,
     BannedIcon,
     EmailVerifiedIcon,
     ForwardIcon,
@@ -19,13 +20,14 @@ import { LinkTextSpan } from 'src/components/styled';
 // RECOIL
 import { useRecoilValue } from 'recoil';
 import { sidebarAtoms } from 'src/states/sidebar';
-import { studentsViewAtoms } from '.';
+import { usersDisplayAtoms } from '.';
 
 // MAIN-COMPONENT
-export default function StudentList() {
+export default function UserList() {
     // RECOIL
     const isSidebarOpen = useRecoilValue(sidebarAtoms.isSidebarOpen);
-    const filtered = useRecoilValue(studentsViewAtoms.filtered);
+    const variant = useRecoilValue(usersDisplayAtoms.variant);
+    const filtered = useRecoilValue(usersDisplayAtoms.filtered);
     // STATES
     const gridItemProps = useMemo(() => {
         const xs: GridSize = 12;
@@ -37,33 +39,33 @@ export default function StudentList() {
     // RENDER
     return (
         <Grid container spacing={2}>
-            {filtered.map((student) => (
-                <Grid key={student.uid} {...gridItemProps}>
+            {filtered.map((user) => (
+                <Grid key={user.uid} {...gridItemProps}>
                     <Item>
                         <ItemBanner />
-                        <ItemPhoto sx={{ backgroundImage: `url(${student.photoUrl})` }} />
+                        <ItemPhoto sx={{ backgroundImage: `url(${user.photoUrl})` }} />
                         <ItemBody>
-                            <NameText>{student.name}</NameText>
+                            <NameText>{user.name}</NameText>
                             <InfoList direction="column" spacing={1}>
                                 <InfoListItem>
                                     <InfoListItemIcon>
                                         <EmailIcon />
                                     </InfoListItemIcon>
-                                    <InfoListItemText>{student.email}</InfoListItemText>
+                                    <InfoListItemText>{user.email}</InfoListItemText>
                                 </InfoListItem>
                                 <InfoListItem>
                                     <InfoListItemIcon>
                                         <PhoneIcon />
                                     </InfoListItemIcon>
-                                    <InfoListItemText>{student.phone}</InfoListItemText>
+                                    <InfoListItemText>{user.phone}</InfoListItemText>
                                 </InfoListItem>
                                 <InfoListItem>
                                     <InfoListItemIcon>
                                         <FacebookIcon />
                                     </InfoListItemIcon>
-                                    <Link href={student.fb || ''}>
+                                    <Link href={user.fb || ''}>
                                         <InfoListItemText>
-                                            <LinkTextSpan>{student.fb}</LinkTextSpan>
+                                            <LinkTextSpan>{user.fb}</LinkTextSpan>
                                         </InfoListItemText>
                                     </Link>
                                 </InfoListItem>
@@ -71,40 +73,62 @@ export default function StudentList() {
                         </ItemBody>
                         <ItemFooter>
                             <Stack spacing={2} direction="row" justifyContent="flex-end">
-                                <Tooltip
-                                    title={student.isBanned ? 'Banned' : 'Not Banned'}
-                                >
-                                    <StatusItem data-is-active={student.isBanned}>
+                                <Tooltip title={user.isBanned ? 'Banned' : 'Not Banned'}>
+                                    <StatusItem data-is-active={user.isBanned}>
                                         <BannedIcon />
                                     </StatusItem>
                                 </Tooltip>
                                 <Tooltip
                                     title={
-                                        student.isEmailVerified
+                                        user.isEmailVerified
                                             ? 'Email Verified'
                                             : 'Email Not Verified'
                                     }
                                 >
-                                    <StatusItem data-is-active={student.isEmailVerified}>
+                                    <StatusItem data-is-active={user.isEmailVerified}>
                                         <EmailVerifiedIcon />
                                     </StatusItem>
                                 </Tooltip>
-                                <Tooltip
-                                    title={
-                                        student.isEnrolled ? 'Enrolled' : 'Not Enrolled'
-                                    }
-                                >
-                                    <StatusItem data-is-active={student.isEnrolled}>
-                                        <StudentIcon />
-                                    </StatusItem>
-                                </Tooltip>
-                                <Link href={`/app/students/${student.uid}`}>
-                                    <Tooltip title="To Student's Account">
-                                        <StatusItem>
-                                            <ForwardIcon />
+                                {variant === 'student' && (
+                                    <Tooltip
+                                        title={
+                                            user.isEnrolled ? 'Enrolled' : 'Not Enrolled'
+                                        }
+                                    >
+                                        <StatusItem data-is-active={user.isEnrolled}>
+                                            <StudentIcon />
                                         </StatusItem>
                                     </Tooltip>
-                                </Link>
+                                )}
+                                {variant === 'teacher' && (
+                                    <Tooltip
+                                        title={
+                                            user.isEnrolled ? 'Enrolled' : 'Not Enrolled'
+                                        }
+                                    >
+                                        <StatusItem data-is-active={user.isEnrolled}>
+                                            <TeacherIcon />
+                                        </StatusItem>
+                                    </Tooltip>
+                                )}
+                                {variant === 'student' && (
+                                    <Link href={`/app/students/${user.uid}`}>
+                                        <Tooltip title="To Student's Account">
+                                            <StatusItem>
+                                                <ForwardIcon />
+                                            </StatusItem>
+                                        </Tooltip>
+                                    </Link>
+                                )}
+                                {variant === 'teacher' && (
+                                    <Link href={`/app/teachers/${user.uid}`}>
+                                        <Tooltip title="To Teacher's Account">
+                                            <StatusItem>
+                                                <ForwardIcon />
+                                            </StatusItem>
+                                        </Tooltip>
+                                    </Link>
+                                )}
                             </Stack>
                         </ItemFooter>
                     </Item>

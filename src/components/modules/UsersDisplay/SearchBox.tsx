@@ -5,21 +5,22 @@ import { Grid, TextField } from '@mui/material';
 // COMPONENTS
 import Select from 'src/components/modules/Select';
 // RECOIL
-import { useRecoilState } from 'recoil';
-import { studentsViewAtoms, useFilterStudents } from '.';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { usersDisplayAtoms, useFilterUsers } from '.';
 
 // MAIN-COMPONENT
 export default function SearchBox() {
     // RECOIL
-    const [search, setSearch] = useRecoilState(studentsViewAtoms.search);
-    const [filter, setFilter] = useRecoilState(studentsViewAtoms.filter);
-    const [orderBy, setOrderBy] = useRecoilState(studentsViewAtoms.orderBy);
+    const variant = useRecoilValue(usersDisplayAtoms.variant);
+    const [search, setSearch] = useRecoilState(usersDisplayAtoms.search);
+    const [filter, setFilter] = useRecoilState(usersDisplayAtoms.filter);
+    const [orderBy, setOrderBy] = useRecoilState(usersDisplayAtoms.orderBy);
     const [orderDirection, setOrderDirection] = useRecoilState(
-        studentsViewAtoms.orderDirection
+        usersDisplayAtoms.orderDirection
     );
-    const filterStudents = useFilterStudents();
+    const filterUsers = useFilterUsers();
     useEffect(() => {
-        filterStudents();
+        filterUsers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [search, filter, orderBy, orderDirection]);
     // RENDER
@@ -41,11 +42,25 @@ export default function SearchBox() {
                         label="Filter"
                         value={filter}
                         setValue={(value) => setFilter(value)}
-                        items={[
-                            { label: 'All', value: 'all' },
-                            { label: 'Enrolled', value: 'enrolled' },
-                            { label: 'Not Enrolled', value: 'not-enrolled' },
-                        ]}
+                        items={
+                            variant === 'teachers'
+                                ? [
+                                      { label: 'All', value: 'all' },
+                                      {
+                                          label: 'Verified',
+                                          value: 'teacher-verified',
+                                      },
+                                      {
+                                          label: 'Not Verified',
+                                          value: 'teacher-not-verified',
+                                      },
+                                  ]
+                                : [
+                                      { label: 'All', value: 'all' },
+                                      { label: 'Enrolled', value: 'enrolled' },
+                                      { label: 'Not Enrolled', value: 'not-enrolled' },
+                                  ]
+                        }
                     />
                 </Grid>
                 <Grid item xs={4} lg={2}>
