@@ -49,6 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     break;
             }
         } else message = error;
+        console.log('[api/auth|error]:', message);
         const responseToken = sign({ error: message, body: null });
         res.json({ responseToken });
     }

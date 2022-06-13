@@ -25,6 +25,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
         };
     } catch (error: any) {
         const message = typeof error === 'object' ? error.message : error;
+        console.log('[teachers/[uid]|error]:', message);
         return {
             redirect: {
                 destination: message === 'Auth token is missing' ? '/auth/sign-in' : '/',
