@@ -6,9 +6,9 @@ import { Divider } from '@mui/material';
 import SearchBox from './SearchBox';
 import UserList from './UserList';
 // RECOIL
-import { useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { gsspAtoms } from 'src/states/gssp';
-import { usersDisplayAtoms, useFilterUsers } from '.';
+import { usersDisplayAtoms, useFilterUsers, useResetAll } from '.';
 
 // MAIN-COMPONENT
 interface Props {
@@ -19,9 +19,8 @@ export default function UserDisplay({ variant }: Props) {
     const gssp = useRecoilValue(gsspAtoms.gssp);
     const setVariant = useSetRecoilState(usersDisplayAtoms.variant);
     const setUsers = useSetRecoilState(usersDisplayAtoms.users);
-    const resetSearch = useResetRecoilState(usersDisplayAtoms.search);
-    const resetFilter = useResetRecoilState(usersDisplayAtoms.filter);
     const filterUsers = useFilterUsers();
+    const resetAll = useResetAll();
     useEffect(() => {
         if (variant === 'students') {
             if (gssp.body && gssp.body.students) {
@@ -38,8 +37,7 @@ export default function UserDisplay({ variant }: Props) {
     }, [gssp]);
     useEffect(() => {
         setVariant(variant);
-        resetSearch();
-        resetFilter();
+        resetAll();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [variant]);
     // RENDER

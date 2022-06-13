@@ -1,7 +1,7 @@
 // TYPES
 import type { User } from 'src/interfaces';
 // LIB-FUNCTIONS
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil';
 import _ from 'lodash';
 // COMPONENTS
 import UsersDisplay from './UsersDisplay';
@@ -59,6 +59,20 @@ export const usersDisplayAtoms = {
 };
 
 // HOOKS
+export const useResetAll = () => {
+    // RECOIL
+    const resetUsers = useResetRecoilState(usersDisplayAtoms.users);
+    const resetFiltered = useResetRecoilState(usersDisplayAtoms.filtered);
+    const resetSearch = useResetRecoilState(usersDisplayAtoms.search);
+    const resetFilter = useResetRecoilState(usersDisplayAtoms.filter);
+    // RETURN FUNCTION
+    return () => {
+        resetUsers();
+        resetFiltered();
+        resetSearch();
+        resetFilter();
+    };
+};
 export const useFilterUsers = () => {
     // RECOIL
     const variant = useRecoilValue(usersDisplayAtoms.variant);
