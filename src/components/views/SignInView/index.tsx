@@ -42,7 +42,7 @@ export default function SignInView() {
             if (user.isBanned) return handleBannedStatus();
             await signInWithEmailAndPassword(auth, email, password);
             await setAuth(user);
-            addSnackbarItem('info', 'Signed in successfully');
+            addSnackbarItem('success', 'Signed in successfully');
             router.push('/app/dashboard');
         } catch (error: any) {
             let message = '';

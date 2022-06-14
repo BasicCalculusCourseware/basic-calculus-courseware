@@ -78,7 +78,7 @@ export default function SignUpView() {
                 isBanned: false,
             });
             await setAuth(await getUser(user.uid));
-            addSnackbarItem('info', 'Signed up successfully');
+            addSnackbarItem('success', 'Signed up successfully');
             router.push('/auth/email-verification');
         } catch (error: any) {
             let message = '';
