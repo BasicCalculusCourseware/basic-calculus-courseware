@@ -3,6 +3,7 @@ import type { User, AuthToken } from 'src/interfaces';
 // FUNCTIONS
 import { auth, db } from 'src/firebase/admin';
 import { verify } from 'src/utils';
+import { deleteCollection } from './collection';
 
 export async function getUser(uid: string) {
     const { emailVerified: isEmailVerified } = await auth.getUser(uid);
@@ -21,4 +22,9 @@ export async function getUserFromDB(uid: string) {
 }
 export async function getUserFromAuthToken(authToken: string) {
     return verify(authToken) as AuthToken;
+}
+export async function deleteUser(uid: string) {
+    await auth.deleteUser(uid);
+    await deleteCollection(`users/${uid}/bookmarks`);
+    await db.collection('users').doc(uid).delete();
 }

@@ -1,9 +1,11 @@
 // TYPES
 import type { User } from 'src/interfaces';
-// LIB FUNCTIONS
+// LIB-FUNCTIONS
+import { doc, updateDoc } from 'firebase/firestore';
 import axios from 'axios';
 // FUNCTIONS
-import { sign, verifyResult } from 'src/utils';
+import { sign, verify, verifyResult } from 'src/utils';
+import { db } from 'src/firebase/client';
 
 export async function getUser(uid: string) {
     const { data } = await axios.get('/api/users', {
@@ -40,4 +42,34 @@ export async function deleteUserCookie() {
     await axios.delete('/api/auth', {
         params: { payloadToken: sign() },
     });
+}
+export async function updateUser(uid: string, data: Partial<User>) {
+    await updateDoc(doc(db, 'users', uid), data);
+}
+export async function updateUserPassword(uid: string, password: string) {
+    const { data: res } = await axios.get('/api/users', {
+        params: {
+            payloadToken: sign({
+                action: 'updateUserPassword',
+                uid,
+                password,
+            }),
+        },
+    });
+    if (!res.responseToken) throw 'responseToken is missing';
+    const { error } = verify(res.responseToken);
+    if (error) throw error;
+}
+export async function deleteUser(uid: string) {
+    const { data: res } = await axios.get('/api/users', {
+        params: {
+            payloadToken: sign({
+                action: 'deleteUser',
+                uid,
+            }),
+        },
+    });
+    if (!res.responseToken) throw 'responseToken is missing';
+    const { error } = verify(res.responseToken);
+    if (error) throw error;
 }

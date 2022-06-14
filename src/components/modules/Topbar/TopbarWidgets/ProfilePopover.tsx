@@ -1,9 +1,6 @@
 // LIB FUNCTIONS
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { signOut } from 'firebase/auth';
-// FUNCTIONS
-import { auth } from 'src/firebase/client';
 // LIB COMPONENTS
 import { Avatar, IconButton, Popover, Stack, Tooltip } from '@mui/material';
 import { Fragment } from 'react';
@@ -11,7 +8,7 @@ import { Fragment } from 'react';
 import { AccountIcon, SignInIcon, SignOutIcon, SignUpIcon } from 'src/components/icons';
 // RECOIL
 import { useRecoilValue } from 'recoil';
-import { authAtoms, useResetAuth } from 'src/states/auth';
+import { authAtoms, useResetAuth, useSignOut } from 'src/states/auth';
 import { useAddSnackbarItem } from 'src/states/snackbar';
 import { useCloseSidebar } from 'src/states/sidebar';
 
@@ -24,6 +21,7 @@ export default function ProfilePopover() {
     const resetAuth = useResetAuth();
     const addSnackbarItem = useAddSnackbarItem();
     const closeSidebar = useCloseSidebar();
+    const signOut = useSignOut();
     // STATES
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const open = Boolean(anchorEl);
@@ -40,19 +38,6 @@ export default function ProfilePopover() {
     async function handleSignUp() {
         await router.push('/auth/sign-up');
         setAnchorEl(null);
-    }
-    async function handleSignOut() {
-        try {
-            addSnackbarItem('info', 'Signing out');
-            closeSidebar();
-            await signOut(auth);
-            await resetAuth();
-            addSnackbarItem('success', 'Signed out successfully');
-            await router.push('/');
-        } catch (error: any) {
-            const message = typeof error === 'object' ? error.message : error;
-            addSnackbarItem('error', message);
-        }
     }
     // RENDER
     return (
@@ -97,7 +82,7 @@ export default function ProfilePopover() {
                             {user.uid ? (
                                 <Fragment>
                                     <Tooltip title="Sign Out">
-                                        <IconButton onClick={handleSignOut}>
+                                        <IconButton onClick={signOut}>
                                             <SignOutIcon />
                                         </IconButton>
                                     </Tooltip>

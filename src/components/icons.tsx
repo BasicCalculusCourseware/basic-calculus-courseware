@@ -46,6 +46,8 @@ export {
     FacebookRounded as FacebookIcon,
     BlockRounded as BannedIcon,
     MarkEmailReadRounded as EmailVerifiedIcon,
+    LockResetOutlined as ResetPasswordIcon,
+    DangerousOutlined as DangerIcon,
 } from '@mui/icons-material';
 export {
     FaUserGraduate as StudentIcon,

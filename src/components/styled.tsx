@@ -69,3 +69,11 @@ export const LinkDivider = styled('span')({
     ...styles.mx(1),
     color: '#e0e0e0',
 });
+export const ModalContent = styled('div')({
+    ...styles.border(1),
+    ...styles.borderRadius(1),
+    ...styles.p(2),
+    width: '100%',
+    maxWidth: 500,
+    backgroundColor: 'white',
+});

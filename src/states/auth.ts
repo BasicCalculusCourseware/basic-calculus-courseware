@@ -1,10 +1,16 @@
 // TYPES
 import type { User, UserRoles } from 'src/interfaces';
-// LIB FUNCTIONS
-import { atom, useSetRecoilState } from 'recoil';
+// LIB-FUNCTIONS
+import { signOut } from 'firebase/auth';
+import Router from 'next/router';
 // FUNCTIONS
 import { setUserCookie, deleteUserCookie } from 'src/firebase/client/utils/user';
+import { auth } from 'src/firebase/client';
 import initialStates from 'src/utils/initialStates';
+// RECOIL
+import { atom, useSetRecoilState, useRecoilValue } from 'recoil';
+import { useAddSnackbarItem } from 'src/states/snackbar';
+import { useCloseSidebar } from 'src/states/sidebar';
 
 // ATOMS
 const user = atom<User>({
@@ -53,6 +59,24 @@ export const useResetAuth = () => {
         setUserRoles(initialStates.userRoles);
         setIsUserSignedIn(false);
         await deleteUserCookie();
+    };
+};
+export const useSignOut = () => {
+    const resetAuth = useResetAuth();
+    const addSnackbarItem = useAddSnackbarItem();
+    const closeSidebar = useCloseSidebar();
+    return async () => {
+        try {
+            addSnackbarItem('info', 'Signing out');
+            closeSidebar();
+            await signOut(auth);
+            await resetAuth();
+            addSnackbarItem('success', 'Signed out successfully');
+            await Router.push('/');
+        } catch (error: any) {
+            const message = typeof error === 'object' ? error.message : error;
+            addSnackbarItem('error', message);
+        }
     };
 };
 export const useHandleBannedStatus = () => {

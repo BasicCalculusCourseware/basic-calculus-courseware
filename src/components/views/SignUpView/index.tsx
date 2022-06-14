@@ -42,7 +42,6 @@ export default function SignUpView() {
     const [form, setForm] = useState(formInitState);
     const [isLoading, setIsLoading] = useState(false);
     const validator = useMemo(() => {
-        console.log(form);
         if (Object.values(form).some((value: any) => !value))
             return { error: 'The form is incomplete' };
         if (form.password !== form.repassword)

@@ -22,7 +22,7 @@ export default function AuthSetter({ children }: ChildrenProp) {
     const resetAuth = useResetAuth();
     // IMPLEMENT GSSP
     useEffect(() => {
-        if (!gssp.error && gssp.body && gssp.body.user) setAuth(gssp.body.user);
+        if (gssp.body && gssp.body.user) setAuth(gssp.body.user);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gssp]);
     // WATCH AUTH STATE

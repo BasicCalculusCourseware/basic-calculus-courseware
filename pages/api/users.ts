@@ -1,11 +1,19 @@
 // LIB TYPES
 import type { NextApiResponse, NextApiRequest } from 'next';
 // FUNCTIONS
-import { getUser, getUserByEmail } from 'src/firebase/admin/utils/user';
+import { getUser, getUserByEmail, deleteUser } from 'src/firebase/admin/utils/user';
 import { getTeachers } from 'src/firebase/admin/utils/teacher';
 import { getStudents } from 'src/firebase/admin/utils/student';
 import { sign } from 'src/utils';
+import { auth } from 'src/firebase/admin';
 import verifyAcess from 'src/utils/verifyAccess';
+
+const nullResult = {
+    responseToken: sign({
+        error: null,
+        body: null,
+    }),
+};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -44,6 +52,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     body: { students },
                 }),
             });
+        } else if (data.action === 'updateUserPassword') {
+            if (!data.uid || !data.password) throw 'parameter are missing';
+            await auth.updateUser(data.uid, { password: data.password });
+            return res.json(nullResult);
+        } else if (data.action === 'deleteUser') {
+            if (!data.uid) throw 'parameter is missing';
+            await deleteUser(data.uid);
+            return res.json(nullResult);
         } else throw new Error();
     } catch (error: any) {
         const message = typeof error === 'object' ? error.message : error;

@@ -6,20 +6,35 @@ import {
     ProfilePictureIcon,
     BasicInfoIcon,
     AccessInfoIcon,
+    ResetPasswordIcon,
+    DangerIcon,
 } from 'src/components/icons';
+// RECOIL
+import { useRecoilValue } from 'recoil';
+import { authAtoms } from 'src/states/auth';
 // CONTEXT
 import { useAccountDisplayContext } from '.';
 
 // MAIN-COMPONENT
 export default function TabList() {
+    // RECOIL
+    const authUser = useRecoilValue(authAtoms.user);
     // CONTEXT
-    const { tab, setTab } = useAccountDisplayContext();
+    const { user, tab, setTab } = useAccountDisplayContext();
     // STATES
     const items = [
-        { index: 1, label: 'Profile Picture', icon: <ProfilePictureIcon /> },
-        { index: 2, label: 'Basic Info', icon: <BasicInfoIcon /> },
-        { index: 3, label: 'Contact Info', icon: <ContactInfoIcon /> },
-        { index: 4, label: 'Access Info', icon: <AccessInfoIcon /> },
+        ...[
+            { index: 1, label: 'Profile Picture', icon: <ProfilePictureIcon /> },
+            { index: 2, label: 'Basic Info', icon: <BasicInfoIcon /> },
+            { index: 3, label: 'Contact Info', icon: <ContactInfoIcon /> },
+            { index: 4, label: 'Access Info', icon: <AccessInfoIcon /> },
+        ],
+        ...(authUser.uid !== user.uid
+            ? [
+                  { index: 5, label: 'Reset Password', icon: <ResetPasswordIcon /> },
+                  { index: 6, label: 'Dangerous Zone', icon: <DangerIcon /> },
+              ]
+            : []),
     ];
     // RENDER
     return (

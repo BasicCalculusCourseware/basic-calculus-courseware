@@ -1,8 +1,7 @@
 // LIB-FUNCTIONS
 import { useState, useMemo } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
 // FUNCTIONS
-import { db } from 'src/firebase/client';
+import { updateUser } from 'src/firebase/client/utils/user';
 // LIB-COMPONENTS
 import { Typography, Button, Grid, TextField, Hidden } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -37,11 +36,6 @@ export default function AccessInfoPanel() {
             return form[key] !== user[key];
         });
     }, [form, user]);
-    // FB-UTILS
-    const updateDatabase = async () => {
-        const userRef = doc(db, 'users', user.uid);
-        await updateDoc(userRef, form);
-    };
     // UTILS
     const handleReset = () => {
         const { role, isBanned, isEnrolled, isTeacherVerified } = user;
@@ -52,7 +46,7 @@ export default function AccessInfoPanel() {
             if (!isChanged) return;
             addSnackbarItem('info', 'Updating data');
             setIsLoading(true);
-            await updateDatabase();
+            await updateUser(user.uid, form);
             await refreshUser();
             addSnackbarItem('success', 'Data updated successfully');
         } catch (error: any) {

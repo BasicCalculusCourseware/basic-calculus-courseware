@@ -3,6 +3,8 @@ import ProfilePicturePanel from './ProfilePicturePanel';
 import BasicInfoPanel from './BasicInfoPanel';
 import ContactInfoPanel from './ContactInfoPanel';
 import AccessInfoPanel from './AccessInfoPanel';
+import ResetPasswordPanel from './ResetPasswordPanel';
+import DangerousZonePanel from './DangerousZonePanel';
 // CONTEXT
 import { useAccountDisplayContext } from '../';
 
@@ -17,6 +19,8 @@ export default function TabPanels() {
             {tab === 2 && <BasicInfoPanel />}
             {tab === 3 && <ContactInfoPanel />}
             {tab === 4 && <AccessInfoPanel />}
+            {tab === 5 && <ResetPasswordPanel />}
+            {tab === 6 && <DangerousZonePanel />}
         </Container>
     );
 }

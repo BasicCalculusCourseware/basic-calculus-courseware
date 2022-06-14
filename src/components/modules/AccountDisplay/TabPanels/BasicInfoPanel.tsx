@@ -1,8 +1,7 @@
 // LIB-FUNCTIONS
 import { useState, useMemo } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
 // FUNCTIONS
-import { db } from 'src/firebase/client';
+import { updateUser } from 'src/firebase/client/utils/user';
 // LIB-COMPONENTS
 import { Typography, Button, Grid, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -34,15 +33,6 @@ export default function BasicInfoPanel() {
             return form[key] !== user[key];
         });
     }, [form, user]);
-    // FB-UTILS
-    const updateDatabase = async () => {
-        const userRef = doc(db, 'users', user.uid);
-        await updateDoc(userRef, {
-            name: form.name,
-            gender: form.gender,
-            birthday: new Date(form.birthday).getTime(),
-        });
-    };
     // UTILS
     const handleReset = () => {
         const { name, gender, birthday } = user;
@@ -53,7 +43,11 @@ export default function BasicInfoPanel() {
             if (!isChanged) return;
             addSnackbarItem('info', 'Updating data');
             setIsLoading(true);
-            await updateDatabase();
+            await updateUser(user.uid, {
+                name: form.name,
+                gender: form.gender,
+                birthday: new Date(form.birthday).getTime(),
+            });
             await refreshUser();
             addSnackbarItem('success', 'Data updated successfully');
         } catch (error: any) {

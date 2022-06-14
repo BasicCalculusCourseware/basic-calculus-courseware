@@ -3,10 +3,10 @@ import type { Theme } from '@mui/material';
 // LIB-FUNCTIONS
 import { useMediaQuery } from '@mui/material';
 import { useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 // FUNCTIONS
-import { db, storage } from 'src/firebase/client';
+import { storage } from 'src/firebase/client';
+import { updateUser } from 'src/firebase/client/utils/user';
 // LIB-COMPONENTS
 import { Grid, Button, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -40,8 +40,7 @@ export default function ProfilePicturePanel() {
             cacheControl: 'public,max-age=86400',
         });
         const url = await getDownloadURL(imageRef);
-        const userRef = doc(db, 'users', user.uid);
-        await updateDoc(userRef, { photoUrl: url });
+        await updateUser(user.uid, { photoUrl: url });
     };
     // UTILS
     const handleChange = (e: any) => {
