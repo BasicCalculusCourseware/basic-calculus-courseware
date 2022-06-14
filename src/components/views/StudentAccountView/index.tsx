@@ -45,10 +45,7 @@ export default function StudentAccountView() {
         <Page>
             <Container maxWidth="lg">
                 <PageBreadcrumbs>
-                    <Breadcrumbs
-                        maxItems={2}
-                        separator={<NavigateNextIcon fontSize="small" />}
-                    >
+                    <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
                         <Typography>App</Typography>
                         <Link href="/app/students" passHref>
                             <Typography data-is-link>Students</Typography>

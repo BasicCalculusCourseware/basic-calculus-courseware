@@ -80,5 +80,10 @@ export const useSignOut = () => {
     };
 };
 export const useHandleBannedStatus = () => {
-    return () => {};
+    const signOut = useSignOut();
+    const addSnackbarItem = useAddSnackbarItem();
+    return () => {
+        addSnackbarItem('error', 'Your account is banned');
+        signOut();
+    };
 };

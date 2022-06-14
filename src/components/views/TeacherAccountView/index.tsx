@@ -45,10 +45,7 @@ export default function TeacherAccountView() {
         <Page>
             <Container maxWidth="lg">
                 <PageBreadcrumbs>
-                    <Breadcrumbs
-                        maxItems={2}
-                        separator={<NavigateNextIcon fontSize="small" />}
-                    >
+                    <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
                         <Typography>App</Typography>
                         <Link href="/app/teachers" passHref>
                             <Typography data-is-link>Teachers</Typography>
