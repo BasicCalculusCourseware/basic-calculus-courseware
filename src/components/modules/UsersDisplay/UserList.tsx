@@ -63,7 +63,7 @@ export default function UserList() {
                                     <InfoListItemIcon>
                                         <FacebookIcon />
                                     </InfoListItemIcon>
-                                    <Link href={user.fb || ''}>
+                                    <Link href={user.fb || ''} target="_blank">
                                         <InfoListItemText>
                                             <LinkTextSpan>{user.fb}</LinkTextSpan>
                                         </InfoListItemText>
@@ -103,10 +103,14 @@ export default function UserList() {
                                 {variant === 'teachers' && (
                                     <Tooltip
                                         title={
-                                            user.isEnrolled ? 'Enrolled' : 'Not Enrolled'
+                                            user.isTeacherVerified
+                                                ? 'Verified'
+                                                : 'Not Verified'
                                         }
                                     >
-                                        <StatusItem data-is-active={user.isEnrolled}>
+                                        <StatusItem
+                                            data-is-active={user.isTeacherVerified}
+                                        >
                                             <TeacherIcon />
                                         </StatusItem>
                                     </Tooltip>
