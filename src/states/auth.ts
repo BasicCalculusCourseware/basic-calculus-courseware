@@ -66,24 +66,19 @@ export const useSignOut = () => {
     const addSnackbarItem = useAddSnackbarItem();
     const closeSidebar = useCloseSidebar();
     return async () => {
-        try {
-            addSnackbarItem('info', 'Signing out');
-            closeSidebar();
-            await signOut(auth);
-            await resetAuth();
-            addSnackbarItem('success', 'Signed out successfully');
-            await Router.push('/');
-        } catch (error: any) {
-            const message = typeof error === 'object' ? error.message : error;
-            addSnackbarItem('error', message);
-        }
+        addSnackbarItem('info', 'Signing out');
+        closeSidebar();
+        await signOut(auth);
+        await resetAuth();
+        addSnackbarItem('success', 'Signed out successfully');
+        await Router.push('/');
     };
 };
 export const useHandleBannedStatus = () => {
-    const signOut = useSignOut();
     const addSnackbarItem = useAddSnackbarItem();
-    return () => {
+    const signOut = useSignOut();
+    return async () => {
         addSnackbarItem('error', 'Your account is banned');
-        signOut();
+        await signOut();
     };
 };

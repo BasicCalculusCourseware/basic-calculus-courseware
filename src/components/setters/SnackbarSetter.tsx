@@ -5,7 +5,7 @@ import { useSnackbar as useNotiSnackbar } from 'notistack';
 import { useEffect, useRef } from 'react';
 // LIB-COMPONENTS
 import { SnackbarProvider } from 'notistack';
-import { IconButton, Grow } from '@mui/material';
+import { IconButton } from '@mui/material';
 // COMPONENTS
 import { CloseIcon } from 'src/components/icons';
 // RECOIL
@@ -20,11 +20,11 @@ export default function SnackbarSetter({ children }: ChildrenProp) {
         // @ts-ignore
         notistackRef.current.closeSnackbar(key);
     };
+    // RENDER
     return (
         <SnackbarProvider
             ref={notistackRef as any}
-            TransitionComponent={Grow as any}
-            maxSnack={3}
+            maxSnack={1}
             autoHideDuration={3000}
             preventDuplicate
             action={(key: any) => (
@@ -45,7 +45,6 @@ function SnackbarSubSetter({ children }: ChildrenProp) {
     // RECOIL
     const snackbarItems = useRecoilValue(snackbarAtoms.snackbarItems);
     const deleteSnackbarItem = useDeleteSnackbarItem();
-    // LOGICS
     useEffect(() => {
         if (snackbarItems.length) {
             snackbarItems.map(({ id, message, variant }) => {

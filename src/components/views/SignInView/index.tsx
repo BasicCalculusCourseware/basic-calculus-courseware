@@ -39,7 +39,7 @@ export default function SignInView() {
             addSnackbarItem('info', 'Signing in');
             setIsLoading(true);
             const user = await getUserByEmail(email);
-            if (user.isBanned) return handleBannedStatus();
+            if (user.isBanned) return addSnackbarItem('error', 'Your account is banned');
             await signInWithEmailAndPassword(auth, email, password);
             await setAuth(user);
             addSnackbarItem('success', 'Signed in successfully');
