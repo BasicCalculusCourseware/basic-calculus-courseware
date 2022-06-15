@@ -63,11 +63,15 @@ export default function UserList() {
                                     <InfoListItemIcon>
                                         <FacebookIcon />
                                     </InfoListItemIcon>
-                                    <Link href={user.fb || ''} target="_blank">
+                                    <a
+                                        href={user.fb || ''}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
                                         <InfoListItemText>
                                             <LinkTextSpan>{user.fb}</LinkTextSpan>
                                         </InfoListItemText>
-                                    </Link>
+                                    </a>
                                 </InfoListItem>
                             </InfoList>
                         </ItemBody>

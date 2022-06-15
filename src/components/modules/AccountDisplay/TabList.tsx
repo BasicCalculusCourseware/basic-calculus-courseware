@@ -72,6 +72,7 @@ const Item = styled('div')(({ theme }) => ({
     ...styles.flexStartCenter,
     ...styles.px(2),
     minHeight: 50,
+    overflowX: 'hidden',
     '&:hover': {
         backgroundColor: styles.hoverColor,
         cursor: 'pointer',
