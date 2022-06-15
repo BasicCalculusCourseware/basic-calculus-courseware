@@ -8,7 +8,7 @@ import { getQuarter } from 'src/firebase/admin/utils/quarter';
 import { getAllLessons } from 'src/firebase/admin/utils/lesson';
 // COMPONENTS
 import ViewSetter from 'src/components/setters/ViewSetter';
-import LessonsView from 'src/components/views/LessonsView';
+import LessonsView from 'src/components/views/LessonsView/index';
 
 export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
     try {
