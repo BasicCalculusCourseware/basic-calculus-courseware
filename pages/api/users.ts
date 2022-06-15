@@ -2,8 +2,8 @@
 import type { NextApiResponse, NextApiRequest } from 'next';
 // FUNCTIONS
 import { getUser, getUserByEmail, deleteUser } from 'src/firebase/admin/utils/user';
-import { getTeachers } from 'src/firebase/admin/utils/teacher';
-import { getStudents } from 'src/firebase/admin/utils/student';
+import { getAllTeachers } from 'src/firebase/admin/utils/teacher';
+import { getAllStudents } from 'src/firebase/admin/utils/student';
 import { sign } from 'src/utils';
 import { auth } from 'src/firebase/admin';
 import verifyAcess from 'src/utils/verifyAccess';
@@ -36,16 +36,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     body: { user },
                 }),
             });
-        } else if (data.action === 'getTeachers') {
-            const teachers = await getTeachers();
+        } else if (data.action === 'getAllTeachers') {
+            const teachers = await getAllTeachers();
             return res.json({
                 responseToken: sign({
                     error: null,
                     body: { teachers },
                 }),
             });
-        } else if (data.action === 'getStudents') {
-            const students = await getStudents();
+        } else if (data.action === 'getAllStudents') {
+            const students = await getAllStudents();
             return res.json({
                 responseToken: sign({
                     error: null,
