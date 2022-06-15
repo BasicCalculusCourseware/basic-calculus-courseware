@@ -4,7 +4,7 @@ import type { GetServerSidePropsContext } from 'next';
 import type { GSSP } from 'src/interfaces';
 // FUNCTIONS
 import { getUserFromAuthToken, getUser } from 'src/firebase/admin/utils/user';
-import { getQuarters } from 'src/firebase/admin/utils/quarter';
+import { getAllQuarters } from 'src/firebase/admin/utils/quarter';
 // COMPONENTS
 import ViewSetter from 'src/components/setters/ViewSetter';
 import QuartersView from 'src/components/views/QuartersView';
@@ -14,7 +14,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
         if (!req.cookies.authToken) throw 'authToken is missing';
         const { uid } = await getUserFromAuthToken(req.cookies.authToken);
         const user = await getUser(uid);
-        const quarters = await getQuarters();
+        const quarters = await getAllQuarters();
         return {
             props: {
                 result: {

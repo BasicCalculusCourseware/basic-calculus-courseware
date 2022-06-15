@@ -7,7 +7,7 @@ export async function getQuarter(id: string) {
     const querySnap = await db.collection('quarters').doc(id).get();
     return querySnap.exists ? ({ id, ...querySnap.data() } as Quarter) : null;
 }
-export async function getQuarters() {
+export async function getAllQuarters() {
     const quarters: Quarter[] = [];
     const querySnap = await db.collection('quarters').orderBy('number').get();
     if (querySnap.empty) return quarters;
@@ -15,6 +15,6 @@ export async function getQuarters() {
     return quarters;
 }
 export async function getTotalQuarters() {
-    const quarters = await getQuarters();
+    const quarters = await getAllQuarters();
     return quarters.length;
 }

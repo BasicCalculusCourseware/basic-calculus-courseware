@@ -1,5 +1,5 @@
 // TYPES
-import { Quarter } from 'src/interfaces';
+import type { Quarter } from 'src/interfaces';
 // LIB-FUNCTIONS
 import { atom, useSetRecoilState } from 'recoil';
 // FUNCTIONS

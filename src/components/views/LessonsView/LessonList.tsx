@@ -1,7 +1,7 @@
 // LIB TYPES
 import type { GridSize } from '@mui/material';
 // TYPES
-import type { Quarter } from 'src/interfaces';
+import type { Lesson } from 'src/interfaces';
 // LIB FUNCTIONS
 import { useState, useMemo } from 'react';
 // LIB-COMPONENTS
@@ -12,12 +12,12 @@ import ContentItem from 'src/components/modules/ContentItem';
 // RECOIL
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { sidebarAtoms } from 'src/states/sidebar';
-import { quartersViewAtoms, useSetModal } from '.';
+import { lessonsViewAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
-export default function QuarterList() {
+export default function LessonList() {
     // RECOIL
-    const quarters = useRecoilValue(quartersViewAtoms.quarters);
+    const lessons = useRecoilValue(lessonsViewAtoms.lessons);
     const isSidebarOpen = useRecoilValue(sidebarAtoms.isSidebarOpen);
     // STATES
     const gridItemProps = useMemo(() => {
@@ -30,9 +30,9 @@ export default function QuarterList() {
     // RENDER
     return (
         <Grid container spacing={2}>
-            {quarters.map((quarter) => (
-                <Grid key={quarter.id} {...gridItemProps}>
-                    <QuarterItem quarter={quarter} />
+            {lessons.map((lesson) => (
+                <Grid key={lesson.id} {...gridItemProps}>
+                    <LessonItem lesson={lesson} />
                 </Grid>
             ))}
         </Grid>
@@ -40,12 +40,13 @@ export default function QuarterList() {
 }
 
 // SUB-COMPONENT
-interface QuarterItemProps {
-    quarter: Quarter;
+interface LessonItemProps {
+    lesson: Lesson;
 }
-function QuarterItem({ quarter }: QuarterItemProps) {
+function LessonItem({ lesson }: LessonItemProps) {
     // RECOIL
-    const setSelected = useSetRecoilState(quartersViewAtoms.selected);
+    const quarter = useRecoilValue(lessonsViewAtoms.quarter);
+    const setSelected = useSetRecoilState(lessonsViewAtoms.selected);
     const setModal = useSetModal();
     // STATES
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -53,10 +54,10 @@ function QuarterItem({ quarter }: QuarterItemProps) {
     // RENDER
     return (
         <ContentItem
-            color={quarter.color}
-            heading={quarter.number}
-            body={quarter.title}
-            href={`/app/quarters/${quarter.id}/lessons`}
+            color={lesson.color}
+            heading={lesson.number}
+            body={lesson.title}
+            href={`/app/quarters/${quarter.id}/lessons/${lesson.id}`}
             tool={
                 <>
                     <IconButton
@@ -74,7 +75,7 @@ function QuarterItem({ quarter }: QuarterItemProps) {
                     >
                         <MenuItem
                             onClick={() => {
-                                setSelected(quarter);
+                                setSelected(lesson);
                                 setModal({ editor: true });
                                 setAnchorEl(null);
                             }}
@@ -84,7 +85,7 @@ function QuarterItem({ quarter }: QuarterItemProps) {
                         </MenuItem>
                         <MenuItem
                             onClick={() => {
-                                setSelected(quarter);
+                                setSelected(lesson);
                                 setModal({ deleter: true });
                                 setAnchorEl(null);
                             }}

@@ -29,7 +29,7 @@ export async function createLesson(data: {
     color: string;
 }) {
     await addDoc(collection(db, 'lessons'), {
-        data,
+        ...data,
         createdAt: Date.now(),
     });
 }
@@ -67,7 +67,11 @@ export async function getLesson(lessonId: string) {
 export async function getAllLessons(quarterId: string) {
     const lessons: Lesson[] = [];
     const querySnap = await getDocs(
-        query(collection(db, 'lessons'), where('qid', '==', quarterId), orderBy('number'))
+        query(
+            collection(db, 'lessons'),
+            where('quarterId', '==', quarterId),
+            orderBy('number')
+        )
     );
     if (querySnap.empty) return lessons;
     querySnap.forEach((doc) => lessons.push({ id: doc.id, ...doc.data() } as Lesson));

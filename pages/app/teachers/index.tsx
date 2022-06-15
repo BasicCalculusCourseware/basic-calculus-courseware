@@ -4,7 +4,7 @@ import type { GetServerSidePropsContext } from 'next';
 import type { GSSP } from 'src/interfaces';
 // FUNCTIONS
 import { getUserFromAuthToken, getUser } from 'src/firebase/admin/utils/user';
-import { getTeachers } from 'src/firebase/admin/utils/teacher';
+import { getAllTeachers } from 'src/firebase/admin/utils/teacher';
 // COMPONENTS
 import ViewSetter from 'src/components/setters/ViewSetter';
 import TeachersView from 'src/components/views/TeachersView';
@@ -15,7 +15,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
         const { uid, role } = await getUserFromAuthToken(req.cookies.authToken);
         if (role !== 'admin') throw 'Unauthorized access';
         const user = await getUser(uid);
-        const teachers = await getTeachers();
+        const teachers = await getAllTeachers();
         return {
             props: {
                 result: {

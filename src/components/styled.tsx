@@ -73,6 +73,13 @@ export const LinkDivider = styled('span')({
     ...styles.mx(1),
     color: '#e0e0e0',
 });
+export const BreadcrumbsLink = styled(Typography)({
+    textDecoration: 'none',
+    cursor: 'pointer',
+    '&:hover': {
+        textDecoration: 'underline',
+    },
+});
 export const ModalContent = styled('div')({
     ...styles.border(1),
     ...styles.borderRadius(1),

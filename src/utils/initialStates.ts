@@ -1,10 +1,11 @@
-import { User, UserRoles, Result, Quarter } from 'src/interfaces';
+import { User, UserRoles, Result, Quarter, Lesson } from 'src/interfaces';
 
 interface InitialStates {
     user: User;
     userRoles: UserRoles;
     result: Result;
     quarter: Quarter;
+    lesson: Lesson;
 }
 
 const initialStates: InitialStates = {
@@ -38,6 +39,15 @@ const initialStates: InitialStates = {
         id: '',
         number: '',
         title: '',
+        color: '',
+        createdAt: 0,
+    },
+    lesson: {
+        id: '',
+        quarterId: '',
+        number: '',
+        title: '',
+        intro: '',
         color: '',
         createdAt: 0,
     },

@@ -7,7 +7,8 @@ import { getUserFromAuthToken, getUser } from 'src/firebase/admin/utils/user';
 import { getTotalTeachers } from 'src/firebase/admin/utils/teacher';
 import { getTotalStudents } from 'src/firebase/admin/utils/student';
 import { getTotalQuarters } from 'src/firebase/admin/utils/quarter';
-import { getTotalLessons, getTotalBookmarks } from 'src/firebase/admin/utils/lesson';
+import { getTotalLessons } from 'src/firebase/admin/utils/lesson';
+import { getTotalBookmarks } from 'src/firebase/admin/utils/bookmark';
 // COMPONENTS
 import ViewSetter from 'src/components/setters/ViewSetter';
 import DashboardView from 'src/components/views/DashboardView';

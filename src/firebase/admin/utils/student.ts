@@ -3,7 +3,7 @@ import type { User } from 'src/interfaces';
 // FUNCTIONS
 import { db, auth } from 'src/firebase/admin';
 
-export async function getStudents() {
+export async function getAllStudents() {
     const students: User[] = [];
     const querySnap = await db
         .collection('users')
@@ -20,6 +20,6 @@ export async function getStudents() {
     return students;
 }
 export async function getTotalStudents() {
-    const students = await getStudents();
+    const students = await getAllStudents();
     return students.length;
 }

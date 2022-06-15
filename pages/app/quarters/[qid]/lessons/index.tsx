@@ -1,27 +1,23 @@
-// LIB TYPES
+// LIB-TYPES
 import type { GetServerSidePropsContext } from 'next';
-
 // TYPES
-import type { GSSP } from '@/utils/types';
-
+import type { GSSP } from 'src/interfaces';
 // FUNCTIONS
-import { getUserFromAuthToken, getUser } from '@/firebase/admin/utils/user';
-import { getQuarter } from '@/firebase/admin/utils/quarter';
-import { getLessons } from '@/firebase/admin/utils/lesson';
-
+import { getUserFromAuthToken, getUser } from 'src/firebase/admin/utils/user';
+import { getQuarter } from 'src/firebase/admin/utils/quarter';
+import { getAllLessons } from 'src/firebase/admin/utils/lesson';
 // COMPONENTS
-import RootSetter from '@/comps/setters/RootSetter';
-import LessonsView from '@/comps/views/LessonsView';
+import ViewSetter from 'src/components/setters/ViewSetter';
+import LessonsView from 'src/components/views/LessonsView';
 
-export async function getServerSideProps({
-    req,
-    params,
-}: GetServerSidePropsContext) {
+export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
     try {
+        if (!req.cookies.authToken) throw 'authToken is missing';
         const { uid } = await getUserFromAuthToken(req.cookies.authToken);
         const user = await getUser(uid);
-        const quarter = await getQuarter(params?.qid as string);
-        const lessons = await getLessons(params?.qid as string);
+        if (!params?.qid) throw 'qid is missing';
+        const quarter = await getQuarter(params.qid as string);
+        const lessons = await getAllLessons(params.qid as string);
         return {
             props: {
                 result: {
@@ -34,8 +30,7 @@ export async function getServerSideProps({
         const message = typeof error === 'object' ? error.message : error;
         return {
             redirect: {
-                destination:
-                    message === 'Auth token is missing' ? '/auth/sign-in' : '/',
+                destination: message === 'Auth token is missing' ? '/auth/sign-in' : '/',
                 permanent: false,
             },
         };
@@ -44,12 +39,8 @@ export async function getServerSideProps({
 
 export default function Lessons({ result }: GSSP) {
     return (
-        <RootSetter
-            gssp={{ result }}
-            page={{ base: 'quarters' }}
-            layout={{ isUsingDrawer: true }}
-        >
+        <ViewSetter gssp={result} pageBase="quarters" isPageUsingSidebar={true}>
             <LessonsView />
-        </RootSetter>
+        </ViewSetter>
     );
 }
