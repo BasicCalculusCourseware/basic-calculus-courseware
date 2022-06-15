@@ -1,9 +1,10 @@
-import { User, UserRoles, Result } from 'src/interfaces';
+import { User, UserRoles, Result, Quarter } from 'src/interfaces';
 
 interface InitialStates {
     user: User;
     userRoles: UserRoles;
     result: Result;
+    quarter: Quarter;
 }
 
 const initialStates: InitialStates = {
@@ -32,6 +33,13 @@ const initialStates: InitialStates = {
     result: {
         error: null,
         body: null,
+    },
+    quarter: {
+        id: '',
+        number: '',
+        title: '',
+        color: '',
+        createdAt: 0,
     },
 };
 

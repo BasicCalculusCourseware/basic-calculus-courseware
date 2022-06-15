@@ -78,7 +78,7 @@ export default function DangerousZonePanel() {
 
             <Modal open={isOpen} onClose={handleClose}>
                 <Zoom in={isOpen}>
-                    <ModalContent>
+                    <ModalContent sx={{ p: 2 }}>
                         <Stack spacing={2}>
                             <Alert severity="warning">
                                 <AlertTitle>Warning</AlertTitle>

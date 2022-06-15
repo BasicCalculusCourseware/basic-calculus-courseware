@@ -1,5 +1,3 @@
-// LIB-FUNCTIONS
-import { useEffect } from 'react';
 // LIB-COMPONENTS
 import { Container, Typography, Breadcrumbs, Divider } from '@mui/material';
 // COMPONENTS

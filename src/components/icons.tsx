@@ -48,6 +48,7 @@ export {
     MarkEmailReadRounded as EmailVerifiedIcon,
     LockResetOutlined as ResetPasswordIcon,
     DangerousOutlined as DangerIcon,
+    RestartAltRounded as ResetIcon,
 } from '@mui/icons-material';
 export {
     FaUserGraduate as StudentIcon,

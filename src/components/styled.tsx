@@ -1,5 +1,9 @@
+// LIB-FUNCTIONS
 import { styled } from '@mui/material';
+// FUNCTIONS
 import styles from 'src/utils/styles';
+// LIB-COMPONENTS
+import { Typography, IconButton } from '@mui/material';
 
 export const Page = styled('div')({
     ...styles.pt(2),
@@ -72,8 +76,31 @@ export const LinkDivider = styled('span')({
 export const ModalContent = styled('div')({
     ...styles.border(1),
     ...styles.borderRadius(1),
-    ...styles.p(2),
     width: '100%',
     maxWidth: 500,
     backgroundColor: 'white',
+});
+export const ModalContentHeader = styled('div')({
+    ...styles.flexStartCenter,
+    ...styles.borderBottom(1),
+    ...styles.p(1),
+    ...styles.pl(2),
+});
+export const ModalContentHeading = styled(Typography)({
+    flexGrow: 1,
+});
+export const ModalContentBody = styled('div')({
+    ...styles.p(2),
+});
+export const ModalContentFooter = styled('div')({
+    ...styles.borderTop(1),
+    ...styles.p(1),
+});
+export const IconButtonOutlined = styled(IconButton)({
+    ...styles.border(1),
+});
+export const ColorBox = styled('div')({
+    ...styles.border(1),
+    ...styles.borderRadius(1),
+    ...styles.box(20),
 });

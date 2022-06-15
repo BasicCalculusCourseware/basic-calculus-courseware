@@ -26,7 +26,6 @@ export default function SnackbarSetter({ children }: ChildrenProp) {
             ref={notistackRef as any}
             maxSnack={1}
             autoHideDuration={3000}
-            preventDuplicate
             action={(key: any) => (
                 <IconButton onClick={onClickDismiss(key)} sx={{ color: 'white' }}>
                     <CloseIcon />
