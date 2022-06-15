@@ -19,13 +19,14 @@ import LessonEditorModal from './LessonEditorModal';
 import LessonDeleterModal from './LessonDeleterModal';
 // RECOIL
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { gsspAtoms } from 'src/states/gssp';
+import { authAtoms, gsspAtoms } from 'src/states/atoms';
 import { lessonsViewAtoms } from '.';
 
 // MAIN-COMPONENT
 export default function LessonsView() {
     // RECOIL
     const gssp = useRecoilValue(gsspAtoms.gssp);
+    const { isEditor } = useRecoilValue(authAtoms.userRoles);
     const [lessons, setLessons] = useRecoilState(lessonsViewAtoms.lessons);
     const [quarter, setQuarter] = useRecoilState(lessonsViewAtoms.quarter);
     useEffect(() => {
@@ -61,10 +62,14 @@ export default function LessonsView() {
                 </PageHeader>
                 <PageBody>
                     <LessonList />
-                    <LessonCreatorFab />
-                    <LessonCreatorModal />
-                    <LessonEditorModal />
-                    <LessonDeleterModal />
+                    {isEditor && (
+                        <>
+                            <LessonCreatorFab />
+                            <LessonCreatorModal />
+                            <LessonEditorModal />
+                            <LessonDeleterModal />
+                        </>
+                    )}
                 </PageBody>
             </Container>
         </Page>

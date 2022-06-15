@@ -12,13 +12,14 @@ import QuarterEditorModal from './QuarterEditorModal';
 import QuarterDeleterModal from './QuarterDeleterModal';
 // RECOIL
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { gsspAtoms } from 'src/states/gssp';
+import { authAtoms, gsspAtoms } from 'src/states/atoms';
 import { quartersViewAtoms } from '.';
 
 // MAIN-COMPONENT
 export default function QuartersView() {
     // RECOIL
     const gssp = useRecoilValue(gsspAtoms.gssp);
+    const { isEditor } = useRecoilValue(authAtoms.userRoles);
     const [quarters, setQuarters] = useRecoilState(quartersViewAtoms.quarters);
     useEffect(() => {
         if (gssp.body && gssp.body.quarters) setQuarters(gssp.body.quarters);
@@ -43,10 +44,14 @@ export default function QuartersView() {
                 </PageHeader>
                 <PageBody>
                     <QuarterList />
-                    <QuarterCreatorFab />
-                    <QuarterCreatorModal />
-                    <QuarterEditorModal />
-                    <QuarterDeleterModal />
+                    {isEditor && (
+                        <>
+                            <QuarterCreatorFab />
+                            <QuarterCreatorModal />
+                            <QuarterEditorModal />
+                            <QuarterDeleterModal />
+                        </>
+                    )}
                 </PageBody>
             </Container>
         </Page>

@@ -11,7 +11,7 @@ import { MoreVertIcon, EditIcon, DeleteIcon } from 'src/components/icons';
 import ContentItem from 'src/components/modules/ContentItem';
 // RECOIL
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { sidebarAtoms } from 'src/states/sidebar';
+import { authAtoms, sidebarAtoms } from 'src/states/atoms';
 import { lessonsViewAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
@@ -45,6 +45,7 @@ interface LessonItemProps {
 }
 function LessonItem({ lesson }: LessonItemProps) {
     // RECOIL
+    const { isEditor } = useRecoilValue(authAtoms.userRoles);
     const quarter = useRecoilValue(lessonsViewAtoms.quarter);
     const setSelected = useSetRecoilState(lessonsViewAtoms.selected);
     const setModal = useSetModal();
@@ -60,40 +61,44 @@ function LessonItem({ lesson }: LessonItemProps) {
             href={`/app/quarters/${quarter.id}/lessons/${lesson.id}`}
             tool={
                 <>
-                    <IconButton
-                        sx={{ color: 'white' }}
-                        onClick={(e) => setAnchorEl(e.currentTarget)}
-                    >
-                        <MoreVertIcon />
-                    </IconButton>
-                    <Menu
-                        open={open}
-                        anchorEl={anchorEl}
-                        TransitionComponent={Zoom}
-                        onClose={() => setAnchorEl(null)}
-                        elevation={0}
-                    >
-                        <MenuItem
-                            onClick={() => {
-                                setSelected(lesson);
-                                setModal({ editor: true });
-                                setAnchorEl(null);
-                            }}
-                        >
-                            <EditIcon />
-                            Edit
-                        </MenuItem>
-                        <MenuItem
-                            onClick={() => {
-                                setSelected(lesson);
-                                setModal({ deleter: true });
-                                setAnchorEl(null);
-                            }}
-                        >
-                            <DeleteIcon />
-                            Delete
-                        </MenuItem>
-                    </Menu>
+                    {isEditor && (
+                        <>
+                            <IconButton
+                                sx={{ color: 'white' }}
+                                onClick={(e) => setAnchorEl(e.currentTarget)}
+                            >
+                                <MoreVertIcon />
+                            </IconButton>
+                            <Menu
+                                open={open}
+                                anchorEl={anchorEl}
+                                TransitionComponent={Zoom}
+                                onClose={() => setAnchorEl(null)}
+                                elevation={0}
+                            >
+                                <MenuItem
+                                    onClick={() => {
+                                        setSelected(lesson);
+                                        setModal({ editor: true });
+                                        setAnchorEl(null);
+                                    }}
+                                >
+                                    <EditIcon />
+                                    Edit
+                                </MenuItem>
+                                <MenuItem
+                                    onClick={() => {
+                                        setSelected(lesson);
+                                        setModal({ deleter: true });
+                                        setAnchorEl(null);
+                                    }}
+                                >
+                                    <DeleteIcon />
+                                    Delete
+                                </MenuItem>
+                            </Menu>
+                        </>
+                    )}
                 </>
             }
         />
