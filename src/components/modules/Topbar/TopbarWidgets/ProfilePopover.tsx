@@ -18,27 +18,28 @@ export default function ProfilePopover() {
     const router = useRouter();
     // RECOIL
     const user = useRecoilValue(authAtoms.user);
-    const resetAuth = useResetAuth();
-    const addSnackbarItem = useAddSnackbarItem();
-    const closeSidebar = useCloseSidebar();
     const signOut = useSignOut();
     // STATES
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const open = Boolean(anchorEl);
     const id = open ? 'profile-popover' : undefined;
     // UTILS
-    async function handleProfile() {
+    const handleProfile = async () => {
         await router.push('/app/account');
         setAnchorEl(null);
-    }
-    async function handleSignIn() {
+    };
+    const handleSignIn = async () => {
         await router.push('/auth/sign-in');
         setAnchorEl(null);
-    }
-    async function handleSignUp() {
+    };
+    const handleSignUp = async () => {
         await router.push('/auth/sign-up');
         setAnchorEl(null);
-    }
+    };
+    const handleSignOut = () => {
+        setAnchorEl(null);
+        signOut();
+    };
     // RENDER
     return (
         <div>
@@ -82,7 +83,7 @@ export default function ProfilePopover() {
                             {user.uid ? (
                                 <Fragment>
                                     <Tooltip title="Sign Out">
-                                        <IconButton onClick={signOut}>
+                                        <IconButton onClick={handleSignOut}>
                                             <SignOutIcon />
                                         </IconButton>
                                     </Tooltip>
