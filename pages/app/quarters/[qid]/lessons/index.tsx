@@ -8,16 +8,25 @@ import { getQuarter } from 'src/firebase/admin/utils/quarter';
 import { getAllLessons } from 'src/firebase/admin/utils/lesson';
 // COMPONENTS
 import ViewSetter from 'src/components/setters/ViewSetter';
-import LessonsView from 'src/components/views/LessonsView/index';
+import LessonsView from 'src/components/views/LessonsView';
 
 export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
     try {
-        if (!req.cookies.authToken) throw 'authToken is missing';
-        const { uid } = await getUserFromAuthToken(req.cookies.authToken);
+        let authToken: string, quarterId: string;
+
+        // VARIABLE ASSIGNMENT
+        if (req.cookies.authToken) authToken = req.cookies.authToken;
+        else throw 'authToken is missing';
+        if (!params) throw 'params is missing';
+        if (params.qid) quarterId = params.qid as string;
+        else throw 'qid is missing';
+
+        // DATA FETCHING
+        const { uid } = await getUserFromAuthToken(authToken);
         const user = await getUser(uid);
-        if (!params?.qid) throw 'qid is missing';
-        const quarter = await getQuarter(params.qid as string);
-        const lessons = await getAllLessons(params.qid as string);
+        const quarter = await getQuarter(quarterId);
+        const lessons = await getAllLessons(quarterId);
+
         return {
             props: {
                 result: {
@@ -28,9 +37,10 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
         };
     } catch (error: any) {
         const message = typeof error === 'object' ? error.message : error;
+        console.log('[lessons|error]:', message);
         return {
             redirect: {
-                destination: message === 'Auth token is missing' ? '/auth/sign-in' : '/',
+                destination: message === 'authToken is missing' ? '/auth/sign-in' : '/',
                 permanent: false,
             },
         };

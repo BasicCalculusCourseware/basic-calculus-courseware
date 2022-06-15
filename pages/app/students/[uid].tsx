@@ -10,10 +10,21 @@ import StudentAccountView from 'src/components/views/StudentAccountView';
 
 export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
     try {
-        const { uid, role } = await getUserFromAuthToken(req.cookies.authToken);
+        let authToken: string, studentUID: string;
+
+        // VARIABLE ASSIGNMENT
+        if (req.cookies.authToken) authToken = req.cookies.authToken;
+        else throw 'authToken is missing';
+        if (!params) throw 'params is missing';
+        if (params.uid) studentUID = params.uid as string;
+        else throw 'uid is missing';
+
+        // DATA FETCHING
+        const { uid, role } = await getUserFromAuthToken(authToken);
         if (role !== 'teacher' && role !== 'admin') throw 'Unauthorized access';
         const user = await getUser(uid);
-        const student = await getUser(params?.uid as string);
+        const student = await getUser(studentUID);
+
         return {
             props: {
                 result: {
@@ -27,7 +38,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
         console.log('[students/uid|error]:', message);
         return {
             redirect: {
-                destination: message === 'Auth token is missing' ? '/auth/sign-in' : '/',
+                destination: message === 'authToken is missing' ? '/auth/sign-in' : '/',
                 permanent: false,
             },
         };

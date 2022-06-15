@@ -11,10 +11,17 @@ import QuartersView from 'src/components/views/QuartersView';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
     try {
-        if (!req.cookies.authToken) throw 'authToken is missing';
-        const { uid } = await getUserFromAuthToken(req.cookies.authToken);
+        let authToken: string;
+
+        // VARIABLE ASSIGNMENT
+        if (req.cookies.authToken) authToken = req.cookies.authToken;
+        else throw 'authToken is missing';
+
+        // DATA FETCHING
+        const { uid } = await getUserFromAuthToken(authToken);
         const user = await getUser(uid);
         const quarters = await getAllQuarters();
+
         return {
             props: {
                 result: {
@@ -25,9 +32,10 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
         };
     } catch (error: any) {
         const message = typeof error === 'object' ? error.message : error;
+        console.log('[quarters|error]:', message);
         return {
             redirect: {
-                destination: message === 'Auth token is missing' ? '/auth/sign-in' : '/',
+                destination: message === 'authToken is missing' ? '/auth/sign-in' : '/',
                 permanent: false,
             },
         };

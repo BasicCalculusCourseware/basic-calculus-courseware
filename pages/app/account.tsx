@@ -10,9 +10,16 @@ import AccountView from 'src/components/views/AccountView';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
     try {
-        if (!req.cookies.authToken) throw 'authToken is missing';
-        const { uid } = await getUserFromAuthToken(req.cookies.authToken);
+        let authToken: string;
+
+        // VARIABLE ASSIGNMENT
+        if (req.cookies.authToken) authToken = req.cookies.authToken;
+        else throw 'authToken is missing';
+
+        // DATA FETCHING
+        const { uid } = await getUserFromAuthToken(authToken);
         const user = await getUser(uid);
+
         return {
             props: {
                 result: {
@@ -26,7 +33,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
         console.log('[account|error]:', message);
         return {
             redirect: {
-                destination: message === 'Auth token is missing' ? '/auth/sign-in' : '/',
+                destination: message === 'authToken is missing' ? '/auth/sign-in' : '/',
                 permanent: false,
             },
         };
