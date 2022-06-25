@@ -16,7 +16,6 @@ import {
 import { ref, deleteObject, uploadBytes, getDownloadURL } from 'firebase/storage';
 // FUNCTIONS
 import { db, storage } from 'src/firebase/client';
-import { getFileExtension } from 'src/utils';
 
 export async function createModule(
     quarterId: string,
@@ -34,13 +33,9 @@ export async function createModule(
         fileName: `${fileName}.${fileExtension}`,
         createdAt: Date.now(),
     });
-    const obj = await uploadBytes(
-        ref(storage, `modules/${docRef.id}.${fileExtension}`),
-        file,
-        {
-            cacheControl: 'public,max-age=86400',
-        }
-    );
+    const obj = await uploadBytes(ref(storage, `modules/${docRef.id}`), file, {
+        cacheControl: 'public,max-age=86400',
+    });
     const downloadUrl = await getDownloadURL(obj.ref);
     await setDoc(docRef, { downloadUrl }, { merge: true });
 }
@@ -48,9 +43,8 @@ export async function updateModule(moduleId: string, data: { fileName: string })
     await setDoc(doc(db, 'modules', moduleId), data, { merge: true });
 }
 export async function deleteModule(moduleId: string) {
-    const { fileName } = await getModule(moduleId);
     await deleteDoc(doc(db, 'modules', moduleId));
-    await deleteObject(ref(storage, `modules/${moduleId}.${getFileExtension(fileName)}`));
+    await deleteObject(ref(storage, `modules/${moduleId}`));
 }
 export async function deleteAllModules(quarterId: string, lessonId: string) {
     const modules = await getAllModules(quarterId, lessonId);
