@@ -22,7 +22,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 // FUNCTIONS
 import { db, storage } from 'src/firebase/client';
 
-export async function getAssessments(quarterId: string, lessonId: string) {
+export async function getAllAssessments(quarterId: string, lessonId: string) {
     const assessments: Assessment[] = [];
     const querySnap = await getDocs(
         query(
@@ -67,7 +67,7 @@ export async function deleteAssessment(assessmentId: string) {
     await deleteDoc(doc(db, 'assessments', assessmentId));
 }
 export async function deleteAllAssessments(quarterId: string, lessonId: string) {
-    const assessments = await getAssessments(quarterId, lessonId);
+    const assessments = await getAllAssessments(quarterId, lessonId);
     if (!assessments.length) return;
     await Promise.all(assessments.map(async ({ id }) => await deleteAssessment(id)));
 }

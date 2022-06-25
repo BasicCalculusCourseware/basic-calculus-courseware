@@ -20,7 +20,8 @@ export default function ContentItem({ color, heading, tool, body, href }: Props)
         contentColorKeys.includes(color as ContentColor)
             ? contentColorObject[color as ContentColor]
             : 'white';
-    const getTextColor = () => (color === 'yellow' ? '#333' : 'white');
+    const getTextColor = () =>
+        color === 'yellow' || color === 'white' ? '#333' : 'white';
     // RENDER
     return (
         <Item>

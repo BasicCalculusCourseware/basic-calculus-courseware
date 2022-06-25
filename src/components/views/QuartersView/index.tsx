@@ -1,10 +1,10 @@
 // TYPES
-import type { Quarter } from 'src/interfaces';
+import type { Quarter, Modals } from 'src/interfaces';
 // LIB-FUNCTIONS
 import { atom, useSetRecoilState } from 'recoil';
 // FUNCTIONS
 import { getAllQuarters } from 'src/firebase/client/utils/quarter';
-import initialState from 'src/utils/initialStates';
+import initialStates from 'src/utils/initialStates';
 // COMPONENTS
 import QuartersView from './QuartersView';
 
@@ -13,13 +13,6 @@ export default QuartersView;
 
 /* STATES START */
 
-// ATOM TYPES
-interface Modals {
-    creator: boolean;
-    editor: boolean;
-    deleter: boolean;
-}
-
 // ATOMS
 const quarters = atom<Quarter[]>({
     key: 'quarters' + Date.now(),
@@ -27,15 +20,11 @@ const quarters = atom<Quarter[]>({
 });
 const selected = atom<Quarter>({
     key: 'selected' + Date.now(),
-    default: initialState.quarter,
+    default: initialStates.quarter,
 });
 const modals = atom<Modals>({
     key: 'modals' + Date.now(),
-    default: {
-        creator: false,
-        editor: false,
-        deleter: false,
-    },
+    default: initialStates.modals,
 });
 export const quartersViewAtoms = { quarters, selected, modals };
 

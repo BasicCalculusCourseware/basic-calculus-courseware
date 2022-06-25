@@ -1,6 +1,5 @@
 // LIB-FUNCTIONS
 import { doc, getDoc, deleteDoc, setDoc } from 'firebase/firestore';
-import _ from 'lodash';
 // FUNCTIONS
 import { db } from 'src/firebase/client';
 

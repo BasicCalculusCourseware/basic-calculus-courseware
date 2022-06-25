@@ -3,9 +3,9 @@ import type { Lesson } from 'src/interfaces';
 // FUNCTIONS
 import { db } from 'src/firebase/admin';
 
-export async function getLesson(id: string) {
-    const querySnap = await db.collection('lessons').doc(id).get();
-    return querySnap.exists ? ({ id, ...querySnap.data() } as Lesson) : null;
+export async function getLesson(lessonId: string) {
+    const querySnap = await db.collection('lessons').doc(lessonId).get();
+    return querySnap.exists ? ({ id: lessonId, ...querySnap.data() } as Lesson) : null;
 }
 export async function getAllLessons(quarterId: string) {
     const lessons: Lesson[] = [];

@@ -1,21 +1,9 @@
 // LIB-FUNCTIONS
 import { useState, useMemo } from 'react';
 // FUNCTIONS
-import { createQuarter } from 'src/firebase/client/utils/quarter';
-import { contentColorItems } from 'src/utils';
+import { createVideo } from 'src/firebase/client/utils/video';
 // LIB-COMPONENTS
-import {
-    Grid,
-    TextField,
-    Modal,
-    Zoom,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Stack,
-    Tooltip,
-} from '@mui/material';
+import { Grid, TextField, Modal, Zoom, Stack, Tooltip } from '@mui/material';
 // COMPONENTS
 import {
     ModalContent,
@@ -24,28 +12,26 @@ import {
     ModalContentBody,
     ModalContentFooter,
     IconButtonOutlined,
-    ColorBox,
 } from 'src/components/styled';
 import { ResetIcon, SaveIcon, CloseIcon } from 'src/components/icons';
 // RECOIL
 import { useRecoilValue } from 'recoil';
-import { quartersViewAtoms, useSetModal, useRefreshQuarters } from '.';
 import { useAddSnackbarItem } from 'src/states/snackbar';
+import { lessonViewAtoms, useRefreshVideos } from '../.';
+import { videoPanelAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
-export default function QuarterCreatorModal() {
+export default function VideoCreatorModal() {
     // RECOIL
-    const { creator: isModalOpen } = useRecoilValue(quartersViewAtoms.modals);
+    const { creator: isModalOpen } = useRecoilValue(videoPanelAtoms.modals);
+    const quarter = useRecoilValue(lessonViewAtoms.quarter);
+    const lesson = useRecoilValue(lessonViewAtoms.lesson);
     const setModal = useSetModal();
-    const refreshQuarters = useRefreshQuarters();
+    const refreshVideos = useRefreshVideos();
     const addSnackbarItem = useAddSnackbarItem();
     // STATES
     const [isLoading, setIsLoading] = useState(false);
-    const [form, setForm] = useState({
-        number: '',
-        title: '',
-        color: 'white',
-    });
+    const [form, setForm] = useState({ number: '', src: '' });
     const isCompleted = useMemo(
         () =>
             Object.keys(form).every((key) => {
@@ -59,20 +45,15 @@ export default function QuarterCreatorModal() {
         !isLoading && setModal({ creator: false });
         handleReset();
     };
-    const handleReset = () =>
-        setForm({
-            number: '',
-            title: '',
-            color: 'white',
-        });
+    const handleReset = () => setForm({ number: '', src: '' });
     const handleCreate = async () => {
         try {
             if (Object.values(form).some((v) => !v)) throw 'Incomplete fields';
-            addSnackbarItem('info', 'Creating Quarter');
+            addSnackbarItem('info', 'Creating Video');
             setIsLoading(true);
-            await createQuarter(form);
-            await refreshQuarters();
-            addSnackbarItem('success', 'Quarter created successfully');
+            await createVideo(quarter.id, lesson.id, form);
+            await refreshVideos();
+            addSnackbarItem('success', 'Video created successfully');
             handleClose();
         } catch (error: any) {
             const message = typeof error === 'object' ? error.message : error;
@@ -88,7 +69,7 @@ export default function QuarterCreatorModal() {
                 <ModalContent>
                     <ModalContentHeader>
                         <ModalContentHeading variant="h6" color="primary">
-                            Quarter Creator
+                            Video Creator
                         </ModalContentHeading>
                         <Tooltip title="Close">
                             <IconButtonOutlined onClick={handleClose}>
@@ -101,8 +82,8 @@ export default function QuarterCreatorModal() {
                             <Grid item xs={12}>
                                 <TextField
                                     variant="outlined"
-                                    label="Quarter Number"
-                                    placeholder="Quarter #"
+                                    label="Part Number"
+                                    placeholder="Part #"
                                     value={form.number}
                                     onChange={(e) =>
                                         setForm((form) => ({
@@ -116,42 +97,17 @@ export default function QuarterCreatorModal() {
                             <Grid item xs={12}>
                                 <TextField
                                     variant="outlined"
-                                    label="Quarter Title"
-                                    value={form.title}
+                                    label="Video Source"
+                                    placeholder="https://drive.google.com/file/d/[id]/preview"
+                                    value={form.src}
                                     onChange={(e) =>
                                         setForm((form) => ({
                                             ...form,
-                                            title: e.target.value,
+                                            src: e.target.value,
                                         }))
                                     }
                                     fullWidth
                                 />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl fullWidth>
-                                    <InputLabel>Color</InputLabel>
-                                    <Select
-                                        label="Color"
-                                        value={form.color}
-                                        onChange={(e) =>
-                                            setForm((form) => ({
-                                                ...form,
-                                                color: e.target.value,
-                                            }))
-                                        }
-                                    >
-                                        {contentColorItems.map((color, index) => (
-                                            <MenuItem key={index} value={color.value}>
-                                                <Stack direction="row">
-                                                    <ColorBox
-                                                        sx={{ bgcolor: color.hex, mr: 1 }}
-                                                    />
-                                                    {color.label}
-                                                </Stack>
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
                             </Grid>
                         </Grid>
                     </ModalContentBody>

@@ -63,7 +63,13 @@ function QuarterItem({ quarter }: QuarterItemProps) {
                     {isEditor && (
                         <>
                             <IconButton
-                                sx={{ color: 'white' }}
+                                sx={{
+                                    color:
+                                        quarter.color === 'yellow' ||
+                                        quarter.color === 'white'
+                                            ? '#333'
+                                            : 'white',
+                                }}
                                 onClick={(e) => setAnchorEl(e.currentTarget)}
                             >
                                 <MoreVertIcon />

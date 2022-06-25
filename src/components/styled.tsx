@@ -3,7 +3,7 @@ import { styled } from '@mui/material';
 // FUNCTIONS
 import styles from 'src/utils/styles';
 // LIB-COMPONENTS
-import { Typography, IconButton } from '@mui/material';
+import { Fab, Typography, IconButton } from '@mui/material';
 
 export const Page = styled('div')({
     ...styles.pt(2),
@@ -111,3 +111,13 @@ export const ColorBox = styled('div')({
     ...styles.borderRadius(1),
     ...styles.box(20),
 });
+export const CreatorFab = styled(Fab)({
+    position: 'fixed',
+    bottom: styles.spacing(3),
+    right: styles.spacing(3),
+});
+export const InfoText = styled(Typography)(({ theme }) => ({
+    fontSize: 13,
+    color: theme.palette.secondary.main,
+    textAlign: 'center',
+}));

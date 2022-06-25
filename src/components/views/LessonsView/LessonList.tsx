@@ -64,7 +64,13 @@ function LessonItem({ lesson }: LessonItemProps) {
                     {isEditor && (
                         <>
                             <IconButton
-                                sx={{ color: 'white' }}
+                                sx={{
+                                    color:
+                                        lesson.color === 'yellow' ||
+                                        lesson.color === 'white'
+                                            ? '#333'
+                                            : 'white',
+                                }}
                                 onClick={(e) => setAnchorEl(e.currentTarget)}
                             >
                                 <MoreVertIcon />

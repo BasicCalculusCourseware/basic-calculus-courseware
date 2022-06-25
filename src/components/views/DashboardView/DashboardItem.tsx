@@ -1,7 +1,8 @@
 // LIB COMPONENTS
-import { Typography, IconButton } from '@mui/material';
+import { Typography } from '@mui/material';
 import Link from 'next/link';
 // COMPONENTS
+import { IconButtonOutlined } from 'src/components/styled';
 import { ForwardIcon } from 'src/components/icons';
 
 // MAIN-COMPONENT
@@ -21,9 +22,9 @@ export default function DashboardItem(props: Props) {
             </ItemBody>
             <ItemFooter>
                 <Link href={props.href} passHref>
-                    <IconButton>
-                        <ForwardIcon />
-                    </IconButton>
+                    <IconButtonOutlined>
+                        <ForwardIcon sx={{ fontSize: 18 }} />
+                    </IconButtonOutlined>
                 </Link>
             </ItemFooter>
         </Item>

@@ -19,19 +19,23 @@ import { db, storage } from 'src/firebase/client';
 import { getFileExtension } from 'src/utils';
 
 export async function createModule(
-    quarterid: string,
+    quarterId: string,
     lessonId: string,
-    fileName: string,
-    file: File
+    data: {
+        fileName: string;
+        fileExtension: string;
+        file: File;
+    }
 ) {
+    const { fileName, fileExtension, file } = data;
     const docRef = await addDoc(collection(db, 'modules'), {
-        quarterid,
+        quarterId,
         lessonId,
-        fileName,
-        createdAt: new Date().toDateString(),
+        fileName: `${fileName}.${fileExtension}`,
+        createdAt: Date.now(),
     });
     const obj = await uploadBytes(
-        ref(storage, `modules/${docRef.id}.${getFileExtension(fileName)})`),
+        ref(storage, `modules/${docRef.id}.${fileExtension}`),
         file,
         {
             cacheControl: 'public,max-age=86400',
@@ -48,8 +52,8 @@ export async function deleteModule(moduleId: string) {
     await deleteDoc(doc(db, 'modules', moduleId));
     await deleteObject(ref(storage, `modules/${moduleId}.${getFileExtension(fileName)}`));
 }
-export async function deleteAllModules(quarterid: string, lessonId: string) {
-    const modules = await getAllModules(quarterid, lessonId);
+export async function deleteAllModules(quarterId: string, lessonId: string) {
+    const modules = await getAllModules(quarterId, lessonId);
     if (modules.length)
         await Promise.all(modules.map(async ({ id }) => await deleteModule(id)));
 }
@@ -58,12 +62,12 @@ export async function getModule(moduleId: string) {
     if (!docRef.exists()) throw 'module was not found';
     return { id: docRef.id, ...docRef.data() } as Module;
 }
-export async function getAllModules(quarterid: string, lessonId: string) {
+export async function getAllModules(quarterId: string, lessonId: string) {
     const modules: Module[] = [];
     const querySnap = await getDocs(
         query(
             collection(db, 'modules'),
-            where('quarterid', '==', quarterid),
+            where('quarterId', '==', quarterId),
             where('lessonId', '==', lessonId),
             orderBy('createdAt')
         )

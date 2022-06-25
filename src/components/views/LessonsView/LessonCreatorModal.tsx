@@ -1,5 +1,5 @@
 // LIB-FUNCTIONS
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 // FUNCTIONS
 import { createLesson } from 'src/firebase/client/utils/lesson';
 import { contentColorItems } from 'src/utils';
@@ -48,6 +48,14 @@ export default function LessonCreatorModal() {
         intro: '',
         color: 'white',
     });
+    const isCompleted = useMemo(
+        () =>
+            Object.keys(form).every((key) => {
+                // @ts-ignore
+                return form[key] !== '';
+            }),
+        [form]
+    );
     // UTILS
     const handleClose = () => {
         !isLoading && setModal({ creator: false });
@@ -170,7 +178,7 @@ export default function LessonCreatorModal() {
                             <Tooltip title="Create">
                                 <IconButtonOutlined
                                     onClick={handleCreate}
-                                    disabled={isLoading}
+                                    disabled={isLoading || !isCompleted}
                                 >
                                     <SaveIcon />
                                 </IconButtonOutlined>

@@ -1,6 +1,7 @@
 // LIB-COMPONENTS
-import { Fab, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 // COMPONENT
+import { CreatorFab } from 'src/components/styled';
 import { AddIcon } from 'src/components/icons';
 // RECOIL
 import { useSetModal } from '.';
@@ -18,12 +19,3 @@ export default function LessonCreatorFab() {
         </Tooltip>
     );
 }
-
-// STYLES
-import { styled } from '@mui/material';
-import { styles } from 'src/utils';
-const CreatorFab = styled(Fab)({
-    position: 'fixed',
-    bottom: styles.spacing(3),
-    right: styles.spacing(3),
-});

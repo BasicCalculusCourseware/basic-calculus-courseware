@@ -1,11 +1,11 @@
 // TYPES
-import type { Quarter, Lesson } from 'src/interfaces';
+import type { Quarter, Lesson, Modals } from 'src/interfaces';
 // LIB-FUNCTIONS
 import { atom, useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
 // FUNCTIONS
 import { getAllLessons } from 'src/firebase/client/utils/lesson';
-import initialState from 'src/utils/initialStates';
+import initialStates from 'src/utils/initialStates';
 // COMPONENTS
 import LessonsView from './LessonsView';
 
@@ -14,17 +14,10 @@ export default LessonsView;
 
 /* STATES START */
 
-// ATOM TYPES
-interface Modals {
-    creator: boolean;
-    editor: boolean;
-    deleter: boolean;
-}
-
 // ATOMS
 const quarter = atom<Quarter>({
     key: 'quarter' + Date.now(),
-    default: initialState.quarter,
+    default: initialStates.quarter,
 });
 const lessons = atom<Lesson[]>({
     key: 'lessons' + Date.now(),
@@ -32,15 +25,11 @@ const lessons = atom<Lesson[]>({
 });
 const selected = atom<Lesson>({
     key: 'selected' + Date.now(),
-    default: initialState.lesson,
+    default: initialStates.lesson,
 });
 const modals = atom<Modals>({
     key: 'modals' + Date.now(),
-    default: {
-        creator: false,
-        editor: false,
-        deleter: false,
-    },
+    default: initialStates.modals,
 });
 export const lessonsViewAtoms = { quarter, lessons, selected, modals };
 

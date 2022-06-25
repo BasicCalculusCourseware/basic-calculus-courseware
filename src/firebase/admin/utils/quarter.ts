@@ -3,9 +3,9 @@ import type { Quarter } from 'src/interfaces';
 // FUNCTIONS
 import { db } from 'src/firebase/admin';
 
-export async function getQuarter(id: string) {
-    const querySnap = await db.collection('quarters').doc(id).get();
-    return querySnap.exists ? ({ id, ...querySnap.data() } as Quarter) : null;
+export async function getQuarter(quarterId: string) {
+    const querySnap = await db.collection('quarters').doc(quarterId).get();
+    return querySnap.exists ? ({ id: quarterId, ...querySnap.data() } as Quarter) : null;
 }
 export async function getAllQuarters() {
     const quarters: Quarter[] = [];

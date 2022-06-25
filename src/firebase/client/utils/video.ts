@@ -24,9 +24,9 @@ export async function createVideo(
     }
 ) {
     await addDoc(collection(db, 'videos'), {
+        ...data,
         quarterId,
         lessonId,
-        data,
         createdAt: Date.now(),
     });
 }

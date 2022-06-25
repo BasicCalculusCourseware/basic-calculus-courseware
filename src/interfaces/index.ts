@@ -15,9 +15,4 @@ export type {
     AssessmentItemChoice,
     AssessmentResult,
 } from './content';
-
-// OTHERS
-export interface Result {
-    error: null | string;
-    body: any;
-}
+export type { Result, Modals } from './others';

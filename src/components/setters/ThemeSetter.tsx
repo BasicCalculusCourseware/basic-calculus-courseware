@@ -21,7 +21,7 @@ export default function ThemeSetter({ children }: ChildrenProp) {
                     main: '#2979ff',
                 },
                 secondary: {
-                    main: '#37474f',
+                    main: '#616161',
                 },
             },
             components: {
