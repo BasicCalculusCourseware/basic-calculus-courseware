@@ -1,7 +1,12 @@
 // TYPES
 import type { User } from 'src/interfaces';
 // LIB-FUNCTIONS
-import { atom, useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil';
+import {
+    atom,
+    useRecoilValue,
+    useSetRecoilState,
+    useResetRecoilState,
+} from 'recoil';
 import _ from 'lodash';
 // COMPONENTS
 import UsersDisplay from './UsersDisplay';
@@ -17,7 +22,11 @@ export type Filter =
     | 'enrolled'
     | 'not-enrolled'
     | 'teacher-verified'
-    | 'teacher-not-verified';
+    | 'teacher-not-verified'
+    | 'email-verified'
+    | 'email-not-verified'
+    | 'banned'
+    | 'not-banned';
 export type OrderBy = 'name' | 'createdAt';
 export type OrderDirection = 'asc' | 'desc';
 const variant = atom<string>({
@@ -88,7 +97,8 @@ export const useFilterUsers = () => {
         filtered = usersParam.length ? usersParam : users;
         if (search) {
             filtered = users.filter(
-                (user) => user.name.toUpperCase().indexOf(search.toUpperCase()) > -1
+                (user) =>
+                    user.name.toUpperCase().indexOf(search.toUpperCase()) > -1
             );
         }
         if (variant === 'students') {
@@ -102,6 +112,14 @@ export const useFilterUsers = () => {
             else if (filter === 'teacher-not-verified')
                 filtered = filtered.filter((user) => !user.isTeacherVerified);
         }
+        if (filter === 'email-verified')
+            filtered = filtered.filter((user) => user.isEmailVerified);
+        else if (filter === 'email-not-verified')
+            filtered = filtered.filter((user) => !user.isEmailVerified);
+        else if (filter === 'banned')
+            filtered = filtered.filter((user) => user.isBanned);
+        else if (filter === 'not-banned')
+            filtered = filtered.filter((user) => !user.isBanned);
         filtered = _.orderBy(filtered, [orderBy], [orderDirection]);
         setFiltered(filtered);
     };

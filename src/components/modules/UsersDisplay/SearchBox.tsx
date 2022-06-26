@@ -42,8 +42,8 @@ export default function SearchBox() {
                         label="Filter"
                         value={filter}
                         setValue={(value) => setFilter(value)}
-                        items={
-                            variant === 'teachers'
+                        items={[
+                            ...(variant === 'teachers'
                                 ? [
                                       { label: 'All', value: 'all' },
                                       {
@@ -58,9 +58,28 @@ export default function SearchBox() {
                                 : [
                                       { label: 'All', value: 'all' },
                                       { label: 'Enrolled', value: 'enrolled' },
-                                      { label: 'Not Enrolled', value: 'not-enrolled' },
-                                  ]
-                        }
+                                      {
+                                          label: 'Not Enrolled',
+                                          value: 'not-enrolled',
+                                      },
+                                  ]),
+                            {
+                                label: 'Email Verified',
+                                value: 'email-verified',
+                            },
+                            {
+                                label: 'Email Not Verified',
+                                value: 'email-not-verified',
+                            },
+                            {
+                                label: 'Banned',
+                                value: 'banned',
+                            },
+                            {
+                                label: 'Not Banned',
+                                value: 'not-banned',
+                            },
+                        ]}
                     />
                 </Grid>
                 <Grid item xs={4} lg={2}>
