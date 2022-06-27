@@ -18,19 +18,19 @@ import {
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { useAddSnackbarItem } from 'src/states/snackbar';
 import { studentViewAtoms } from '..';
-import { worksheetSubmitterPanelAtoms } from '.';
+import { WSPAtoms } from '.';
 
 // MAIN-COMPONENT
 interface Props {
     worksheet: Worksheet;
 }
 export default function WorksheetItem({ worksheet }: Props) {
-    // RECOIL
+    // RECOIL SETTERS
     const setTab = useSetRecoilState(studentViewAtoms.tab);
-    const setWorksheet = useSetRecoilState(
-        worksheetSubmitterPanelAtoms.worksheet
-    );
+    const setWorksheet = useSetRecoilState(WSPAtoms.worksheet);
+    // RECOIL CUSTOM HOOKS
     const addSnackbarItem = useAddSnackbarItem();
+    // STATES
     const fileExtension = useMemo(
         () => getFileExtension(worksheet.fileName),
         [worksheet]

@@ -18,16 +18,17 @@ import { ResetIcon, SaveIcon, CloseIcon } from 'src/components/icons';
 import { useRecoilValue } from 'recoil';
 import { useAddSnackbarItem } from 'src/states/snackbar';
 import { useRefreshWorksheets } from '../../..';
-import { worksheetsPanelAtoms, useSetModal } from '.';
+import { WPAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
 export default function WorksheetCreatorModal() {
-    // RECOIL
-    const { editor: isModalOpen } = useRecoilValue(worksheetsPanelAtoms.modals);
-    const selected = useRecoilValue(worksheetsPanelAtoms.selected);
-    const setModal = useSetModal();
-    const refreshWorksheets = useRefreshWorksheets();
+    // RECOIL VALUES
+    const { editor: isModalOpen } = useRecoilValue(WPAtoms.modals);
+    const selected = useRecoilValue(WPAtoms.selected);
+    // RECOIL CUSTOM HOOKS
     const addSnackbarItem = useAddSnackbarItem();
+    const refreshWorksheets = useRefreshWorksheets();
+    const setModal = useSetModal();
     // STATES
     const [isLoading, setIsLoading] = useState(false);
     const [points, setPoints] = useState(0);

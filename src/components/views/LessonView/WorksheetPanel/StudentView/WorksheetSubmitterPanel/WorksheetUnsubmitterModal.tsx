@@ -11,21 +11,20 @@ import { ModalContent } from 'src/components/styled';
 import { useRecoilValue } from 'recoil';
 import { authAtoms } from 'src/states/auth';
 import { useAddSnackbarItem } from 'src/states/snackbar';
-import { worksheetSubmitterPanelAtoms, useSetModal } from '.';
+import { WSPAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
 interface Props {
     fetchData: () => Promise<void>;
 }
 export default function WorksheetUnsubmitterModal({ fetchData }: Props) {
-    // RECOIL
+    // RECOIL VALUES
     const user = useRecoilValue(authAtoms.user);
-    const { unsubmitter: isModalOpen } = useRecoilValue(
-        worksheetSubmitterPanelAtoms.modals
-    );
-    const worksheet = useRecoilValue(worksheetSubmitterPanelAtoms.worksheet);
-    const setModal = useSetModal();
+    const { unsubmitter: isModalOpen } = useRecoilValue(WSPAtoms.modals);
+    const worksheet = useRecoilValue(WSPAtoms.worksheet);
+    // RECOIL CSUTOM HOOKS
     const addSnackbarItem = useAddSnackbarItem();
+    const setModal = useSetModal();
     // STATES
     const [isLoading, setIsLoading] = useState(false);
     // UTILS

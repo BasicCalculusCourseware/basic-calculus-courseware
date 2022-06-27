@@ -7,13 +7,11 @@ import WorksheetEditorModal from './WorksheetEditorModal';
 import WorksheetDeleterModal from './WorksheetDeleterModal';
 // RECOIL
 import { useRecoilValue } from 'recoil';
-import { authAtoms } from 'src/states/auth';
 import { lessonViewAtoms } from '../../..';
 
 // MAIN-COMPONENT
 export default function WorksheetsPanel() {
-    // RECOIL
-    const { isEditor } = useRecoilValue(authAtoms.userRoles);
+    // RECOIL VALUES
     const worksheets = useRecoilValue(lessonViewAtoms.worksheets);
     // RENDER
     return (
@@ -30,14 +28,10 @@ export default function WorksheetsPanel() {
                     ))}
                 </Container>
             )}
-            {isEditor && (
-                <>
-                    <WorksheetCreatorFab />
-                    <WorksheetCreatorModal />
-                    <WorksheetEditorModal />
-                    <WorksheetDeleterModal />
-                </>
-            )}
+            <WorksheetCreatorFab />
+            <WorksheetCreatorModal />
+            <WorksheetEditorModal />
+            <WorksheetDeleterModal />
         </>
     );
 }

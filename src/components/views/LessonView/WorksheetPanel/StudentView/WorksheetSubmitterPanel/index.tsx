@@ -1,7 +1,7 @@
 // TYPES
 import type { Worksheet } from 'src/interfaces';
 // LIB-FUNCTIONS
-import { atom, useSetRecoilState } from 'recoil';
+import { atom, useSetRecoilState, useResetRecoilState } from 'recoil';
 // FUNCTIONS
 import { initialStates } from 'src/utils';
 // COMPONENTS
@@ -14,23 +14,31 @@ export default WorksheetSubmitterPanel;
 
 // ATOMS
 const worksheet = atom<Worksheet>({
-    key: 'worksheetSubmitterPanelWorksheet' + Date.now(),
+    key: 'WSP.Worksheet' + Date.now(),
     default: initialStates.worksheet,
 });
 const modals = atom<{ submitter: boolean; unsubmitter: boolean }>({
-    key: 'worksheetSubmitterPanelModals' + Date.now(),
+    key: 'WSP.Modals' + Date.now(),
     default: {
         submitter: false,
         unsubmitter: false,
     },
 });
-export const worksheetSubmitterPanelAtoms = { worksheet, modals };
+export const WSPAtoms = { worksheet, modals };
 
 // HOOKS
 export const useSetModal = () => {
-    const setModals = useSetRecoilState(worksheetSubmitterPanelAtoms.modals);
+    const setModals = useSetRecoilState(WSPAtoms.modals);
     return (data: Partial<{ submitter: boolean; unsubmitter: boolean }>) => {
         setModals((modals) => ({ ...modals, ...data }));
+    };
+};
+export const useResetData = () => {
+    const resetWorksheet = useResetRecoilState(WSPAtoms.worksheet);
+    const resetModals = useResetRecoilState(WSPAtoms.modals);
+    return () => {
+        resetWorksheet();
+        resetModals();
     };
 };
 

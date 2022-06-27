@@ -1,7 +1,12 @@
 // TYPES
 import type { SubmittedWorksheet, Worksheet } from 'src/interfaces';
 // LIB-FUNCTIONS
-import { atom, useSetRecoilState, useRecoilValue } from 'recoil';
+import {
+    atom,
+    useSetRecoilState,
+    useRecoilValue,
+    useResetRecoilState,
+} from 'recoil';
 // FUNCTIONS
 import { getAllSubmittedWorksheets } from 'src/firebase/client/utils/submitedWorksheet';
 import { initialStates } from 'src/utils';
@@ -62,6 +67,20 @@ export const useFetchData = () => {
         const sworksheets = await getAllSubmittedWorksheets(worksheet.id);
         setSWorksheets(sworksheets);
         setIsLoading(false);
+    };
+};
+export const useResetData = () => {
+    const resetWorksheet = useResetRecoilState(SWPAtoms.worksheet);
+    const resetSWorksheets = useResetRecoilState(SWPAtoms.sworksheets);
+    const resetIsLoading = useResetRecoilState(SWPAtoms.isLoading);
+    const resetSelected = useResetRecoilState(SWPAtoms.selected);
+    const resetModals = useResetRecoilState(SWPAtoms.modals);
+    return () => {
+        resetWorksheet();
+        resetSWorksheets();
+        resetIsLoading();
+        resetSelected();
+        resetModals();
     };
 };
 

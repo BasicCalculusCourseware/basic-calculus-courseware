@@ -17,7 +17,7 @@ import WorksheetUnsubmitterModal from './WorksheetUnsubmitterModal';
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { authAtoms } from 'src/states/auth';
 import { studentViewAtoms } from '..';
-import { worksheetSubmitterPanelAtoms, useSetModal } from '.';
+import { WSPAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
 export default function WorksheetSubmitterPanel() {
@@ -26,9 +26,7 @@ export default function WorksheetSubmitterPanel() {
     // RECOIL
     const user = useRecoilValue(authAtoms.user);
     const setTab = useSetRecoilState(studentViewAtoms.tab);
-    const [worksheet, setWorksheet] = useRecoilState(
-        worksheetSubmitterPanelAtoms.worksheet
-    );
+    const [worksheet, setWorksheet] = useRecoilState(WSPAtoms.worksheet);
     const setModal = useSetModal();
     // STATES
     const [isLoading, setIsLoading] = useState(true);

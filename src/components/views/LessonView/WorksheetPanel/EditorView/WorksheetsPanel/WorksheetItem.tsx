@@ -22,25 +22,28 @@ import { authAtoms } from 'src/states/atoms';
 import { useAddSnackbarItem } from 'src/states/snackbar';
 import { editorViewAtoms } from '..';
 import { SWPAtoms } from '../SubmittedWorksheetsPanel';
-import { worksheetsPanelAtoms, useSetModal } from '.';
+import { WPAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
 interface Props {
     worksheet: Worksheet;
 }
 export default function WorksheetItem({ worksheet }: Props) {
-    // RECOIL
+    // RECOIL VALUES
     const { isEditor } = useRecoilValue(authAtoms.userRoles);
     const setTab = useSetRecoilState(editorViewAtoms.tab);
-    const setSelected = useSetRecoilState(worksheetsPanelAtoms.selected);
+    // RECOIL SETTERS
+    const setSelected = useSetRecoilState(WPAtoms.selected);
     const setWorksheet = useSetRecoilState(SWPAtoms.worksheet);
+    // RECOIL CUSTOM HOOKS
     const addSnackbarItem = useAddSnackbarItem();
     const setModal = useSetModal();
+    // STATES
     const fileExtension = useMemo(
         () => getFileExtension(worksheet.fileName),
         [worksheet]
     );
-    // STATES
+    // MENU STATES
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     // UTILS

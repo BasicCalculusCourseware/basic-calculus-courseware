@@ -1,7 +1,5 @@
 // LIB-FUNCTIONS
-import { atom } from 'recoil';
-// FUNCTIONS
-import { initialStates } from 'src/utils';
+import { atom, useResetRecoilState } from 'recoil';
 // COMPONENTS
 import EditorView from './EditorView';
 
@@ -12,9 +10,17 @@ export default EditorView;
 
 // ATOMS
 const tab = atom<number>({
-    key: 'editorViewTab' + Date.now(),
+    key: 'EV.tab' + Date.now(),
     default: 0,
 });
 export const editorViewAtoms = { tab };
+
+// HOOKS
+export const useResetData = () => {
+    const resetTab = useResetRecoilState(editorViewAtoms.tab);
+    return () => {
+        resetTab();
+    };
+};
 
 /* STATES END */

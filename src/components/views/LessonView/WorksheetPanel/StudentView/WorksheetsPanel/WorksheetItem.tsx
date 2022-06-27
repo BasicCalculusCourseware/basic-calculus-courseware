@@ -28,7 +28,7 @@ import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { authAtoms } from 'src/states/auth';
 import { useAddSnackbarItem } from 'src/states/snackbar';
 import { studentViewAtoms } from '..';
-import { worksheetSubmitterPanelAtoms } from '../WorksheetSubmitterPanel';
+import { WSPAtoms } from '../WorksheetSubmitterPanel';
 
 // MAIN-COMPONENT
 interface Props {
@@ -37,21 +37,21 @@ interface Props {
 export default function WorksheetItem({ worksheet }: Props) {
     // HELPER
     const isMounted = useRef(false);
-    // RECOIL
+    // RECOIL VALUES
     const user = useRecoilValue(authAtoms.user);
+    // RECOIL SETTERS
     const setTab = useSetRecoilState(studentViewAtoms.tab);
-    const setWorksheet = useSetRecoilState(
-        worksheetSubmitterPanelAtoms.worksheet
-    );
+    const setWorksheet = useSetRecoilState(WSPAtoms.worksheet);
+    // RECOIL CUSTOM HOOKS
     const addSnackbarItem = useAddSnackbarItem();
-    const fileExtension = useMemo(
-        () => getFileExtension(worksheet.fileName),
-        [worksheet]
-    );
     // STATES
     const [isLoading, setIsLoading] = useState(true);
     const [sworksheet, setSWorksheet] = useState<SubmittedWorksheet>(
         initialStates.submittedWorksheet
+    );
+    const fileExtension = useMemo(
+        () => getFileExtension(worksheet.fileName),
+        [worksheet]
     );
     // MENU
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

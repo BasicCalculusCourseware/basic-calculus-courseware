@@ -17,7 +17,7 @@ import {
 import { useSetRecoilState } from 'recoil';
 import { useAddSnackbarItem } from 'src/states/snackbar';
 import { studentViewAtoms } from '..';
-import { worksheetSubmitterPanelAtoms, useSetModal } from '.';
+import { WSPAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
 interface Props {
@@ -25,11 +25,10 @@ interface Props {
     sworksheet: SubmittedWorksheet;
 }
 export default function SWorksheetItem({ worksheet, sworksheet }: Props) {
-    // RECOIL
+    // RECOIL SETTERS
     const setTab = useSetRecoilState(studentViewAtoms.tab);
-    const setWorksheet = useSetRecoilState(
-        worksheetSubmitterPanelAtoms.worksheet
-    );
+    const setWorksheet = useSetRecoilState(WSPAtoms.worksheet);
+    // RECOIL CUSTOM HOOKS
     const addSnackbarItem = useAddSnackbarItem();
     const setModal = useSetModal();
     // MENU

@@ -11,18 +11,17 @@ import { ModalContent } from 'src/components/styled';
 import { useRecoilValue } from 'recoil';
 import { useAddSnackbarItem } from 'src/states/snackbar';
 import { useRefreshWorksheets } from '../../..';
-import { worksheetsPanelAtoms, useSetModal } from '.';
+import { WPAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
 export default function WorksheetDeleterModal() {
-    // RECOIL
-    const { deleter: isModalOpen } = useRecoilValue(
-        worksheetsPanelAtoms.modals
-    );
-    const selected = useRecoilValue(worksheetsPanelAtoms.selected);
-    const setModal = useSetModal();
-    const refreshWorksheets = useRefreshWorksheets();
+    // RECOIL VALUES
+    const { deleter: isModalOpen } = useRecoilValue(WPAtoms.modals);
+    const selected = useRecoilValue(WPAtoms.selected);
+    // RECOIL CUSTOM HOOKS
     const addSnackbarItem = useAddSnackbarItem();
+    const refreshWorksheets = useRefreshWorksheets();
+    const setModal = useSetModal();
     // STATES
     const [isLoading, setIsLoading] = useState(false);
     // UTILS

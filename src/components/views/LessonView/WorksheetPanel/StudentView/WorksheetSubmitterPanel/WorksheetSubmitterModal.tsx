@@ -26,21 +26,20 @@ import {
 import { useRecoilValue } from 'recoil';
 import { authAtoms } from 'src/states/auth';
 import { useAddSnackbarItem } from 'src/states/snackbar';
-import { worksheetSubmitterPanelAtoms, useSetModal } from '.';
+import { WSPAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
 interface Props {
     fetchData: () => Promise<void>;
 }
 export default function WorksheetSubmitterModal({ fetchData }: Props) {
-    // RECOIL
+    // RECOIL VALUES
     const user = useRecoilValue(authAtoms.user);
-    const { submitter: isModalOpen } = useRecoilValue(
-        worksheetSubmitterPanelAtoms.modals
-    );
-    const worksheet = useRecoilValue(worksheetSubmitterPanelAtoms.worksheet);
-    const setModal = useSetModal();
+    const { submitter: isModalOpen } = useRecoilValue(WSPAtoms.modals);
+    const worksheet = useRecoilValue(WSPAtoms.worksheet);
+    // RECOIL CUSTOM HOOKS
     const addSnackbarItem = useAddSnackbarItem();
+    const setModal = useSetModal();
     // REFS
     const fileInputer = useRef<HTMLInputElement>(null);
     // STATES

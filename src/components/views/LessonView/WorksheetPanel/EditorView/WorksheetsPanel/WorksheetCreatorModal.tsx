@@ -26,19 +26,18 @@ import {
 import { useRecoilValue } from 'recoil';
 import { useAddSnackbarItem } from 'src/states/snackbar';
 import { lessonViewAtoms, useRefreshWorksheets } from '../../..';
-import { worksheetsPanelAtoms, useSetModal } from '.';
+import { WPAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
 export default function WorksheetCreatorModal() {
-    // RECOIL
-    const { creator: isModalOpen } = useRecoilValue(
-        worksheetsPanelAtoms.modals
-    );
+    // RECOIL VALUES
     const quarter = useRecoilValue(lessonViewAtoms.quarter);
     const lesson = useRecoilValue(lessonViewAtoms.lesson);
-    const setModal = useSetModal();
-    const refreshWorksheets = useRefreshWorksheets();
+    const { creator: isModalOpen } = useRecoilValue(WPAtoms.modals);
+    // RECOIL CUSTOM HOOKS
     const addSnackbarItem = useAddSnackbarItem();
+    const refreshWorksheets = useRefreshWorksheets();
+    const setModal = useSetModal();
     // REFS
     const fileInputer = useRef<HTMLInputElement>(null);
     // STATES
