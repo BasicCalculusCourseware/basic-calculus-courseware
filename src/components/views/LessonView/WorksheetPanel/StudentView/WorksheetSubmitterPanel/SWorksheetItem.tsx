@@ -42,7 +42,7 @@ export default function SWorksheetItem({ worksheet, sworksheet }: Props) {
     };
     const handleDownload = () => {
         addSnackbarItem('info', 'Fetching file');
-        downloadFile(worksheet.downloadUrl, worksheet.fileName);
+        downloadFile(sworksheet.downloadUrl, sworksheet.fileName);
     };
     const handleUnsubmit = () => setModal({ unsubmitter: true });
     // RENDER

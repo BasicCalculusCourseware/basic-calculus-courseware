@@ -27,11 +27,15 @@ export default function DashboardView() {
             bookmarks: 0,
         };
         if (gssp.body) {
-            if (gssp.body.totalTeachers) total.teachers = gssp.body.totalTeachers;
-            if (gssp.body.totalStudents) total.students = gssp.body.totalStudents;
-            if (gssp.body.totalQuarters) total.quarters = gssp.body.totalQuarters;
+            if (gssp.body.totalTeachers)
+                total.teachers = gssp.body.totalTeachers;
+            if (gssp.body.totalStudents)
+                total.students = gssp.body.totalStudents;
+            if (gssp.body.totalQuarters)
+                total.quarters = gssp.body.totalQuarters;
             if (gssp.body.totalLessons) total.lessons = gssp.body.totalLessons;
-            if (gssp.body.totalBookmarks) total.bookmarks = gssp.body.totalBookmarks;
+            if (gssp.body.totalBookmarks)
+                total.bookmarks = gssp.body.totalBookmarks;
             return total;
         } else return total;
     }, [gssp]);
@@ -54,6 +58,20 @@ export default function DashboardView() {
                 </PageHeader>
                 <PageBody>
                     <Grid container spacing={2}>
+                        <Grid {...gridItemProps}>
+                            <DashboardItem
+                                label="Quarters"
+                                value={total.quarters}
+                                href="/app/quarters"
+                            />
+                        </Grid>
+                        <Grid {...gridItemProps}>
+                            <DashboardItem
+                                label="Lessons"
+                                value={total.lessons}
+                                href="/app/quarters"
+                            />
+                        </Grid>
                         {userRoles.isEditor && (
                             <Grid {...gridItemProps}>
                                 <DashboardItem
@@ -72,20 +90,6 @@ export default function DashboardView() {
                                 />
                             </Grid>
                         )}
-                        <Grid {...gridItemProps}>
-                            <DashboardItem
-                                label="Quarters"
-                                value={total.quarters}
-                                href="/app/quarters"
-                            />
-                        </Grid>
-                        <Grid {...gridItemProps}>
-                            <DashboardItem
-                                label="Lessons"
-                                value={total.lessons}
-                                href="/app/quarters"
-                            />
-                        </Grid>
                         {userRoles.isStudent && (
                             <Grid {...gridItemProps}>
                                 <DashboardItem

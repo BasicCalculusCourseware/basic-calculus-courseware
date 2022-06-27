@@ -42,7 +42,7 @@ export default function SubmittedWorksheetItem({
     const setModal = useSetModal();
     // STATES
     const [user, setUser] = useState<User>(initialStates.user);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     // MENU
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -50,7 +50,7 @@ export default function SubmittedWorksheetItem({
     const handleDownload = () => {
         setAnchorEl(null);
         addSnackbarItem('info', 'Fetching file');
-        downloadFile(worksheet.downloadUrl, worksheet.fileName);
+        downloadFile(sworksheet.downloadUrl, sworksheet.fileName);
     };
     const handleDelete = () => {
         setAnchorEl(null);
@@ -113,7 +113,7 @@ export default function SubmittedWorksheetItem({
                     </MenuItem>
                     <MenuItem onClick={handleCheck}>
                         <EditIcon />
-                        Check
+                        Check Currently Unavailable
                     </MenuItem>
                 </Menu>
             </ItemTool>

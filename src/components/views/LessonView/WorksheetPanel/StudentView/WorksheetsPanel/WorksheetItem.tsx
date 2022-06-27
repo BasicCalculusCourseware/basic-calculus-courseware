@@ -141,9 +141,8 @@ const Item = styled('div')({
 });
 const ItemBody = styled('div')({
     ...styles.flexStartCenter,
-    ...styles.p(1),
+    ...styles.py(1),
     ...styles.pl(1.5),
-    ...styles.pr(0.5),
     flexGrow: 1,
     height: 55,
     overflow: 'hidden',
@@ -153,8 +152,8 @@ const ItemStatus = styled('div')(({ theme }) => ({
     ...styles.border(1),
     ...styles.borderRadius(100),
     ...styles.mr(1),
-    width: 10,
-    height: 10,
+    minWidth: 10,
+    minHeight: 10,
     '&[data-is-completed="true"]': {
         backgroundColor: theme.palette.success.main,
     },
@@ -174,6 +173,7 @@ const ItemText = styled(Typography)({
     overflow: 'hidden',
 });
 const ItemPoints = styled(Typography)(({ theme }) => ({
+    ...styles.mx(0.5),
     fontSize: 10,
     fontWeight: 'bold',
     whiteSpace: 'nowrap',
