@@ -4,7 +4,10 @@ import type { User, UserRoles } from 'src/interfaces';
 import { signOut } from 'firebase/auth';
 import Router from 'next/router';
 // FUNCTIONS
-import { setUserCookie, deleteUserCookie } from 'src/firebase/client/utils/user';
+import {
+    setUserCookie,
+    deleteUserCookie,
+} from 'src/firebase/client/utils/user';
 import { auth } from 'src/firebase/client';
 import initialStates from 'src/utils/initialStates';
 // RECOIL
@@ -71,7 +74,7 @@ export const useSignOut = () => {
         await signOut(auth);
         await resetAuth();
         addSnackbarItem('success', 'Signed out successfully');
-        await Router.push('/');
+        await Router.push('/auth/sign-in');
     };
 };
 export const useHandleBannedStatus = () => {

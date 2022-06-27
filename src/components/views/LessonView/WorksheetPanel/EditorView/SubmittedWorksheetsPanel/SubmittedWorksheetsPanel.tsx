@@ -1,10 +1,6 @@
-// TYPES
-import type { SubmittedWorksheet } from 'src/interfaces';
 // LIB-FUNCTIONS
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useEffect } from 'react';
 // FUNCTIONS
-import { initialStates } from 'src/utils';
-import { getAllSubmittedWorksheets } from 'src/firebase/client/utils/submitedWorksheet';
 // LIB-COMPONENTS
 import { Button, Typography } from '@mui/material';
 // COMPONENTS
@@ -12,45 +8,27 @@ import { BackIcon } from 'src/components/icons';
 import { InfoText } from 'src/components/styled';
 import SubmittedWorksheetItem from './SubmittedWorksheetItem';
 import SubmittedWorksheetDeleterModal from './SubmittedWorksheetDeleterModal';
-// import SubmittedWorksheetCheckerModal from './SubmittedWorksheetCheckerModal';
 // RECOIL
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { editorViewAtoms } from '..';
-import { sworksheetsPanelAtoms } from '.';
+import { SWPAtoms, useFetchData } from '.';
 
 // MAIN-COMPONENT
 export default function SubmittedWorksheetsPanel() {
-    // HELPER
-    const isMounted = useRef(false);
-    // RECOIL
+    // RECOIL VALUES
+    const worksheet = useRecoilValue(SWPAtoms.worksheet);
+    const sworksheets = useRecoilValue(SWPAtoms.sworksheets);
+    const isLoading = useRecoilValue(SWPAtoms.isLoading);
+    // RECOIL SETTERS
     const setTab = useSetRecoilState(editorViewAtoms.tab);
-    const [worksheet, setWorksheet] = useRecoilState(
-        sworksheetsPanelAtoms.worksheet
-    );
-    // STATES
-    const [sworksheets, setSWorksheets] = useState<SubmittedWorksheet[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    // UTILS
-    const fetchData = useCallback(async () => {
-        setIsLoading(true);
-        const sworksheets = await getAllSubmittedWorksheets(worksheet.id);
-        if (isMounted.current) {
-            setSWorksheets(sworksheets);
-            setIsLoading(false);
-        }
-    }, [worksheet, isMounted]);
-    const handleBack = () => {
-        setWorksheet(initialStates.worksheet);
-        setTab(0);
-    };
+    const handleBack = () => setTab(0);
+    // RECOIL CUSTOM HOOKS
+    const fetchData = useFetchData();
     // EFFECTS
     useEffect(() => {
-        isMounted.current = true;
         fetchData();
-        return () => {
-            isMounted.current = false;
-        };
-    }, [fetchData]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     // RENDER
     return (
         <div>
@@ -83,8 +61,7 @@ export default function SubmittedWorksheetsPanel() {
                             />
                         ))}
                     </Container>
-                    <SubmittedWorksheetDeleterModal {...{ fetchData }} />
-                    {/* <SubmittedWorksheetCheckerModal {...{ fetchData }} /> */}
+                    <SubmittedWorksheetDeleterModal />
                 </>
             )}
         </div>

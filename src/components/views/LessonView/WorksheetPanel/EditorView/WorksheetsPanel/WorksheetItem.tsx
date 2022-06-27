@@ -21,7 +21,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { authAtoms } from 'src/states/atoms';
 import { useAddSnackbarItem } from 'src/states/snackbar';
 import { editorViewAtoms } from '..';
-import { sworksheetsPanelAtoms } from '../SubmittedWorksheetsPanel';
+import { SWPAtoms } from '../SubmittedWorksheetsPanel';
 import { worksheetsPanelAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
@@ -33,7 +33,7 @@ export default function WorksheetItem({ worksheet }: Props) {
     const { isEditor } = useRecoilValue(authAtoms.userRoles);
     const setTab = useSetRecoilState(editorViewAtoms.tab);
     const setSelected = useSetRecoilState(worksheetsPanelAtoms.selected);
-    const setWorksheet = useSetRecoilState(sworksheetsPanelAtoms.worksheet);
+    const setWorksheet = useSetRecoilState(SWPAtoms.worksheet);
     const addSnackbarItem = useAddSnackbarItem();
     const setModal = useSetModal();
     const fileExtension = useMemo(

@@ -39,6 +39,7 @@ export default function BookmarkButton() {
     useEffect(() => {
         let isMounted = true;
         (async () => {
+            if (!lesson.id || !user.uid) return;
             const isBookmarked = await getBookmarkStatus(lesson.id, user.uid);
             if (isMounted) setIsBookmarked(isBookmarked);
         })();
@@ -49,7 +50,9 @@ export default function BookmarkButton() {
     // RENDER
     return (
         <MainButton
-            onClick={() => (isBookmarked ? handleUnbookmark() : handleBookmark())}
+            onClick={() =>
+                isBookmarked ? handleUnbookmark() : handleBookmark()
+            }
         >
             {isBookmarked ? <BookmarkedIcon /> : <NotBookmarkedIcon />}
         </MainButton>

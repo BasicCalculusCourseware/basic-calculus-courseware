@@ -10,21 +10,18 @@ import { ModalContent } from 'src/components/styled';
 // RECOIL
 import { useRecoilValue } from 'recoil';
 import { useAddSnackbarItem } from 'src/states/snackbar';
-import { sworksheetsPanelAtoms, useSetModal } from '.';
+import { SWPAtoms, useSetModal, useFetchData } from '.';
 
 // MAIN-COMPONENT
-interface Props {
-    fetchData: () => Promise<void>;
-}
-export default function SubmittedWorksheetDeleterModal({ fetchData }: Props) {
-    // RECOIL
-    const { deleter: isModalOpen } = useRecoilValue(
-        sworksheetsPanelAtoms.modals
-    );
-    const worksheet = useRecoilValue(sworksheetsPanelAtoms.worksheet);
-    const selected = useRecoilValue(sworksheetsPanelAtoms.selected);
-    const setModal = useSetModal();
+export default function SubmittedWorksheetDeleterModal() {
+    // RECOIL VALUES
+    const { deleter: isModalOpen } = useRecoilValue(SWPAtoms.modals);
+    const worksheet = useRecoilValue(SWPAtoms.worksheet);
+    const selected = useRecoilValue(SWPAtoms.selected);
+    // RECOIL CUSTOM HOOKS
     const addSnackbarItem = useAddSnackbarItem();
+    const setModal = useSetModal();
+    const fetchData = useFetchData();
     // STATES
     const [isLoading, setIsLoading] = useState(false);
     // UTILS

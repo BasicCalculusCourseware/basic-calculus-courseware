@@ -1,7 +1,7 @@
 // TYPES
 import type { User } from 'src/interfaces';
 // LIB-FUNCTIONS
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, getDoc } from 'firebase/firestore';
 import axios from 'axios';
 // FUNCTIONS
 import { sign, verify, verifyResult } from 'src/utils';
@@ -72,4 +72,12 @@ export async function deleteUser(uid: string) {
     if (!res.responseToken) throw 'responseToken is missing';
     const { error } = verify(res.responseToken);
     if (error) throw error;
+}
+export async function doesUserExists(uid: string) {
+    try {
+        const docSnap = await getDoc(doc(db, 'users', uid));
+        return docSnap.exists();
+    } catch {
+        return false;
+    }
 }

@@ -52,7 +52,7 @@ export default function SWorksheetItem({ worksheet, sworksheet }: Props) {
                 <ItemIcon>
                     <PDFIcon />
                 </ItemIcon>
-                <ItemText>{worksheet.fileName}</ItemText>
+                <ItemText>{sworksheet.fileName}</ItemText>
                 <ItemPoints>
                     {sworksheet.isChecked ? sworksheet.score : '?'}/
                     {worksheet.points}

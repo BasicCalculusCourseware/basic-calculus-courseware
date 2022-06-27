@@ -4,7 +4,8 @@ import type { Worksheet, SubmittedWorksheet, User } from 'src/interfaces';
 import { useState, useEffect } from 'react';
 // FUNCTIONS
 import { downloadFile, initialStates } from 'src/utils';
-import { getUser } from 'src/firebase/client/utils/user';
+import { getUser, doesUserExists } from 'src/firebase/client/utils/user';
+import { unsubmitWorksheet } from 'src/firebase/client/utils/submitedWorksheet';
 // LIB-COMPONENTS
 import {
     Typography,
@@ -25,7 +26,7 @@ import SkeletonItem from './SkeletonItem';
 // RECOIL
 import { useSetRecoilState } from 'recoil';
 import { useAddSnackbarItem } from 'src/states/snackbar';
-import { sworksheetsPanelAtoms, useSetModal } from '.';
+import { SWPAtoms, useSetModal, useFetchData } from '.';
 
 // MAIN-COMPONENT
 interface Props {
@@ -36,10 +37,12 @@ export default function SubmittedWorksheetItem({
     worksheet,
     sworksheet,
 }: Props) {
-    // RECOIL
-    const setSelected = useSetRecoilState(sworksheetsPanelAtoms.selected);
+    // RECOIL SETTERS
     const addSnackbarItem = useAddSnackbarItem();
+    const setSelected = useSetRecoilState(SWPAtoms.selected);
+    // RECOIL CUSTOM HOOKS
     const setModal = useSetModal();
+    const fetchData = useFetchData();
     // STATES
     const [user, setUser] = useState<User>(initialStates.user);
     const [isLoading, setIsLoading] = useState(true);
@@ -66,17 +69,25 @@ export default function SubmittedWorksheetItem({
     useEffect(() => {
         let isMounted = true;
         (async () => {
-            setIsLoading(true);
-            const user = await getUser(sworksheet.uid);
-            if (isMounted) {
-                setIsLoading(false);
-                setUser(user);
+            if (!sworksheet.id) return;
+            const isUserExisting = await doesUserExists(sworksheet.uid);
+            if (isUserExisting) {
+                setIsLoading(true);
+                const user = await getUser(sworksheet.uid);
+                if (isMounted) {
+                    setIsLoading(false);
+                    setUser(user);
+                }
+            } else {
+                await unsubmitWorksheet(worksheet.id, sworksheet.uid);
+                await fetchData();
             }
         })();
         return () => {
             isMounted = false;
         };
-    }, [sworksheet]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [sworksheet, worksheet]);
     // RENDER
     return isLoading ? (
         <SkeletonItem />
@@ -85,7 +96,7 @@ export default function SubmittedWorksheetItem({
             <ItemBody>
                 <ItemAvatar src={user.photoUrl} />
                 <ItemText>
-                    {user.name} - {worksheet.fileName}
+                    {user.name} - {sworksheet.fileName}
                 </ItemText>
                 <ItemPoints>
                     {sworksheet.isChecked ? sworksheet.score : '?'}/
@@ -111,9 +122,9 @@ export default function SubmittedWorksheetItem({
                         <DeleteIcon />
                         Delete
                     </MenuItem>
-                    <MenuItem onClick={handleCheck}>
+                    <MenuItem onClick={handleCheck} disabled>
                         <EditIcon />
-                        Check Currently Unavailable
+                        Check
                     </MenuItem>
                 </Menu>
             </ItemTool>
