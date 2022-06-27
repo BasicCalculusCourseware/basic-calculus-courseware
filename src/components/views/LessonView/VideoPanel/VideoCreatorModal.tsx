@@ -114,12 +114,14 @@ export default function VideoCreatorModal() {
                     <ModalContentFooter>
                         <Stack spacing={1} direction="row-reverse">
                             <Tooltip title="Create">
-                                <IconButtonOutlined
-                                    onClick={handleCreate}
-                                    disabled={isLoading || !isCompleted}
-                                >
-                                    <SaveIcon />
-                                </IconButtonOutlined>
+                                <span>
+                                    <IconButtonOutlined
+                                        onClick={handleCreate}
+                                        disabled={isLoading || !isCompleted}
+                                    >
+                                        <SaveIcon />
+                                    </IconButtonOutlined>
+                                </span>
                             </Tooltip>
                             <Tooltip title="Reset">
                                 <IconButtonOutlined onClick={handleReset}>

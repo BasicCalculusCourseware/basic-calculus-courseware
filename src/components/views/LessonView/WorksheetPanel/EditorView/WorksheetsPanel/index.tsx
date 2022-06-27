@@ -1,31 +1,31 @@
 // TYPES
-import type { Module, Modals } from 'src/interfaces';
+import type { Worksheet, Modals } from 'src/interfaces';
 // LIB-FUNCTIONS
 import { atom, useSetRecoilState } from 'recoil';
 // FUNCTIONS
 import initialStates from 'src/utils/initialStates';
 // COMPONENTS
-import ModulePanel from './ModulePanel';
+import WorksheetsPanel from './WorksheetsPanel';
 
 // MAIN-COMPONENTS
-export default ModulePanel;
+export default WorksheetsPanel;
 
 /* STATES START */
 
 // ATOMS
-const selected = atom<Module>({
-    key: 'modulePanelSelected' + Date.now(),
-    default: initialStates.module,
+const selected = atom<Worksheet>({
+    key: 'worksheetsPanelSelected' + Date.now(),
+    default: initialStates.worksheet,
 });
 const modals = atom<Modals>({
-    key: 'modulePanelModals' + Date.now(),
+    key: 'worksheetsPanelModals' + Date.now(),
     default: initialStates.modals,
 });
-export const modulePanelAtoms = { selected, modals };
+export const worksheetsPanelAtoms = { selected, modals };
 
 // HOOKS
 export const useSetModal = () => {
-    const setModals = useSetRecoilState(modulePanelAtoms.modals);
+    const setModals = useSetRecoilState(worksheetsPanelAtoms.modals);
     return (data: Partial<Modals>) => {
         setModals((modals) => ({ ...modals, ...data }));
     };

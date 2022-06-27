@@ -55,6 +55,7 @@ export interface SubmittedWorksheet {
     score: number;
     downloadUrl: string;
     createdAt: number;
+    isChecked: boolean;
 }
 export interface Assessment {
     id: string;

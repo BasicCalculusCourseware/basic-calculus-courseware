@@ -47,7 +47,9 @@ export default function ModuleEditorModal() {
             if (!fileName) throw 'Incomplete fields';
             addSnackbarItem('info', 'Editing Module');
             setIsLoading(true);
-            await updateModule(selected.id, { fileName: `${fileName}.${fileExtension}` });
+            await updateModule(selected.id, {
+                fileName: `${fileName}.${fileExtension}`,
+            });
             await refreshModules();
             addSnackbarItem('success', 'Module edited successfully');
             handleClose();
@@ -89,16 +91,18 @@ export default function ModuleEditorModal() {
                     <ModalContentFooter>
                         <Stack spacing={1} direction="row-reverse">
                             <Tooltip title="Save">
-                                <IconButtonOutlined
-                                    onClick={handleCreate}
-                                    disabled={
-                                        isLoading ||
-                                        !fileName ||
-                                        selected.fileName === fileName
-                                    }
-                                >
-                                    <SaveIcon />
-                                </IconButtonOutlined>
+                                <span>
+                                    <IconButtonOutlined
+                                        onClick={handleCreate}
+                                        disabled={
+                                            isLoading ||
+                                            !fileName ||
+                                            selected.fileName === fileName
+                                        }
+                                    >
+                                        <SaveIcon />
+                                    </IconButtonOutlined>
+                                </span>
                             </Tooltip>
                             <Tooltip title="Reset">
                                 <IconButtonOutlined onClick={handleReset}>

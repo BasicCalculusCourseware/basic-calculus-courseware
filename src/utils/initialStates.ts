@@ -107,6 +107,7 @@ const initialStates: InitialStates = {
         score: 0,
         downloadUrl: '',
         createdAt: 0,
+        isChecked: false,
     },
     assessment: {
         id: '',

@@ -3,10 +3,10 @@ import type { ChangeEvent } from 'react';
 // LIB-FUNCTIONS
 import { useState, useRef } from 'react';
 // FUNCTIONS
-import { createModule } from 'src/firebase/client/utils/module';
+import { submitWorksheet } from 'src/firebase/client/utils/submitedWorksheet';
 import { getFileExtension } from 'src/utils';
 // LIB-COMPONENTS
-import { TextField, Modal, Zoom, Stack, Tooltip } from '@mui/material';
+import { TextField, Modal, Zoom, Stack, Tooltip, Grid } from '@mui/material';
 // COMPONENTS
 import {
     ModalContent,
@@ -24,18 +24,22 @@ import {
 } from 'src/components/icons';
 // RECOIL
 import { useRecoilValue } from 'recoil';
+import { authAtoms } from 'src/states/auth';
 import { useAddSnackbarItem } from 'src/states/snackbar';
-import { lessonViewAtoms, useRefreshModules } from '../.';
-import { modulePanelAtoms, useSetModal } from '.';
+import { worksheetSubmitterPanelAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
-export default function ModuleCreatorModal() {
+interface Props {
+    fetchData: () => Promise<void>;
+}
+export default function WorksheetSubmitterModal({ fetchData }: Props) {
     // RECOIL
-    const { creator: isModalOpen } = useRecoilValue(modulePanelAtoms.modals);
-    const quarter = useRecoilValue(lessonViewAtoms.quarter);
-    const lesson = useRecoilValue(lessonViewAtoms.lesson);
+    const user = useRecoilValue(authAtoms.user);
+    const { submitter: isModalOpen } = useRecoilValue(
+        worksheetSubmitterPanelAtoms.modals
+    );
+    const worksheet = useRecoilValue(worksheetSubmitterPanelAtoms.worksheet);
     const setModal = useSetModal();
-    const refreshModules = useRefreshModules();
     const addSnackbarItem = useAddSnackbarItem();
     // REFS
     const fileInputer = useRef<HTMLInputElement>(null);
@@ -46,7 +50,7 @@ export default function ModuleCreatorModal() {
     const [file, setFile] = useState<File | null>(null);
     // UTILS
     const handleClose = () => {
-        !isLoading && setModal({ creator: false });
+        !isLoading && setModal({ submitter: false });
         handleReset();
     };
     const handleReset = () => {
@@ -59,7 +63,7 @@ export default function ModuleCreatorModal() {
         event.preventDefault();
         if (!event.target.files) return;
         const file = event.target.files[0] as File;
-        if (!['pdf', 'docx', 'pptx'].includes(getFileExtension(file.name)))
+        if (getFileExtension(file.name) !== 'pdf')
             addSnackbarItem('error', 'File type is not allowed');
         const fileNameMap = file.name.split('.');
         const fileExtension = fileNameMap.pop() || '';
@@ -68,18 +72,17 @@ export default function ModuleCreatorModal() {
         setFileName(fileName);
         setFileExtension(fileExtension);
     };
-    const handleCreate = async () => {
+    const handleSubmit = async () => {
         try {
             if (!fileName || !file) throw 'Incomplete fields';
-            addSnackbarItem('info', 'Creating Module');
+            addSnackbarItem('info', 'Submitting Worksheet');
             setIsLoading(true);
-            await createModule(quarter.id, lesson.id, {
-                fileName,
-                fileExtension,
-                file,
+            await submitWorksheet(worksheet.id, file, {
+                uid: user.uid,
+                fileName: `${fileName}.${fileExtension}`,
             });
-            await refreshModules();
-            addSnackbarItem('success', 'Module created successfully');
+            await fetchData();
+            addSnackbarItem('success', 'Worksheet submitted successfully');
             handleClose();
         } catch (error: any) {
             const message = typeof error === 'object' ? error.message : error;
@@ -95,7 +98,7 @@ export default function ModuleCreatorModal() {
                 <ModalContent>
                     <ModalContentHeader>
                         <ModalContentHeading variant="h6" color="primary">
-                            Module Creator
+                            Worksheet Submitter
                         </ModalContentHeading>
                         <Tooltip title="Close">
                             <IconButtonOutlined onClick={handleClose}>
@@ -108,7 +111,7 @@ export default function ModuleCreatorModal() {
                         <input
                             ref={fileInputer}
                             type="file"
-                            accept=".pdf, .docx, .pptx"
+                            accept=".pdf"
                             onChange={handleChange}
                             hidden
                         />
@@ -124,10 +127,10 @@ export default function ModuleCreatorModal() {
                     </ModalContentBody>
                     <ModalContentFooter>
                         <Stack spacing={1} direction="row-reverse">
-                            <Tooltip title="Create">
+                            <Tooltip title="Submit">
                                 <span>
                                     <IconButtonOutlined
-                                        onClick={handleCreate}
+                                        onClick={handleSubmit}
                                         disabled={
                                             isLoading || !fileName || !file
                                         }

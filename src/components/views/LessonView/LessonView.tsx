@@ -74,7 +74,9 @@ export default function LessonView() {
                 <PageBody>
                     <ContentContainer>
                         <ContentHeader>
-                            <Typography color="primary">Introduction</Typography>
+                            <Typography color="primary">
+                                Introduction
+                            </Typography>
                             <Typography sx={{ textIndent: '50px' }}>
                                 {lesson.intro}
                             </Typography>

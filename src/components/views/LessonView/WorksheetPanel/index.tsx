@@ -1,7 +1,19 @@
 // COMPONENTS
-import { InfoText } from 'src/components/styled';
+import EditorView from './EditorView';
+import StudentView from './StudentView';
+// RECOIL
+import { useRecoilValue } from 'recoil';
+import { authAtoms } from 'src/states/auth';
 
 // MAIN-COMPONENT
 export default function WorksheetPanel() {
-    return <InfoText>Under Maitenance</InfoText>;
+    // RECOIL
+    const { isEditor, isStudent } = useRecoilValue(authAtoms.userRoles);
+    // RENDER
+    return (
+        <div>
+            {isEditor && <EditorView />}
+            {isStudent && <StudentView />}
+        </div>
+    );
 }

@@ -14,11 +14,11 @@ export default VideoPanel;
 
 // ATOMS
 const selected = atom<Video>({
-    key: 'selected' + Date.now(),
+    key: 'videoPanelSelected' + Date.now(),
     default: initialStates.video,
 });
 const modals = atom<Modals>({
-    key: 'modals' + Date.now(),
+    key: 'videoPanelModals' + Date.now(),
     default: initialStates.modals,
 });
 export const videoPanelAtoms = { selected, modals };

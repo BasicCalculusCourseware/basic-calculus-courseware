@@ -13,7 +13,12 @@ import {
     addDoc,
     orderBy,
 } from 'firebase/firestore';
-import { ref, deleteObject, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {
+    ref,
+    deleteObject,
+    uploadBytes,
+    getDownloadURL,
+} from 'firebase/storage';
 // FUNCTIONS
 import { db, storage } from 'src/firebase/client';
 import { deleteAllSubmittedWorksheets } from './submitedWorksheet';
@@ -38,7 +43,7 @@ export async function createWorksheet(
         createdAt: Date.now(),
     });
     const obj = await uploadBytes(
-        ref(storage, `worksheets/${docRef.id}.${fileExtension}`),
+        ref(storage, `worksheets/${docRef.id}`),
         file,
         {
             cacheControl: 'public,max-age=86400',
@@ -79,10 +84,12 @@ export async function deleteWorksheet(worksheetId: string) {
     const fileExtension = getFileExtension(worksheet.fileName);
     await deleteAllSubmittedWorksheets(worksheetId);
     await deleteDoc(doc(db, 'worksheets', worksheetId));
-    await deleteObject(ref(storage, `worksheets/${worksheetId}.${fileExtension}`));
+    await deleteObject(ref(storage, `worksheets/${worksheetId}`));
 }
 export async function deleteAllWorksheets(quarterId: string, lessonId: string) {
     const worksheets = await getAllWorksheets(quarterId, lessonId);
     if (worksheets.length)
-        await Promise.all(worksheets.map(async ({ id }) => await deleteWorksheet(id)));
+        await Promise.all(
+            worksheets.map(async ({ id }) => await deleteWorksheet(id))
+        );
 }

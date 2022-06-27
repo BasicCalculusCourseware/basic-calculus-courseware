@@ -24,18 +24,22 @@ import { authAtoms } from 'src/states/auth';
 interface Props {
     bookmarkItem: BookmarkItem;
 }
-export default function BookmarkItem({ bookmarkItem: { quarter, lesson } }: Props) {
+export default function BookmarkItem({
+    bookmarkItem: { quarter, lesson },
+}: Props) {
     // RECOIL
     const user = useRecoilValue(authAtoms.user);
     // STATES
-    const [isBookmarked, setIsBookmarked] = useState(false);
+    const [isBookmarked, setIsBookmarked] = useState(true);
     // UTILS
     const getBGColor = () =>
         contentColorKeys.includes(lesson.color as ContentColor)
             ? contentColorObject[lesson.color as ContentColor]
             : 'white';
     const getTextColor = () =>
-        lesson.color === 'yellow' || lesson.color === 'white' ? '#333' : 'white';
+        lesson.color === 'yellow' || lesson.color === 'white'
+            ? '#333'
+            : 'white';
     const handleBookmark = () => {
         setIsBookmarked(true);
         bookmarkLesson(lesson.id, user.uid);
@@ -59,10 +63,14 @@ export default function BookmarkItem({ bookmarkItem: { quarter, lesson } }: Prop
     return (
         <Item>
             <ItemHeader sx={{ bgcolor: getBGColor() }}>
-                <ItemHeading sx={{ color: getTextColor() }}>{quarter.number}</ItemHeading>
+                <ItemHeading sx={{ color: getTextColor() }}>
+                    {quarter.number}
+                </ItemHeading>
                 <IconButton
                     sx={{ color: getTextColor() }}
-                    onClick={() => (isBookmarked ? handleUnbookmark() : handleBookmark())}
+                    onClick={() =>
+                        isBookmarked ? handleUnbookmark() : handleBookmark()
+                    }
                 >
                     {isBookmarked ? <BookmarkedIcon /> : <NotBookmarkedIcon />}
                 </IconButton>

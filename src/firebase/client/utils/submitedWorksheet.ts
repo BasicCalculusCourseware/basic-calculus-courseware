@@ -12,7 +12,12 @@ import {
     setDoc,
     addDoc,
 } from 'firebase/firestore';
-import { ref, deleteObject, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {
+    ref,
+    deleteObject,
+    uploadBytes,
+    getDownloadURL,
+} from 'firebase/storage';
 import axios from 'axios';
 // FUNCTIONS
 import { sign } from 'src/utils';
@@ -26,12 +31,16 @@ export async function submitWorksheet(
         fileName: string;
     }
 ) {
-    const docRef = await addDoc(collection(db, `worksheets/${worksheetId}/submitted`), {
-        ...data,
-        worksheetId,
-        score: 0,
-        createdAt: Date.now(),
-    });
+    const docRef = await addDoc(
+        collection(db, `worksheets/${worksheetId}/submitted`),
+        {
+            ...data,
+            worksheetId,
+            score: 0,
+            isChecked: false,
+            createdAt: Date.now(),
+        }
+    );
     const obj = await uploadBytes(
         ref(storage, `worksheets/submitted/${docRef.id}`),
         file,
@@ -49,7 +58,7 @@ export async function unsubmitWorksheet(worksheetId: string, uid: string) {
             where('uid', '==', uid)
         )
     );
-    if (querySnap.empty) throw 'submitted Worksheet was not found';
+    if (querySnap.empty) throw 'Submitted Worksheet was not found';
     await deleteSubmittedWorksheet(querySnap.docs[0].id, worksheetId);
 }
 export async function scoreSubmittedWorksheet(
@@ -90,8 +99,12 @@ export async function deleteSubmittedWorksheet(
     submittedWorksheetId: string,
     worksheetId: string
 ) {
-    await deleteDoc(doc(db, `worksheets/${worksheetId}/submitted`, submittedWorksheetId));
-    await deleteObject(ref(storage, `worksheets/submitted/${submittedWorksheetId}`));
+    await deleteDoc(
+        doc(db, `worksheets/${worksheetId}/submitted`, submittedWorksheetId)
+    );
+    await deleteObject(
+        ref(storage, `worksheets/submitted/${submittedWorksheetId}`)
+    );
 }
 export async function deleteAllSubmittedWorksheets(worksheetId: string) {
     const submittedWorksheets = await getAllSubmittedWorksheets(worksheetId);
@@ -115,10 +128,13 @@ export async function getSubmittedWorksheet(
     const docRef = await getDoc(
         doc(db, `worksheets/${worksheetId}/submitted`, submittedWorksheetId)
     );
-    if (!docRef.exists()) throw 'submitted worksheet was not found';
+    if (!docRef.exists()) throw 'Submitted worksheet was not found';
     return { id: docRef.id, ...docRef.data() } as SubmittedWorksheet;
 }
-export async function getSubmittedWorksheetByUID(worksheetId: string, uid: string) {
+export async function getSubmittedWorksheetByUID(
+    worksheetId: string,
+    uid: string
+) {
     const querySnap = await getDocs(
         query(
             collection(db, `worksheets/${worksheetId}/submitted`),

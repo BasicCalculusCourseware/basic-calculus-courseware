@@ -39,7 +39,10 @@ export default function AuthSetter({ children }: ChildrenProp) {
                     } catch {
                         await resetAuth();
                     } finally {
-                        document.body.setAttribute('data-is-app-loading', 'false');
+                        document.body.setAttribute(
+                            'data-is-app-loading',
+                            'false'
+                        );
                     }
                 })();
             });

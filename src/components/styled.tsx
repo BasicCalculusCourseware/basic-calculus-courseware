@@ -47,7 +47,7 @@ export const PageBody = styled('div')({});
 export const Warning = styled('div')(({ theme }) => ({
     ...styles.flexCenter,
     ...styles.px(2),
-    minHeight: 'calc(100vh - 70px)',
+    minHeight: 'calc(100vh - 66px)',
     flexDirection: 'column',
     textAlign: 'center',
     color: theme.palette.secondary.main,

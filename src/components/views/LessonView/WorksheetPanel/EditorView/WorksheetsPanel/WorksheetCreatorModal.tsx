@@ -3,10 +3,10 @@ import type { ChangeEvent } from 'react';
 // LIB-FUNCTIONS
 import { useState, useRef } from 'react';
 // FUNCTIONS
-import { createModule } from 'src/firebase/client/utils/module';
+import { createWorksheet } from 'src/firebase/client/utils/worksheet';
 import { getFileExtension } from 'src/utils';
 // LIB-COMPONENTS
-import { TextField, Modal, Zoom, Stack, Tooltip } from '@mui/material';
+import { TextField, Modal, Zoom, Stack, Tooltip, Grid } from '@mui/material';
 // COMPONENTS
 import {
     ModalContent,
@@ -25,22 +25,25 @@ import {
 // RECOIL
 import { useRecoilValue } from 'recoil';
 import { useAddSnackbarItem } from 'src/states/snackbar';
-import { lessonViewAtoms, useRefreshModules } from '../.';
-import { modulePanelAtoms, useSetModal } from '.';
+import { lessonViewAtoms, useRefreshWorksheets } from '../../..';
+import { worksheetsPanelAtoms, useSetModal } from '.';
 
 // MAIN-COMPONENT
-export default function ModuleCreatorModal() {
+export default function WorksheetCreatorModal() {
     // RECOIL
-    const { creator: isModalOpen } = useRecoilValue(modulePanelAtoms.modals);
+    const { creator: isModalOpen } = useRecoilValue(
+        worksheetsPanelAtoms.modals
+    );
     const quarter = useRecoilValue(lessonViewAtoms.quarter);
     const lesson = useRecoilValue(lessonViewAtoms.lesson);
     const setModal = useSetModal();
-    const refreshModules = useRefreshModules();
+    const refreshWorksheets = useRefreshWorksheets();
     const addSnackbarItem = useAddSnackbarItem();
     // REFS
     const fileInputer = useRef<HTMLInputElement>(null);
     // STATES
     const [isLoading, setIsLoading] = useState(false);
+    const [points, setPoints] = useState(0);
     const [fileName, setFileName] = useState('No file selected');
     const [fileExtension, setFileExtension] = useState('');
     const [file, setFile] = useState<File | null>(null);
@@ -53,6 +56,7 @@ export default function ModuleCreatorModal() {
         if (fileInputer.current) fileInputer.current.value = '';
         setFileName('No file selected');
         setFile(null);
+        setPoints(0);
     };
     const handleSelect = () => fileInputer.current?.click();
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -71,15 +75,16 @@ export default function ModuleCreatorModal() {
     const handleCreate = async () => {
         try {
             if (!fileName || !file) throw 'Incomplete fields';
-            addSnackbarItem('info', 'Creating Module');
+            addSnackbarItem('info', 'Creating Worksheet');
             setIsLoading(true);
-            await createModule(quarter.id, lesson.id, {
+            await createWorksheet(quarter.id, lesson.id, {
+                points,
                 fileName,
                 fileExtension,
                 file,
             });
-            await refreshModules();
-            addSnackbarItem('success', 'Module created successfully');
+            await refreshWorksheets();
+            addSnackbarItem('success', 'Worksheet created successfully');
             handleClose();
         } catch (error: any) {
             const message = typeof error === 'object' ? error.message : error;
@@ -95,7 +100,7 @@ export default function ModuleCreatorModal() {
                 <ModalContent>
                     <ModalContentHeader>
                         <ModalContentHeading variant="h6" color="primary">
-                            Module Creator
+                            Worksheet Creator
                         </ModalContentHeading>
                         <Tooltip title="Close">
                             <IconButtonOutlined onClick={handleClose}>
@@ -113,14 +118,38 @@ export default function ModuleCreatorModal() {
                             hidden
                         />
                         {/* INPUT FILE PLACEHOLDER END */}
-                        <TextField
-                            variant="outlined"
-                            label="File Name"
-                            value={fileName}
-                            onChange={(e) => setFileName(e.target.value)}
-                            disabled={!file}
-                            fullWidth
-                        />
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    label="File Name"
+                                    value={fileName}
+                                    onChange={(e) =>
+                                        setFileName(e.target.value)
+                                    }
+                                    disabled={!file}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    type="number"
+                                    variant="outlined"
+                                    label="Points"
+                                    value={points}
+                                    onChange={(e) => {
+                                        let points = 0;
+                                        let value = parseInt(e.target.value);
+                                        if (value < 0) points = 0;
+                                        else if (value > 100) points = 100;
+                                        else points = value;
+                                        setPoints(points);
+                                    }}
+                                    disabled={!file}
+                                    fullWidth
+                                />
+                            </Grid>
+                        </Grid>
                     </ModalContentBody>
                     <ModalContentFooter>
                         <Stack spacing={1} direction="row-reverse">
