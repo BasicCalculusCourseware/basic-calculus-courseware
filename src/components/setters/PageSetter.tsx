@@ -15,27 +15,40 @@ import { pageAtoms } from 'src/states/page';
 export default function PageSetter({ children }: ChildrenProp) {
     // RECOIL
     const user = useRecoilValue(authAtoms.user);
+    const isUserSignedIn = useRecoilValue(authAtoms.isUserSignedIn);
     const pageBase = useRecoilValue(pageAtoms.pageBase);
     // STATES
     const content = useMemo(() => {
+        const isPageForSignedInOnly = [
+            'dashboard',
+            'quarters',
+            'students',
+            'teachers',
+            'bookmarks',
+            'account',
+        ].some((val) => val === pageBase);
+        if (isPageForSignedInOnly && !isUserSignedIn)
+            return <ForSignedInOnly />;
         const isPageForEnrolledOnly = [
             'dashboard',
             'quarters',
             'bookmarks',
-            'history',
         ].some((val) => val === pageBase);
         if (isPageForEnrolledOnly && user.role === 'student')
             return user.isEnrolled ? children : <ForEnrolledStudentOnly />;
         const isPageForVerifiedTeacherOnly = [
             'dashboard',
             'quarters',
-            'enrollees',
             'students',
         ].some((val) => val === pageBase);
         if (isPageForVerifiedTeacherOnly && user.role === 'teacher')
-            return user.isTeacherVerified ? children : <ForVerifiedTeacherOnly />;
+            return user.isTeacherVerified ? (
+                children
+            ) : (
+                <ForVerifiedTeacherOnly />
+            );
         return children;
-    }, [user, pageBase, children]);
+    }, [user, isUserSignedIn, pageBase, children]);
     // RENDER
     return content;
 }
@@ -64,7 +77,10 @@ function ForVerifiedTeacherOnly() {
             <WarningIcon>
                 <AnnouncementIcon />
             </WarningIcon>
-            <p>You must be a verified teacher first before you can access this page.</p>
+            <p>
+                You must be a verified teacher first before you can access this
+                page.
+            </p>
             <p>
                 Go to your{' '}
                 <Link href="/app/account" passHref>
@@ -72,6 +88,16 @@ function ForVerifiedTeacherOnly() {
                 </Link>{' '}
                 to see your current status.
             </p>
+        </Warning>
+    );
+}
+function ForSignedInOnly() {
+    return (
+        <Warning>
+            <WarningIcon>
+                <AnnouncementIcon />
+            </WarningIcon>
+            <p>You must sign-in first before you can access this page.</p>
         </Warning>
     );
 }

@@ -5,7 +5,12 @@ import { useRouter } from 'next/router';
 import { Avatar, IconButton, Popover, Stack, Tooltip } from '@mui/material';
 import { Fragment } from 'react';
 // COMPONENTS
-import { AccountIcon, SignInIcon, SignOutIcon, SignUpIcon } from 'src/components/icons';
+import {
+    AccountIcon,
+    SignInIcon,
+    SignOutIcon,
+    SignUpIcon,
+} from 'src/components/icons';
 // RECOIL
 import { useRecoilValue } from 'recoil';
 import { authAtoms, useResetAuth, useSignOut } from 'src/states/auth';
@@ -76,10 +81,16 @@ export default function ProfilePopover() {
                                 <UserEmail>{user.email}</UserEmail>
                             </Fragment>
                         )}
-                        {!user.uid && <WarningText>You must sign-in first</WarningText>}
+                        {!user.uid && (
+                            <WarningText>You must sign-in first</WarningText>
+                        )}
                     </ProfileBody>
                     <ProfileFooter>
-                        <Stack spacing={1} direction="row" justifyContent="flex-end">
+                        <Stack
+                            spacing={1}
+                            direction="row"
+                            justifyContent="flex-end"
+                        >
                             {user.uid ? (
                                 <Fragment>
                                     <Tooltip title="Sign Out">
