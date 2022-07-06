@@ -63,7 +63,7 @@ export async function deleteSubmittedAssessment(
         doc(db, 'assessments', assessmentId, 'submitted', submittedAssessmentId)
     );
 }
-export async function deleteAllSubmittedWorksheets(assessmentId: string) {
+export async function deleteAllSubmittedAssessments(assessmentId: string) {
     const submittedWorksheets = await getAllSubmittedAssessment(assessmentId);
     await Promise.all(
         submittedWorksheets.map(

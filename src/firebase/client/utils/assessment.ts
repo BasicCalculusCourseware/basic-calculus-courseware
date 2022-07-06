@@ -1,9 +1,5 @@
 // TYPES
-import type {
-    Assessment,
-    AssessmentItem,
-    SubmittedAssessment,
-} from 'src/interfaces';
+import type { Assessment, AssessmentItem } from 'src/interfaces';
 // LIB-FUNCTIONS
 import {
     collection,
@@ -25,6 +21,7 @@ import {
 } from 'firebase/storage';
 // FUNCTIONS
 import { db, storage } from 'src/firebase/client';
+import { deleteAllSubmittedAssessments } from './submittedAssessment';
 
 export async function getAllAssessments(quarterId: string, lessonId: string) {
     const assessments: Assessment[] = [];
@@ -80,6 +77,7 @@ export async function deleteAssessment(assessmentId: string) {
         );
     }
     await deleteDoc(doc(db, 'assessments', assessmentId));
+    await deleteAllSubmittedAssessments(assessmentId);
 }
 export async function deleteAllAssessments(
     quarterId: string,
