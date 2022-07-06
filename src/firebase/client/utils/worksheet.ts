@@ -22,7 +22,6 @@ import {
 // FUNCTIONS
 import { db, storage } from 'src/firebase/client';
 import { deleteAllSubmittedWorksheets } from './submitedWorksheet';
-import { getFileExtension } from 'src/utils';
 
 export async function createWorksheet(
     quarterId: string,
@@ -81,7 +80,6 @@ export async function getAllWorksheets(quarterId: string, lessonId: string) {
 }
 export async function deleteWorksheet(worksheetId: string) {
     const worksheet = await getWorksheet(worksheetId);
-    const fileExtension = getFileExtension(worksheet.fileName);
     await deleteAllSubmittedWorksheets(worksheetId);
     await deleteDoc(doc(db, 'worksheets', worksheetId));
     await deleteObject(ref(storage, `worksheets/${worksheetId}`));

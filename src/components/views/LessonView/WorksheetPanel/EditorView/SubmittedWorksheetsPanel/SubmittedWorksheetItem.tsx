@@ -23,6 +23,7 @@ import {
     EditIcon,
 } from 'src/components/icons';
 import SkeletonItem from './SkeletonItem';
+import WorksheetCheckerModal from './WorksheetCheckerModal';
 // RECOIL
 import { useSetRecoilState } from 'recoil';
 import { useAddSnackbarItem } from 'src/states/snackbar';
@@ -46,6 +47,7 @@ export default function SubmittedWorksheetItem({
     // STATES
     const [user, setUser] = useState<User>(initialStates.user);
     const [isLoading, setIsLoading] = useState(true);
+    const [isChecking, setIsChecking] = useState(false);
     // MENU
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -62,9 +64,9 @@ export default function SubmittedWorksheetItem({
     };
     const handleCheck = () => {
         setAnchorEl(null);
-        setSelected(sworksheet);
-        setModal({ checker: true });
+        setIsChecking(true);
     };
+    const handleStopChecking = () => setIsChecking(false);
     // EFFECTS
     useEffect(() => {
         let isMounted = true;
@@ -88,47 +90,57 @@ export default function SubmittedWorksheetItem({
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sworksheet, worksheet]);
+    useEffect(() => {
+        document.body.style.overflowY = isChecking ? 'hidden' : 'auto';
+    }, [isChecking]);
     // RENDER
     return isLoading ? (
         <SkeletonItem />
     ) : (
-        <Item>
-            <ItemBody>
-                <ItemAvatar src={user.photoUrl} />
-                <ItemText>
-                    {user.name} - {sworksheet.fileName}
-                </ItemText>
-                <ItemPoints>
-                    {sworksheet.isChecked ? sworksheet.score : '?'}/
-                    {worksheet.points}
-                </ItemPoints>
-            </ItemBody>
-            <ItemTool>
-                <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
-                    <MoreVertIcon />
-                </IconButton>
-                <Menu
-                    open={open}
-                    anchorEl={anchorEl}
-                    TransitionComponent={Zoom}
-                    onClose={() => setAnchorEl(null)}
-                    elevation={0}
-                >
-                    <MenuItem onClick={handleDownload}>
-                        <DownloadIcon />
-                        Download
-                    </MenuItem>
-                    <MenuItem onClick={handleDelete}>
-                        <DeleteIcon />
-                        Delete
-                    </MenuItem>
-                    <MenuItem onClick={handleCheck} disabled>
-                        <EditIcon />
-                        Check
-                    </MenuItem>
-                </Menu>
-            </ItemTool>
-        </Item>
+        <>
+            <Item>
+                <ItemBody onClick={handleCheck}>
+                    <ItemAvatar src={user.photoUrl} />
+                    <ItemText>
+                        {user.name} - {sworksheet.fileName}
+                    </ItemText>
+                    <ItemPoints>
+                        {sworksheet.isChecked ? sworksheet.score : '?'}/
+                        {worksheet.points}
+                    </ItemPoints>
+                </ItemBody>
+                <ItemTool>
+                    <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+                        <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                        open={open}
+                        anchorEl={anchorEl}
+                        TransitionComponent={Zoom}
+                        onClose={() => setAnchorEl(null)}
+                        elevation={0}
+                    >
+                        <MenuItem onClick={handleDownload}>
+                            <DownloadIcon />
+                            Download
+                        </MenuItem>
+                        <MenuItem onClick={handleDelete}>
+                            <DeleteIcon />
+                            Delete
+                        </MenuItem>
+                        <MenuItem onClick={handleCheck}>
+                            <EditIcon />
+                            Check
+                        </MenuItem>
+                    </Menu>
+                </ItemTool>
+            </Item>
+            {isChecking && (
+                <WorksheetCheckerModal
+                    {...{ sworksheet, handleStopChecking }}
+                />
+            )}
+        </>
     );
 }
 
@@ -152,6 +164,7 @@ const ItemBody = styled('div')({
     flexGrow: 1,
     height: 55,
     overflow: 'hidden',
+    cursor: 'pointer',
 });
 const ItemAvatar = styled(Avatar)({
     ...styles.border(1),

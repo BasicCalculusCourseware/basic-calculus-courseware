@@ -2,8 +2,7 @@
 import type {
     Assessment,
     AssessmentItem,
-    AssessmentItemChoice,
-    AssessmentResult,
+    SubmittedAssessment,
 } from 'src/interfaces';
 // LIB-FUNCTIONS
 import {
@@ -18,7 +17,12 @@ import {
     setDoc,
     orderBy,
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {
+    ref,
+    uploadBytes,
+    getDownloadURL,
+    deleteObject,
+} from 'firebase/storage';
 // FUNCTIONS
 import { db, storage } from 'src/firebase/client';
 
@@ -29,7 +33,7 @@ export async function getAllAssessments(quarterId: string, lessonId: string) {
             collection(db, 'assessments'),
             where('quarterId', '==', quarterId),
             where('lessonId', '==', lessonId),
-            orderBy('createdAt')
+            orderBy('title')
         )
     );
     if (querySnap.empty) return assessments;
@@ -51,6 +55,7 @@ export async function createAssessment(data: {
 }) {
     await addDoc(collection(db, 'assessments'), {
         ...data,
+        items: [],
         createdAt: Date.now(),
     });
 }
@@ -59,132 +64,39 @@ export async function updateAssessment(
     data: Partial<{
         title: string;
         description: string;
+        items: AssessmentItem[];
     }>
 ) {
     await setDoc(doc(db, 'assessments', assessmentId), data, { merge: true });
 }
 export async function deleteAssessment(assessmentId: string) {
+    const assessment = await getAssessment(assessmentId);
+    if (assessment) {
+        await Promise.all(
+            assessment.items.map(
+                async (item) =>
+                    item.image && (await deleteAssessmentItemImage(item.id))
+            )
+        );
+    }
     await deleteDoc(doc(db, 'assessments', assessmentId));
 }
-export async function deleteAllAssessments(quarterId: string, lessonId: string) {
+export async function deleteAllAssessments(
+    quarterId: string,
+    lessonId: string
+) {
     const assessments = await getAllAssessments(quarterId, lessonId);
     if (!assessments.length) return;
-    await Promise.all(assessments.map(async ({ id }) => await deleteAssessment(id)));
-}
-export async function saveAssessmentItem(
-    assessmentId: string,
-    assessmentItemId: string,
-    data: {
-        question?: string;
-        image?: string;
-        choices?: AssessmentItemChoice[];
-        correctChoice?: string;
-        order?: number;
-        answer?: string;
-    }
-) {
-    await setDoc(doc(db, `assessments/${assessmentId}/items`, assessmentItemId), {
-        ...data,
-        answer: data?.answer || '',
-    });
-}
-export async function saveAllAssessmentItems(
-    assessmentId: string,
-    assessmentItems: AssessmentItem[]
-) {
-    const items = await getAssessmentItems(assessmentId);
-    const itemsId: string[] = items.map((item) => item.id);
-    const usedItemIds: string[] = [];
-    // SAVE ASSESSMENT ITEMS
     await Promise.all(
-        assessmentItems.map(async (assessmentItem, index) => {
-            usedItemIds.push(assessmentItem.id);
-            const { question, image, choices, correctChoice } = assessmentItem;
-            await saveAssessmentItem(assessmentId, assessmentItem.id, {
-                question,
-                image,
-                choices,
-                correctChoice,
-                order: index,
-            });
-        })
-    );
-    // DELETE DELETED ASSESSMENT ITEMS
-    await Promise.all(
-        itemsId.map(async (itemId) => {
-            if (!usedItemIds.includes(itemId))
-                await deleteAssessmentItem(itemId, assessmentId);
-        })
+        assessments.map(async ({ id }) => await deleteAssessment(id))
     );
 }
-export async function getAssessmentItems(assessmentId: string) {
-    const assessmentItems: AssessmentItem[] = [];
-    const querySnap = await getDocs(
-        query(collection(db, `assessments/${assessmentId}/items`), orderBy('order'))
-    );
-    if (querySnap.empty) return assessmentItems;
-    querySnap.forEach((doc) =>
-        assessmentItems.push({ id: doc.id, ...doc.data() } as AssessmentItem)
-    );
-    return assessmentItems;
-}
-export async function deleteAssessmentItem(
-    assessmentItemId: string,
-    assessmentId: string
-) {
-    await deleteDoc(doc(db, `assessments/${assessmentId}/items`, assessmentItemId));
-}
-export async function updateAssessmentItem(
-    assessmentId: string,
-    assessmentItemId: string,
-    data: Partial<{
-        question: string;
-        choices: AssessmentItemChoice[];
-        correctChoice: string;
-    }>
-) {
-    await setDoc(doc(db, `assessments/${assessmentId}/items`, assessmentItemId), data, {
-        merge: true,
-    });
-}
-export async function uploadAssessmentItemImage(file: File) {
-    const obj = await uploadBytes(ref(storage, `assessments/${file.name}`), file, {
+export async function uploadAssessmentItemImage(id: string, file: File) {
+    const obj = await uploadBytes(ref(storage, `assessments/${id}`), file, {
         cacheControl: 'public,max-age=86400',
     });
     return await getDownloadURL(obj.ref);
 }
-export async function getAssessmentItemsWithAnswer(assessmentId: string) {
-    const assessmentItems: AssessmentItem[] = [];
-    const querySnap = await getDocs(
-        query(collection(db, `assessments/${assessmentId}/items`), orderBy('order'))
-    );
-    if (querySnap.empty) return assessmentItems;
-    querySnap.forEach((doc) =>
-        assessmentItems.push({
-            id: doc.id,
-            answer: '',
-            ...doc.data(),
-        } as unknown as AssessmentItem)
-    );
-    return assessmentItems;
-}
-export async function submitAssessment(data: {
-    assessmentId: string;
-    uid: string;
-    items: AssessmentItem[];
-}) {
-    let score = 0;
-    data.items.map((item) => {
-        if (item.answer === item.correctChoice) score++;
-    });
-    await setDoc(doc(db, `assessments/${data.assessmentId}/results`, data.uid), {
-        ...data,
-        score,
-    });
-}
-export async function getAssessmentScore(uid: string, assessmentId: string) {
-    const docSnap = await getDoc(doc(db, `assessments/${assessmentId}/results`, uid));
-    if (!docSnap.exists()) return null;
-    const result = { id: docSnap.id, ...docSnap.data() } as AssessmentResult;
-    return `${result.score}/${result.items.length}`;
+export async function deleteAssessmentItemImage(id: string) {
+    await deleteObject(ref(storage, `assessments/${id}`));
 }

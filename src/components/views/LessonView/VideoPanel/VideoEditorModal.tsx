@@ -56,11 +56,11 @@ export default function VideoEditorModal() {
     const handleCreate = async () => {
         try {
             if (Object.values(form).some((v) => !v)) throw 'Incomplete fields';
-            addSnackbarItem('info', 'Creating Video');
+            addSnackbarItem('info', 'Editing Video');
             setIsLoading(true);
             await updateVideo(selected.id, form);
             await refreshVideos();
-            addSnackbarItem('success', 'Video created successfully');
+            addSnackbarItem('success', 'Video edited successfully');
             handleClose();
         } catch (error: any) {
             const message = typeof error === 'object' ? error.message : error;

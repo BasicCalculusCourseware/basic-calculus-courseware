@@ -68,7 +68,7 @@ export async function scoreSubmittedWorksheet(
 ) {
     await setDoc(
         doc(db, `worksheets/${worksheetId}/submitted`, submittedWorksheetId),
-        { score },
+        { score, isChecked: true },
         { merge: true }
     );
 }

@@ -25,6 +25,13 @@ export default function ThemeSetter({ children }: ChildrenProp) {
                 },
             },
             components: {
+                MuiAlert: {
+                    styleOverrides: {
+                        root: {
+                            wordBreak: 'break-all',
+                        },
+                    },
+                },
                 MuiModal: {
                     styleOverrides: {
                         root: {
@@ -54,6 +61,19 @@ export default function ThemeSetter({ children }: ChildrenProp) {
                             },
                             ':last-child': {
                                 border: 'none',
+                            },
+                        },
+                    },
+                },
+                MuiFab: {
+                    styleOverrides: {
+                        root: {
+                            '&[data-translucent="true"]': {
+                                opacity: 0.5,
+                                transition: '.2s',
+                                '&:hover': {
+                                    opacity: 1,
+                                },
                             },
                         },
                     },

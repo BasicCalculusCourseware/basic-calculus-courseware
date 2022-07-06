@@ -12,7 +12,6 @@ import {
     BreadcrumbsLink,
 } from 'src/components/styled';
 import { NavigateNextIcon } from 'src/components/icons';
-// import RefreshFab from './RefreshFab';
 import BookmarkButton from './BookmarkButton';
 import VideoPanel from './VideoPanel';
 import ModulePanel from './ModulePanel';
@@ -97,7 +96,6 @@ export default function LessonView() {
                             </Tabs>
                         </ContentNavigation>
                         <ContentBody>
-                            {/* <RefreshFab /> */}
                             {tab === 0 && <VideoPanel />}
                             {tab === 1 && <ModulePanel />}
                             {tab === 2 && <WorksheetPanel />}

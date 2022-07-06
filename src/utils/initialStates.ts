@@ -9,6 +9,8 @@ import {
     Worksheet,
     SubmittedWorksheet,
     Assessment,
+    AssessmentItem,
+    SubmittedAssessment,
     Modals,
 } from 'src/interfaces';
 
@@ -24,6 +26,8 @@ interface InitialStates {
     worksheet: Worksheet;
     submittedWorksheet: SubmittedWorksheet;
     assessment: Assessment;
+    assessmentItem: AssessmentItem;
+    submittedAssessment: SubmittedAssessment;
 }
 
 const initialStates: InitialStates = {
@@ -115,7 +119,23 @@ const initialStates: InitialStates = {
         lessonId: '',
         title: '',
         description: '',
+        items: [],
         createdAt: 0,
+    },
+    assessmentItem: {
+        id: '',
+        question: '',
+        image: '',
+        choices: [],
+        correctChoice: '',
+        answer: '',
+    },
+    submittedAssessment: {
+        id: '',
+        uid: '',
+        assessmentId: '',
+        items: [],
+        score: 0,
     },
 };
 

@@ -14,7 +14,10 @@ export default function ModuleCreatorFab() {
     return (
         <Tooltip title="Create Module">
             <Zoom in={true}>
-                <CreatorFab color="primary" onClick={() => setModal({ creator: true })}>
+                <CreatorFab
+                    color="primary"
+                    onClick={() => setModal({ creator: true })}
+                >
                     <AddIcon />
                 </CreatorFab>
             </Zoom>

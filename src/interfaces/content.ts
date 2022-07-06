@@ -63,11 +63,8 @@ export interface Assessment {
     lessonId: string;
     title: string;
     description: string;
+    items: AssessmentItem[];
     createdAt: number;
-}
-export interface AssessmentItemChoice {
-    id: string;
-    label: string;
 }
 export interface AssessmentItem {
     id: string;
@@ -76,12 +73,15 @@ export interface AssessmentItem {
     choices: AssessmentItemChoice[];
     correctChoice: string;
     answer: string;
-    order?: number;
 }
-export interface AssessmentResult {
+export interface AssessmentItemChoice {
+    id: string;
+    label: string;
+}
+export interface SubmittedAssessment {
     id: string;
     uid: string;
     assessmentId: string;
-    score: number;
     items: AssessmentItem[];
+    score: number;
 }

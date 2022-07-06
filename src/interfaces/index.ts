@@ -13,6 +13,6 @@ export type {
     Assessment,
     AssessmentItem,
     AssessmentItemChoice,
-    AssessmentResult,
+    SubmittedAssessment,
 } from './content';
 export type { Result, Modals } from './others';

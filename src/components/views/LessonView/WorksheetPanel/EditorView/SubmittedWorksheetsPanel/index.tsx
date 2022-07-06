@@ -35,11 +35,10 @@ const selected = atom<SubmittedWorksheet>({
     key: 'SWP.selected' + Date.now(),
     default: initialStates.submittedWorksheet,
 });
-const modals = atom<{ deleter: boolean; checker: boolean }>({
+const modals = atom<{ deleter: boolean }>({
     key: 'SWP.modals' + Date.now(),
     default: {
         deleter: false,
-        checker: false,
     },
 });
 export const SWPAtoms = {
@@ -53,7 +52,7 @@ export const SWPAtoms = {
 // HOOKS
 export const useSetModal = () => {
     const setModals = useSetRecoilState(SWPAtoms.modals);
-    return (data: Partial<{ deleter: boolean; checker: boolean }>) => {
+    return (data: Partial<{ deleter: boolean }>) => {
         setModals((modals) => ({ ...modals, ...data }));
     };
 };
