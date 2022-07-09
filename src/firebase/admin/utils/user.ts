@@ -11,7 +11,9 @@ export async function getUser(uid: string) {
     return { ...user, isEmailVerified } as User;
 }
 export async function getUserByEmail(email: string) {
-    const { uid, emailVerified: isEmailVerified } = await auth.getUserByEmail(email);
+    const { uid, emailVerified: isEmailVerified } = await auth.getUserByEmail(
+        email
+    );
     const user = await getUserFromDB(uid);
     return { ...user, isEmailVerified } as User;
 }

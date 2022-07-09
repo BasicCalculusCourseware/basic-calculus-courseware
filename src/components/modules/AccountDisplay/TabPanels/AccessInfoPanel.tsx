@@ -81,7 +81,9 @@ export default function AccessInfoPanel() {
                                         variant="outlined"
                                         label="Is Enrolled"
                                         value={
-                                            user.isEnrolled ? 'Enrolled' : 'Not Enrolled'
+                                            user.isEnrolled
+                                                ? 'Enrolled'
+                                                : 'Not Enrolled'
                                         }
                                         fullWidth
                                         disabled
@@ -129,7 +131,10 @@ export default function AccessInfoPanel() {
                                     label="Role"
                                     value={form.role}
                                     setValue={(val) =>
-                                        setForm((form) => ({ ...form, phone: val }))
+                                        setForm((form) => ({
+                                            ...form,
+                                            role: val,
+                                        }))
                                     }
                                     items={[
                                         { label: 'Student', value: 'student' },
@@ -152,7 +157,10 @@ export default function AccessInfoPanel() {
                                         }
                                         items={[
                                             { label: 'Enrolled', value: true },
-                                            { label: 'Not Enrolled', value: false },
+                                            {
+                                                label: 'Not Enrolled',
+                                                value: false,
+                                            },
                                         ]}
                                         required
                                     />
@@ -171,7 +179,10 @@ export default function AccessInfoPanel() {
                                         }
                                         items={[
                                             { label: 'Verified', value: true },
-                                            { label: 'Not Verified', value: false },
+                                            {
+                                                label: 'Not Verified',
+                                                value: false,
+                                            },
                                         ]}
                                         required
                                     />
@@ -182,7 +193,10 @@ export default function AccessInfoPanel() {
                                     label="Is Banned"
                                     value={form.isBanned}
                                     setValue={(val) =>
-                                        setForm((form) => ({ ...form, isBanned: val }))
+                                        setForm((form) => ({
+                                            ...form,
+                                            isBanned: val,
+                                        }))
                                     }
                                     items={[
                                         { label: 'Banned', value: true },

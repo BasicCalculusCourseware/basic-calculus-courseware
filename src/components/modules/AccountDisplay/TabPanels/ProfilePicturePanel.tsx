@@ -36,9 +36,14 @@ export default function ProfilePicturePanel() {
     // FB-UTILS
     const updateDatabase = async () => {
         const imageRef = ref(storage, `avatars/${user.uid}.png`);
-        await uploadString(imageRef, cropper.getCroppedCanvas().toDataURL(), 'data_url', {
-            cacheControl: 'public,max-age=86400',
-        });
+        await uploadString(
+            imageRef,
+            cropper.getCroppedCanvas().toDataURL(),
+            'data_url',
+            {
+                cacheControl: 'public,max-age=86400',
+            }
+        );
         const url = await getDownloadURL(imageRef);
         await updateUser(user.uid, { photoUrl: url });
     };
@@ -96,7 +101,12 @@ export default function ProfilePicturePanel() {
                 <Grid container spacing={2}>
                     {isEditing ? (
                         <>
-                            <Grid item xs={12} sm={6} md={isMd && isSidebarOpen ? 12 : 6}>
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                md={isMd && isSidebarOpen ? 12 : 6}
+                            >
                                 <CropperContainer>
                                     <CropperWrapper>
                                         <Cropper
@@ -121,10 +131,17 @@ export default function ProfilePicturePanel() {
                                     <Typography variant="h6">Crop</Typography>
                                 </CropperContainer>
                             </Grid>
-                            <Grid item xs={12} sm={6} md={isMd && isSidebarOpen ? 12 : 6}>
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                md={isMd && isSidebarOpen ? 12 : 6}
+                            >
                                 <PreviewContainer>
                                     <Preview className="preview" />
-                                    <Typography variant="h6">Preview</Typography>
+                                    <Typography variant="h6">
+                                        Preview
+                                    </Typography>
                                 </PreviewContainer>
                             </Grid>
                         </>

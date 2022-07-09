@@ -2,10 +2,11 @@
 import type { User } from 'src/interfaces';
 // LIB-FUNCTIONS
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
+import { ref, deleteObject } from 'firebase/storage';
 import axios from 'axios';
 // FUNCTIONS
 import { sign, verify, verifyResult } from 'src/utils';
-import { db } from 'src/firebase/client';
+import { db, storage } from 'src/firebase/client';
 
 export async function getUser(uid: string) {
     const { data } = await axios.get('/api/users', {
@@ -72,6 +73,7 @@ export async function deleteUser(uid: string) {
     if (!res.responseToken) throw 'responseToken is missing';
     const { error } = verify(res.responseToken);
     if (error) throw error;
+    await deleteProfilePicture(uid);
 }
 export async function doesUserExists(uid: string) {
     try {
@@ -80,4 +82,7 @@ export async function doesUserExists(uid: string) {
     } catch {
         return false;
     }
+}
+export async function deleteProfilePicture(uid: string) {
+    await deleteObject(ref(storage, `avatars/${uid}.png`));
 }

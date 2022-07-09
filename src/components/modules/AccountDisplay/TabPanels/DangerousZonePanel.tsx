@@ -82,10 +82,14 @@ export default function DangerousZonePanel() {
                         <Stack spacing={2}>
                             <Alert severity="warning">
                                 <AlertTitle>Warning</AlertTitle>
-                                Do you really want to delete this Account? This process
-                                cannot be undone.
+                                Do you really want to delete this Account? This
+                                process cannot be undone.
                             </Alert>
-                            <Stack spacing={2} direction="row" justifyContent="flex-end">
+                            <Stack
+                                spacing={2}
+                                direction="row"
+                                justifyContent="flex-end"
+                            >
                                 <Button
                                     variant="text"
                                     color="secondary"
