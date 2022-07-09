@@ -62,6 +62,7 @@ export async function updateUserPassword(uid: string, password: string) {
     if (error) throw error;
 }
 export async function deleteUser(uid: string) {
+    await deleteProfilePicture(uid);
     const { data: res } = await axios.get('/api/users', {
         params: {
             payloadToken: sign({
@@ -73,7 +74,6 @@ export async function deleteUser(uid: string) {
     if (!res.responseToken) throw 'responseToken is missing';
     const { error } = verify(res.responseToken);
     if (error) throw error;
-    await deleteProfilePicture(uid);
 }
 export async function doesUserExists(uid: string) {
     try {
@@ -84,5 +84,7 @@ export async function doesUserExists(uid: string) {
     }
 }
 export async function deleteProfilePicture(uid: string) {
-    await deleteObject(ref(storage, `avatars/${uid}.png`));
+    const user = await getUser(uid);
+    if (user.photoUrl === '/images/no-profile.png')
+        await deleteObject(ref(storage, `avatars/${uid}.png`));
 }
