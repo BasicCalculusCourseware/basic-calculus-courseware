@@ -85,6 +85,6 @@ export async function doesUserExists(uid: string) {
 }
 export async function deleteProfilePicture(uid: string) {
     const user = await getUser(uid);
-    if (user.photoUrl === '/images/no-profile.png')
+    if (user.photoUrl !== '/images/no-profile.png')
         await deleteObject(ref(storage, `avatars/${uid}.png`));
 }
