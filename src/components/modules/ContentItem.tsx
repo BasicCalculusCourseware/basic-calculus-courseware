@@ -56,6 +56,7 @@ export const Item = styled('div')(({ theme }) => ({
 }));
 export const ItemHeader = styled('div')({
     ...styles.flexStartCenter,
+    ...styles.borderBottom(1),
     ...styles.pl(2),
     ...styles.pr(1),
     height: 50,
