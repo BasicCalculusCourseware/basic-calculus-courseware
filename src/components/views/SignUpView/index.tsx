@@ -2,14 +2,25 @@
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { doc, setDoc } from 'firebase/firestore';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import {
+    createUserWithEmailAndPassword,
+    sendEmailVerification,
+} from 'firebase/auth';
 // FUNCTIONS
 import { getUser } from 'src/firebase/client/utils/user';
 import { auth, db } from 'src/firebase/client';
 // LIB COMPONENTS
-import { Container, Grid, Typography, TextField, Button } from '@mui/material';
+import {
+    Container,
+    Grid,
+    Typography,
+    TextField,
+    Button,
+    Box,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import Link from 'next/link';
+import Image from 'next/image';
 // COMPONENTS
 import { LinkTextSpan } from 'src/components/styled';
 import Select from 'src/components/modules/Select';
@@ -52,7 +63,8 @@ export default function SignUpView() {
     const handleReset = () => setForm(formInitState);
     const handleSubmit = async () => {
         try {
-            if (validator.error) return addSnackbarItem('error', validator.error);
+            if (validator.error)
+                return addSnackbarItem('error', validator.error);
             addSnackbarItem('info', 'Signing up');
             setIsLoading(true);
             const { user } = await createUserWithEmailAndPassword(
@@ -105,161 +117,215 @@ export default function SignUpView() {
                     }}
                 >
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <Typography variant="h6" color="primary.main">
-                                Basic Calculus Courseware
-                            </Typography>
-                            <Typography>
-                                Create your account by filling the form below.
-                            </Typography>
+                        <Grid
+                            item
+                            xs={12}
+                            md={6}
+                            sx={{ display: 'flex', alignItems: 'center' }}
+                        >
+                            <Box>
+                                <Image
+                                    src="/images/math-2.gif"
+                                    width={500}
+                                    height={500}
+                                />
+                            </Box>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                label="Name"
-                                placeholder="First MI. Last"
-                                value={form.name}
-                                onChange={(e) =>
-                                    setForm((form) => ({
-                                        ...form,
-                                        name: e.target.value,
-                                    }))
-                                }
-                                fullWidth
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Select
-                                label="Gender"
-                                value={form.gender}
-                                setValue={(value) =>
-                                    setForm((form) => ({
-                                        ...form,
-                                        gender: value,
-                                    }))
-                                }
-                                items={[
-                                    { label: 'Male', value: 'male' },
-                                    { label: 'Female', value: 'female' },
-                                ]}
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Select
-                                label="Role"
-                                value={form.role}
-                                setValue={(value) =>
-                                    setForm((form) => ({ ...form, role: value }))
-                                }
-                                items={[
-                                    { label: 'Student', value: 'student' },
-                                    { label: 'Teacher', value: 'teacher' },
-                                ]}
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <DatePicker
-                                label="Birthday"
-                                value={form.birthday}
-                                setValue={(value) =>
-                                    setForm((form) => ({
-                                        ...form,
-                                        birthday: value as number,
-                                    }))
-                                }
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                label="Phone"
-                                placeholder="09xxxxxxxxx"
-                                value={form.phone}
-                                onChange={(e) =>
-                                    setForm((v) => ({ ...v, phone: e.target.value }))
-                                }
-                                fullWidth
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                label="FB Profile Link"
-                                placeholder="https://www.facebook.com/example"
-                                value={form.fb}
-                                onChange={(e) =>
-                                    setForm((v) => ({ ...v, fb: e.target.value }))
-                                }
-                                fullWidth
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                type="email"
-                                label="Email"
-                                value={form.email}
-                                onChange={(e) =>
-                                    setForm((v) => ({ ...v, email: e.target.value }))
-                                }
-                                fullWidth
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                type="password"
-                                label="Password"
-                                value={form.password}
-                                onChange={(e) =>
-                                    setForm((v) => ({ ...v, password: e.target.value }))
-                                }
-                                fullWidth
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                type="password"
-                                label="Repeat Password"
-                                value={form.repassword}
-                                onChange={(e) =>
-                                    setForm((v) => ({ ...v, repassword: e.target.value }))
-                                }
-                                fullWidth
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <LoadingButton
-                                type="submit"
-                                variant="contained"
-                                loading={isLoading}
-                                fullWidth
-                            >
-                                Sign Up
-                            </LoadingButton>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Button
-                                type="button"
-                                color="secondary"
-                                variant="outlined"
-                                onClick={handleReset}
-                                fullWidth
-                            >
-                                Reset
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography variant="body2">
-                                Already have an account?{' '}
-                                <Link href="/auth/sign-in" passHref>
-                                    <LinkTextSpan>Sign in</LinkTextSpan>
-                                </Link>
-                            </Typography>
+                        <Grid
+                            item
+                            xs={12}
+                            md={6}
+                            sx={{ display: 'flex', alignItems: 'center' }}
+                        >
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <Typography
+                                        variant="h6"
+                                        color="primary.main"
+                                    >
+                                        Basic Calculus Courseware
+                                    </Typography>
+                                    <Typography>
+                                        Create your account by filling the form
+                                        below.
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        label="Name"
+                                        placeholder="First MI. Last"
+                                        value={form.name}
+                                        onChange={(e) =>
+                                            setForm((form) => ({
+                                                ...form,
+                                                name: e.target.value,
+                                            }))
+                                        }
+                                        fullWidth
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Select
+                                        label="Gender"
+                                        value={form.gender}
+                                        setValue={(value) =>
+                                            setForm((form) => ({
+                                                ...form,
+                                                gender: value,
+                                            }))
+                                        }
+                                        items={[
+                                            { label: 'Male', value: 'male' },
+                                            {
+                                                label: 'Female',
+                                                value: 'female',
+                                            },
+                                        ]}
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Select
+                                        label="Role"
+                                        value={form.role}
+                                        setValue={(value) =>
+                                            setForm((form) => ({
+                                                ...form,
+                                                role: value,
+                                            }))
+                                        }
+                                        items={[
+                                            {
+                                                label: 'Student',
+                                                value: 'student',
+                                            },
+                                            {
+                                                label: 'Teacher',
+                                                value: 'teacher',
+                                            },
+                                        ]}
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <DatePicker
+                                        label="Birthday"
+                                        value={form.birthday}
+                                        setValue={(value) =>
+                                            setForm((form) => ({
+                                                ...form,
+                                                birthday: value as number,
+                                            }))
+                                        }
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        label="Phone"
+                                        placeholder="09xxxxxxxxx"
+                                        value={form.phone}
+                                        onChange={(e) =>
+                                            setForm((v) => ({
+                                                ...v,
+                                                phone: e.target.value,
+                                            }))
+                                        }
+                                        fullWidth
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        label="FB Profile Link"
+                                        placeholder="https://www.facebook.com/example"
+                                        value={form.fb}
+                                        onChange={(e) =>
+                                            setForm((v) => ({
+                                                ...v,
+                                                fb: e.target.value,
+                                            }))
+                                        }
+                                        fullWidth
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        type="email"
+                                        label="Email"
+                                        value={form.email}
+                                        onChange={(e) =>
+                                            setForm((v) => ({
+                                                ...v,
+                                                email: e.target.value,
+                                            }))
+                                        }
+                                        fullWidth
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        type="password"
+                                        label="Password"
+                                        value={form.password}
+                                        onChange={(e) =>
+                                            setForm((v) => ({
+                                                ...v,
+                                                password: e.target.value,
+                                            }))
+                                        }
+                                        fullWidth
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        type="password"
+                                        label="Repeat Password"
+                                        value={form.repassword}
+                                        onChange={(e) =>
+                                            setForm((v) => ({
+                                                ...v,
+                                                repassword: e.target.value,
+                                            }))
+                                        }
+                                        fullWidth
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={8}>
+                                    <LoadingButton
+                                        type="submit"
+                                        variant="contained"
+                                        loading={isLoading}
+                                        fullWidth
+                                    >
+                                        Sign Up
+                                    </LoadingButton>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Button
+                                        type="button"
+                                        color="secondary"
+                                        variant="outlined"
+                                        onClick={handleReset}
+                                        fullWidth
+                                    >
+                                        Reset
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Typography variant="body2">
+                                        Already have an account?{' '}
+                                        <Link href="/auth/sign-in" passHref>
+                                            <LinkTextSpan>Sign in</LinkTextSpan>
+                                        </Link>
+                                    </Typography>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </MainForm>
@@ -281,8 +347,9 @@ const MainForm = styled('form')(({ theme }) => ({
     ...styles.border(1),
     ...styles.borderRadius(1),
     width: '100%',
-    maxWidth: 650,
+    maxWidth: 1000,
     textAlign: 'center',
+    display: 'flex',
     [theme.breakpoints.down('sm')]: {
         ...styles.p(2),
     },

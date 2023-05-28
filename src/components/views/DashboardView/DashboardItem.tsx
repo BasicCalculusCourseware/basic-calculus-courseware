@@ -22,7 +22,7 @@ export default function DashboardItem(props: Props) {
             </ItemBody>
             <ItemFooter>
                 <Link href={props.href} passHref>
-                    <IconButtonOutlined>
+                    <IconButtonOutlined style={{ background: 'white' }}>
                         <ForwardIcon sx={{ fontSize: 18 }} />
                     </IconButtonOutlined>
                 </Link>
@@ -54,4 +54,16 @@ export const ItemFooter = styled('div')({
     ...styles.flexEndCenter,
     ...styles.borderTop(1),
     ...styles.p(1),
+    position: 'relative',
+    '&:before': {
+        content: '""',
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: '100%',
+        height: '100%',
+        backgroundImage: 'url(/images/bg-1.jpg)',
+        backgroundSize: 'cover',
+        opacity: 0.2,
+    },
 });

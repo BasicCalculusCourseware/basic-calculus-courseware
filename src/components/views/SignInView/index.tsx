@@ -6,9 +6,17 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { getUserByEmail } from 'src/firebase/client/utils/user';
 import { auth } from 'src/firebase/client';
 // LIB COMPONENTS
-import { Container, Grid, Typography, TextField, Button } from '@mui/material';
+import {
+    Container,
+    Grid,
+    Typography,
+    TextField,
+    Button,
+    Box,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import Link from 'next/link';
+import Image from 'next/image';
 // COMPONENTS
 import { LinkTextSpan } from 'src/components/styled';
 // RECOIL
@@ -39,7 +47,8 @@ export default function SignInView() {
             addSnackbarItem('info', 'Signing in');
             setIsLoading(true);
             const user = await getUserByEmail(email);
-            if (user.isBanned) return addSnackbarItem('error', 'Your account is banned');
+            if (user.isBanned)
+                return addSnackbarItem('error', 'Your account is banned');
             await signInWithEmailAndPassword(auth, email, password);
             await setAuth(user);
             addSnackbarItem('success', 'Signed in successfully');
@@ -74,60 +83,92 @@ export default function SignInView() {
                     }}
                 >
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <Typography variant="h6" color="primary.main">
-                                Basic Calculus Courseware
-                            </Typography>
-                            <Typography>Hey, good to see you again!</Typography>
+                        <Grid
+                            item
+                            xs={12}
+                            md={6}
+                            sx={{ display: 'flex', alignItems: 'center' }}
+                        >
+                            <Box>
+                                <Image
+                                    src="/images/math-1.gif"
+                                    width={500}
+                                    height={500}
+                                />
+                            </Box>
                         </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                type="email"
-                                label="Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                fullWidth
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                type="password"
-                                label="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                fullWidth
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <LoadingButton
-                                type="submit"
-                                variant="contained"
-                                loading={isLoading}
-                                fullWidth
-                            >
-                                Sign In
-                            </LoadingButton>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Button
-                                type="button"
-                                color="secondary"
-                                variant="outlined"
-                                onClick={handleReset}
-                                fullWidth
-                            >
-                                Reset
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography variant="body2">
-                                Don&apos;t have an account yet?{' '}
-                                <Link href="/auth/sign-up" passHref>
-                                    <LinkTextSpan>Sign up</LinkTextSpan>
-                                </Link>
-                            </Typography>
+                        <Grid
+                            item
+                            xs={12}
+                            md={6}
+                            sx={{ display: 'flex', alignItems: 'center' }}
+                        >
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <Typography
+                                        variant="h6"
+                                        color="primary.main"
+                                    >
+                                        Basic Calculus Courseware
+                                    </Typography>
+                                    <Typography>
+                                        Hey, good to see you again!
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        type="email"
+                                        label="Email"
+                                        value={email}
+                                        onChange={(e) =>
+                                            setEmail(e.target.value)
+                                        }
+                                        fullWidth
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        type="password"
+                                        label="Password"
+                                        value={password}
+                                        onChange={(e) =>
+                                            setPassword(e.target.value)
+                                        }
+                                        fullWidth
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={8}>
+                                    <LoadingButton
+                                        type="submit"
+                                        variant="contained"
+                                        loading={isLoading}
+                                        fullWidth
+                                    >
+                                        Sign In
+                                    </LoadingButton>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Button
+                                        type="button"
+                                        color="secondary"
+                                        variant="outlined"
+                                        onClick={handleReset}
+                                        fullWidth
+                                    >
+                                        Reset
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Typography variant="body2">
+                                        Don&apos;t have an account yet?{' '}
+                                        <Link href="/auth/sign-up" passHref>
+                                            <LinkTextSpan>Sign up</LinkTextSpan>
+                                        </Link>
+                                    </Typography>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </MainForm>
@@ -149,8 +190,9 @@ const MainForm = styled('form')(({ theme }) => ({
     ...styles.border(1),
     ...styles.borderRadius(1),
     width: '100%',
-    maxWidth: 500,
+    maxWidth: 1000,
     textAlign: 'center',
+    display: 'flex',
     [theme.breakpoints.down('sm')]: {
         ...styles.p(2),
     },

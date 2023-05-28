@@ -14,7 +14,13 @@ interface Props {
     body: string;
     href: string;
 }
-export default function ContentItem({ color, heading, tool, body, href }: Props) {
+export default function ContentItem({
+    color,
+    heading,
+    tool,
+    body,
+    href,
+}: Props) {
     // UTILS
     const getBGColor = () =>
         contentColorKeys.includes(color as ContentColor)
@@ -26,7 +32,9 @@ export default function ContentItem({ color, heading, tool, body, href }: Props)
     return (
         <Item>
             <ItemHeader sx={{ bgcolor: getBGColor() }}>
-                <ItemHeading sx={{ color: getTextColor() }}>{heading}</ItemHeading>
+                <ItemHeading sx={{ color: getTextColor() }}>
+                    {heading}
+                </ItemHeading>
                 {tool && tool}
             </ItemHeader>
             <Link href={href}>
@@ -64,5 +72,17 @@ export const ItemBody = styled('div')({
     cursor: 'pointer',
     '&:hover': {
         backgroundColor: styles.hoverColor,
+    },
+    position: 'relative',
+    '&:before': {
+        content: '""',
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: '100%',
+        height: '100%',
+        backgroundImage: 'url(/images/bg-2.jpg)',
+        backgroundSize: 'cover',
+        opacity: 0.3,
     },
 });

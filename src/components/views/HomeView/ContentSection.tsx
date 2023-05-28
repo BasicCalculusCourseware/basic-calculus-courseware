@@ -19,8 +19,8 @@ export default function ContentSectionComponent() {
             <Content spacing={1}>
                 <Typography variant="h4">Basic Calculus Courseware</Typography>
                 <Typography>
-                    A highly interactive web application courseware specifically made for
-                    basic calculus course.
+                    A highly interactive web application courseware specifically
+                    made for basic calculus course.
                 </Typography>
             </Content>
             <Actions>
