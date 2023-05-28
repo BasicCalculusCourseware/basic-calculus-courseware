@@ -8,15 +8,20 @@ import { Fab, Typography, IconButton } from '@mui/material';
 export const Page = styled('div')({
     ...styles.pt(2),
     ...styles.pb(8),
+    position: 'relative',
     minHeight: 'calc(100vh - 66px)',
-    backgroundColor: styles.bgColor,
-    backgroundImage: styles.bgPattern,
+    backgroundImage: 'url(/images/blackboard-2.png)',
+    backgroundRepeat: 'repeat-y',
+    backgroundSize: '100%',
 });
 export const PageBreadcrumbs = styled('div')(({ theme }) => ({
     overflowX: 'auto',
     userSelect: 'none',
     scrollbarWidth: 'none',
     cursor: 'default',
+    '& *': {
+        color: 'white',
+    },
     '&::-webkit-scrollbar': {
         display: 'none',
     },
@@ -34,6 +39,9 @@ export const PageBreadcrumbs = styled('div')(({ theme }) => ({
                 },
             },
         },
+        '.MuiButtonBase-root': {
+            backgroundColor: 'transparent',
+        },
     },
     '*': {
         backgroundColor: 'transparent',
@@ -42,6 +50,7 @@ export const PageBreadcrumbs = styled('div')(({ theme }) => ({
 export const PageHeader = styled('div')({
     ...styles.mt(1),
     ...styles.mb(2),
+    color: 'white',
 });
 export const PageBody = styled('div')({});
 export const Warning = styled('div')(({ theme }) => ({

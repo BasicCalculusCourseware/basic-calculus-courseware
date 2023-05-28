@@ -34,14 +34,16 @@ export default function DashboardItem(props: Props) {
 // STYLES
 import { styled } from '@mui/material';
 import styles from 'src/utils/styles';
-export const Item = styled('div')({
-    ...styles.border(1),
+export const Item = styled('div')(({ theme }) => ({
     ...styles.borderRadius(1),
     backgroundColor: 'white',
-});
+    overflow: 'hidden',
+    boxShadow: theme.shadows[5],
+}));
 export const ItemHeader = styled('div')({
     ...styles.p(2),
     paddingBottom: 0,
+    backgroundColor: 'white',
 });
 export const ItemBody = styled('div')(({ theme }) => ({
     ...styles.p(2),

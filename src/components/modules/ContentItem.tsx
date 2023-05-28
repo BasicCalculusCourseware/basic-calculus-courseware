@@ -47,16 +47,15 @@ export default function ContentItem({
 // STYLES
 import { styled } from '@mui/material';
 import { styles } from 'src/utils';
-export const Item = styled('div')({
-    ...styles.border(1),
+export const Item = styled('div')(({ theme }) => ({
     ...styles.borderRadius(1),
     height: 250,
     backgroundColor: 'white',
     overflow: 'hidden',
-});
+    boxShadow: theme.shadows[5],
+}));
 export const ItemHeader = styled('div')({
     ...styles.flexStartCenter,
-    ...styles.borderBottom(1),
     ...styles.pl(2),
     ...styles.pr(1),
     height: 50,
@@ -70,10 +69,11 @@ export const ItemBody = styled('div')({
     minHeight: 200,
     textAlign: 'center',
     cursor: 'pointer',
+    position: 'relative',
+    backgroundColor: 'white',
     '&:hover': {
         backgroundColor: styles.hoverColor,
     },
-    position: 'relative',
     '&:before': {
         content: '""',
         position: 'absolute',

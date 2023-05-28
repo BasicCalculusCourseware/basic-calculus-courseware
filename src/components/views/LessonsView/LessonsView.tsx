@@ -39,39 +39,66 @@ export default function LessonsView() {
     // RENDER
     return (
         <Page>
-            <Container maxWidth="lg" fixed={true}>
-                <PageBreadcrumbs>
-                    <Breadcrumbs
-                        maxItems={2}
-                        separator={<NavigateNextIcon fontSize="small" />}
-                    >
-                        <Typography>App</Typography>
-                        <Link href="/app/quarters">
-                            <BreadcrumbsLink>Quarters</BreadcrumbsLink>
-                        </Link>
-                        <Typography>{quarter.number}</Typography>
-                        <Typography data-is-current>Lessons</Typography>
-                    </Breadcrumbs>
-                </PageBreadcrumbs>
-                <PageHeader>
-                    <Typography variant="h5">Lessons</Typography>
-                    <Typography>
-                        Found a total of {lessons.length} available lesson
-                        {lessons.length !== 1 && 's'}
-                    </Typography>
-                </PageHeader>
-                <PageBody>
-                    <LessonList />
-                    {isEditor && (
-                        <>
-                            <LessonCreatorFab />
-                            <LessonCreatorModal />
-                            <LessonEditorModal />
-                            <LessonDeleterModal />
-                        </>
-                    )}
-                </PageBody>
-            </Container>
+            <FormulasBG>
+                <ShaderBG>
+                    <Container maxWidth="lg" fixed={true}>
+                        <PageBreadcrumbs>
+                            <Breadcrumbs
+                                maxItems={2}
+                                separator={
+                                    <NavigateNextIcon fontSize="small" />
+                                }
+                            >
+                                <Typography>App</Typography>
+                                <Link href="/app/quarters">
+                                    <BreadcrumbsLink>Quarters</BreadcrumbsLink>
+                                </Link>
+                                <Typography>{quarter.number}</Typography>
+                                <Typography data-is-current>Lessons</Typography>
+                            </Breadcrumbs>
+                        </PageBreadcrumbs>
+                        <PageHeader>
+                            <Typography variant="h5">Lessons</Typography>
+                            <Typography>
+                                Found a total of {lessons.length} available
+                                lesson
+                                {lessons.length !== 1 && 's'}
+                            </Typography>
+                        </PageHeader>
+                        <PageBody>
+                            <LessonList />
+                            {isEditor && (
+                                <>
+                                    <LessonCreatorFab />
+                                    <LessonCreatorModal />
+                                    <LessonEditorModal />
+                                    <LessonDeleterModal />
+                                </>
+                            )}
+                        </PageBody>
+                    </Container>
+                </ShaderBG>
+            </FormulasBG>
         </Page>
     );
 }
+
+// STYLES
+import { styled } from '@mui/material';
+import styles from 'src/utils/styles';
+const FormulasBG = styled('div')({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    minHeight: 'calc(100vh - 66px)',
+    backgroundImage: 'url(/images/formulas.png)',
+    backgroundRepeat: 'repeat',
+    backgroundSize: 400,
+});
+const ShaderBG = styled('div')({
+    ...styles.pt(2),
+    ...styles.pb(8),
+    minHeight: 'calc(100vh - 66px)',
+    backgroundColor: 'rgba(0, 0, 0, .2)',
+});
