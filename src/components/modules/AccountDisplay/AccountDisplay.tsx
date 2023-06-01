@@ -26,10 +26,11 @@ export default function AccountDisplay(props: Props) {
 import { styled } from '@mui/material';
 import styles from 'src/utils/styles';
 const Container = styled('div')(({ theme }) => ({
-    ...styles.border(1),
     ...styles.borderRadius(1),
     display: 'flex',
     backgroundColor: 'white',
+    overflow: 'hidden',
+    boxShadow: theme.shadows[5],
     [theme.breakpoints.down('md')]: {
         flexDirection: 'column',
     },

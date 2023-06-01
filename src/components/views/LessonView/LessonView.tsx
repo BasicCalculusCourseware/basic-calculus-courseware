@@ -111,12 +111,13 @@ export default function LessonView() {
 // STYLES
 import { styled } from '@mui/material';
 import { styles } from 'src/utils';
-const ContentContainer = styled('div')({
-    ...styles.border(1),
+const ContentContainer = styled('div')(({ theme }) => ({
     ...styles.borderRadius(1),
     backgroundColor: 'white',
     position: 'relative',
-});
+    overflow: 'hidden',
+    boxShadow: theme.shadows[5],
+}));
 const ContentHeader = styled('div')({
     ...styles.p(2),
 });

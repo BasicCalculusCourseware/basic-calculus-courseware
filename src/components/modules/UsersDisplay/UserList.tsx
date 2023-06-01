@@ -43,7 +43,9 @@ export default function UserList() {
                 <Grid key={user.uid} {...gridItemProps}>
                     <Item>
                         <ItemBanner />
-                        <ItemPhoto sx={{ backgroundImage: `url(${user.photoUrl})` }} />
+                        <ItemPhoto
+                            sx={{ backgroundImage: `url(${user.photoUrl})` }}
+                        />
                         <ItemBody>
                             <NameText>{user.name}</NameText>
                             <InfoList direction="column" spacing={1}>
@@ -51,13 +53,17 @@ export default function UserList() {
                                     <InfoListItemIcon>
                                         <EmailIcon />
                                     </InfoListItemIcon>
-                                    <InfoListItemText>{user.email}</InfoListItemText>
+                                    <InfoListItemText>
+                                        {user.email}
+                                    </InfoListItemText>
                                 </InfoListItem>
                                 <InfoListItem>
                                     <InfoListItemIcon>
                                         <PhoneIcon />
                                     </InfoListItemIcon>
-                                    <InfoListItemText>{user.phone}</InfoListItemText>
+                                    <InfoListItemText>
+                                        {user.phone}
+                                    </InfoListItemText>
                                 </InfoListItem>
                                 <InfoListItem>
                                     <InfoListItemIcon>
@@ -69,15 +75,25 @@ export default function UserList() {
                                         rel="noreferrer"
                                     >
                                         <InfoListItemText>
-                                            <LinkTextSpan>{user.fb}</LinkTextSpan>
+                                            <LinkTextSpan>
+                                                {user.fb}
+                                            </LinkTextSpan>
                                         </InfoListItemText>
                                     </a>
                                 </InfoListItem>
                             </InfoList>
                         </ItemBody>
                         <ItemFooter>
-                            <Stack spacing={2} direction="row" justifyContent="flex-end">
-                                <Tooltip title={user.isBanned ? 'Banned' : 'Not Banned'}>
+                            <Stack
+                                spacing={2}
+                                direction="row"
+                                justifyContent="flex-end"
+                            >
+                                <Tooltip
+                                    title={
+                                        user.isBanned ? 'Banned' : 'Not Banned'
+                                    }
+                                >
                                     <StatusItem data-is-active={user.isBanned}>
                                         <BannedIcon />
                                     </StatusItem>
@@ -89,17 +105,23 @@ export default function UserList() {
                                             : 'Email Not Verified'
                                     }
                                 >
-                                    <StatusItem data-is-active={user.isEmailVerified}>
+                                    <StatusItem
+                                        data-is-active={user.isEmailVerified}
+                                    >
                                         <EmailVerifiedIcon />
                                     </StatusItem>
                                 </Tooltip>
                                 {variant === 'students' && (
                                     <Tooltip
                                         title={
-                                            user.isEnrolled ? 'Enrolled' : 'Not Enrolled'
+                                            user.isEnrolled
+                                                ? 'Enrolled'
+                                                : 'Not Enrolled'
                                         }
                                     >
-                                        <StatusItem data-is-active={user.isEnrolled}>
+                                        <StatusItem
+                                            data-is-active={user.isEnrolled}
+                                        >
                                             <StudentIcon />
                                         </StatusItem>
                                     </Tooltip>
@@ -113,7 +135,9 @@ export default function UserList() {
                                         }
                                     >
                                         <StatusItem
-                                            data-is-active={user.isTeacherVerified}
+                                            data-is-active={
+                                                user.isTeacherVerified
+                                            }
                                         >
                                             <TeacherIcon />
                                         </StatusItem>
@@ -149,12 +173,12 @@ export default function UserList() {
 // STYLES
 import { styled } from '@mui/material';
 import styles from 'src/utils/styles';
-const Item = styled('div')({
-    ...styles.border(1),
+const Item = styled('div')(({ theme }) => ({
     ...styles.borderRadius(1),
     backgroundColor: 'white',
     overflow: 'hidden',
-});
+    boxShadow: theme.shadows[5],
+}));
 const ItemBanner = styled('div')(({ theme }) => ({
     ...styles.borderBottom(1),
     width: '100%',

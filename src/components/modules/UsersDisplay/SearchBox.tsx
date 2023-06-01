@@ -8,7 +8,7 @@ import Select from 'src/components/modules/Select';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { usersDisplayAtoms, useFilterUsers } from '.';
 
-// MAIN-COMPONENT
+// MAIN-COMPON`ENT
 export default function SearchBox() {
     // RECOIL
     const variant = useRecoilValue(usersDisplayAtoms.variant);
@@ -112,10 +112,11 @@ export default function SearchBox() {
 // STYLES
 import { styled } from '@mui/material';
 import styles from 'src/utils/styles';
-const Container = styled('div')({
-    ...styles.border(1),
+const Container = styled('div')(({ theme }) => ({
     ...styles.borderRadius(1),
     ...styles.p(2),
     width: '100%',
     backgroundColor: 'white',
-});
+    overflow: 'hidden',
+    boxShadow: theme.shadows[5],
+}));
